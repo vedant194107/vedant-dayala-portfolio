@@ -6,14 +6,19 @@ import { Volume2, VolumeX, Menu, X } from 'lucide-react';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 import TimeDisplay from '@/components/ui/TimeDisplay';
 
-const NAV_LINKS = [
+interface NavLinkItem {
+  label: string;
+  href: string;
+  isBadge?: boolean;
+}
+
+const NAV_LINKS: NavLinkItem[] = [
   { label: 'Work', href: '/#projects' },
   { label: 'All Projects', href: '/allproject' },
   { label: 'About', href: '/#about' },
   { label: 'Toolbox', href: '/#toolbox' },
   { label: 'Journey', href: '/#journey' },
   { label: 'Contact', href: '/#contact' },
-  { label: 'Lab', href: '/lab', isBadge: true },
 ];
 
 export default function Navbar() {
