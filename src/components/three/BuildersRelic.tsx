@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
+import { Float, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Inner 3D Sculpture Component
@@ -208,6 +208,10 @@ export default function BuildersRelic() {
         <pointLight position={[0, -4, 3]} intensity={1.8} color="#38f0d0" distance={10} />
         {/* Ambient atelier light */}
         <ambientLight intensity={0.65} color="#0d141e" />
+
+        {/* Floating Night Workshop Atmospheric Dust Particles */}
+        <Sparkles count={30} scale={6} size={1.8} speed={0.3} opacity={0.35} color="#c49d7f" />
+        <Sparkles count={20} scale={5} size={2.0} speed={0.4} opacity={0.45} color="#38f0d0" />
 
         <Float speed={1.8} rotationIntensity={0.2} floatIntensity={0.4}>
           <RelicObject mousePos={mousePos} />

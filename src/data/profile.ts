@@ -20,7 +20,7 @@ export const profileData: ProfileData = {
     'I operate as a creative engineer: bridging the gap between rigorous full-stack architecture and fluid, tactile user interfaces. I believe software should not feel like an sterile spreadsheet, but an intentional physical instrument designed for human hands.',
     'From architecting robust TypeScript and Node.js REST services to orchestrating 60fps animations with React Three Fiber and GSAP, my focus is delivering performant, accessible digital artifacts that leave a lasting impression.',
   ],
-  email: 'vedantdayala@example.com', // Replace with your email address
+  email: 'vedantdayala@gmail.com', // Update with your preferred email anytime
   github: 'https://github.com/vedantdayala', // Replace with your GitHub URL
   linkedin: 'https://linkedin.com/in/vedantdayala', // Replace with your LinkedIn URL
   resumeUrl: '/resume.pdf', // Place your resume PDF in public/resume.pdf

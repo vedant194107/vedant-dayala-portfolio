@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { ExternalLink, ArrowUpRight, BookOpen } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, BookOpen, Activity, Terminal, Box, Compass } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { ProjectData } from '@/types';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
@@ -27,8 +27,8 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rX = ((y - centerY) / centerY) * -6; // max 6 deg
-    const rY = ((x - centerX) / centerX) * 6;
+    const rX = ((y - centerY) / centerY) * -5;
+    const rY = ((x - centerX) / centerX) * 5;
 
     setRotateX(rX);
     setRotateY(rY);
@@ -43,6 +43,109 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
     setIsHovered(false);
     setRotateX(0);
     setRotateY(0);
+  };
+
+  // Bespoke Architectural Graphic for each project
+  const renderGraphic = () => {
+    switch (project.id) {
+      case 'project-one':
+        return (
+          <div className="w-full h-full flex flex-col justify-between py-1">
+            <div className="flex items-center justify-between font-mono text-[9px] text-cyanAccent">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyanAccent animate-ping" />
+                TELEMETRY ACTIVE
+              </span>
+              <span>10,000 EPS · 60FPS</span>
+            </div>
+            <svg viewBox="0 0 240 32" className="w-full h-8 text-cyanAccent/80" fill="none">
+              <path
+                d="M0 16 L30 16 L45 4 L60 28 L75 8 L90 20 L110 16 L140 16 L150 2 L165 30 L180 12 L195 16 L240 16"
+                stroke={project.accentColor}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
+              <span>BUFFER: RING_ARRAY</span>
+              <span>LATENCY: &lt;14ms</span>
+            </div>
+          </div>
+        );
+
+      case 'project-two':
+        return (
+          <div className="w-full h-full flex flex-col justify-between py-1">
+            <div className="flex items-center justify-between font-mono text-[9px] text-sandstone-300">
+              <span className="flex items-center gap-1">
+                <Box className="w-3 h-3 text-copper-400" />
+                PROCEDURAL GLSL
+              </span>
+              <span>ISOMETRIC 3D</span>
+            </div>
+            <svg viewBox="0 0 240 32" className="w-full h-8" fill="none">
+              {/* Stepped stepwell geometric stairs */}
+              <polygon points="120,2 170,14 120,26 70,14" stroke="#c49d7f" strokeWidth="1.2" fill="none" />
+              <polygon points="120,8 150,15 120,22 90,15" stroke="#38f0d0" strokeWidth="1" strokeDasharray="2 2" fill="none" />
+              <line x1="70" y1="14" x2="70" y2="24" stroke="#368b7d" strokeWidth="1" />
+              <line x1="170" y1="14" x2="170" y2="24" stroke="#368b7d" strokeWidth="1" />
+              <line x1="120" y1="26" x2="120" y2="32" stroke="#368b7d" strokeWidth="1" />
+            </svg>
+            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
+              <span>VERTICES: 12.8K</span>
+              <span>BUNDLE: &lt;350KB</span>
+            </div>
+          </div>
+        );
+
+      case 'project-three':
+        return (
+          <div className="w-full h-full flex flex-col justify-between py-1">
+            <div className="flex items-center justify-between font-mono text-[9px] text-copper-300">
+              <span className="flex items-center gap-1">
+                <Terminal className="w-3 h-3 text-cyanAccent" />
+                REST ENDPOINT
+              </span>
+              <span className="text-cyanAccent">200 OK · CRDT</span>
+            </div>
+            <div className="font-mono text-[9px] text-sandstone-300/80 bg-obsidian-950 p-1.5 rounded border border-charcoal-800">
+              <code>POST /api/v1/workspace/sync -> Atomic Tx (18ms)</code>
+            </div>
+            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
+              <span>CACHE: REDIS_LOCAL</span>
+              <span>COVERAGE: 92%</span>
+            </div>
+          </div>
+        );
+
+      default:
+        return (
+          <div className="w-full h-full flex flex-col justify-between py-1">
+            <div className="flex items-center justify-between font-mono text-[9px] text-sandstone-400">
+              <span className="flex items-center gap-1">
+                <Compass className="w-3 h-3 text-copper-400" />
+                BEZIER CURVE
+              </span>
+              <span>VECTOR MATH</span>
+            </div>
+            <svg viewBox="0 0 240 32" className="w-full h-8" fill="none">
+              <path
+                d="M20 25 C60 5, 100 30, 140 10 S 200 20, 220 8"
+                stroke={project.accentColor}
+                strokeWidth="1.6"
+              />
+              <circle cx="60" cy="5" r="2.5" fill="#38f0d0" />
+              <circle cx="100" cy="30" r="2.5" fill="#c49d7f" />
+              <circle cx="140" cy="10" r="2.5" fill="#ffffff" />
+            </svg>
+            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
+              <span>HARMONIC RATIO: 1.618</span>
+              <span>OUTPUT: SVG/DPI</span>
+            </div>
+          </div>
+        );
+    }
   };
 
   return (
@@ -97,30 +200,8 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
         </div>
 
         {/* Abstract Architectural Wireframe Preview Widget */}
-        <div className="h-32 sm:h-36 w-full rounded-xl bg-obsidian-950/70 border border-charcoal-800/80 p-4 flex flex-col justify-between relative overflow-hidden">
-          <div className="flex items-center justify-between font-mono text-[9px] text-charcoal-400">
-            <span>SPEC: {project.id.toUpperCase()}</span>
-            <span className="text-copper-400">{project.clientOrContext}</span>
-          </div>
-
-          {/* Generative Visual Wireframe Graphic */}
-          <div className="w-full h-12 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
-            <svg viewBox="0 0 200 40" className="w-full h-full text-sandstone-400" fill="none">
-              <path
-                d="M10 20 L40 5 L70 35 L100 10 L130 30 L160 15 L190 20"
-                stroke={project.accentColor}
-                strokeWidth="1.5"
-                strokeDasharray="4 2"
-              />
-              <circle cx="40" cy="5" r="2.5" fill="#38f0d0" />
-              <circle cx="100" cy="10" r="2.5" fill="#c49d7f" />
-              <circle cx="160" cy="15" r="2.5" fill="#ffffff" />
-            </svg>
-          </div>
-
-          <div className="font-mono text-[10px] text-charcoal-400 truncate">
-            {project.architectureNotes}
-          </div>
+        <div className="h-28 sm:h-32 w-full rounded-xl bg-obsidian-950/85 border border-charcoal-800/80 p-3.5 flex flex-col justify-between relative overflow-hidden group-hover:border-sandstone-500/30 transition-colors">
+          {renderGraphic()}
         </div>
 
         {/* Tech Stack Tags */}

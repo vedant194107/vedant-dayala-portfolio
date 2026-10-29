@@ -1,9 +1,41 @@
 'use client';
 
-import { Compass, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { Compass, Sparkles, ShieldCheck, Zap, Layers } from 'lucide-react';
 import { profileData } from '@/data/profile';
+import { useAudioEffect } from '@/hooks/useAudioEffect';
+
+const CRAFT_PILLARS = [
+  {
+    id: 'rigor',
+    number: '01',
+    title: 'Structural Rigor',
+    icon: ShieldCheck,
+    summary: 'Architecting resilient TypeScript contracts and predictable state machines that eliminate runtime failures.',
+    accent: '#38f0d0',
+  },
+  {
+    id: 'tactility',
+    number: '02',
+    title: 'Tactile Ergonomics',
+    icon: Layers,
+    summary: 'Crafting responsive UI surfaces with spring physics, acoustic feedback, and calibrated depth.',
+    accent: '#c49d7f',
+  },
+  {
+    id: 'performance',
+    number: '03',
+    title: 'Kinetic Performance',
+    icon: Zap,
+    summary: 'Optimizing rendering loops, WebGL draw calls, and edge network distribution for instant page loads.',
+    accent: '#368b7d',
+  },
+];
 
 export default function AboutSection() {
+  const [activePillar, setActivePillar] = useState(CRAFT_PILLARS[0].id);
+  const { playClick, playHover } = useAudioEffect();
+
   return (
     <section
       id="about"
@@ -89,6 +121,57 @@ export default function AboutSection() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Craft Pillars Tabs */}
+            <div className="space-y-3">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-sandstone-400 block">
+                Engineering Tenets
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                {CRAFT_PILLARS.map((pillar) => {
+                  const Icon = pillar.icon;
+                  const isActive = activePillar === pillar.id;
+
+                  return (
+                    <button
+                      key={pillar.id}
+                      onClick={() => {
+                        playClick();
+                        setActivePillar(pillar.id);
+                      }}
+                      onMouseEnter={playHover}
+                      className={`p-3 rounded-xl border text-left transition-all ${
+                        isActive
+                          ? 'bg-charcoal-800 border-cyanAccent text-white shadow-sm'
+                          : 'bg-charcoal-900/50 border-charcoal-800 text-charcoal-400 hover:text-sandstone-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[9px] text-copper-400">{pillar.number}</span>
+                        <Icon className="w-3.5 h-3.5 text-cyanAccent" />
+                      </div>
+                      <span className="font-display text-xs font-medium block truncate">
+                        {pillar.title.split(' ')[0]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Active Pillar Card */}
+              {(() => {
+                const current = CRAFT_PILLARS.find((p) => p.id === activePillar);
+                if (!current) return null;
+                return (
+                  <div className="p-4 rounded-xl bg-obsidian-950/80 border border-sandstone-500/20 text-xs text-sandstone-200 space-y-1">
+                    <span className="font-mono text-[10px] uppercase text-cyanAccent block">
+                      {current.number} · {current.title}
+                    </span>
+                    <p className="text-charcoal-300 leading-relaxed font-sans">{current.summary}</p>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
