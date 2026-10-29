@@ -122,7 +122,7 @@ export default function ToolboxSection() {
                   onClick={() => handleSkillSelect(skill)}
                   onMouseEnter={playHover}
                   onFocus={() => setSelectedSkill(skill)}
-                  className={`p-4 rounded-xl text-left transition-all border relative group flex flex-col justify-between h-32 ${
+                  className={`p-4 rounded-xl text-left transition-all border relative group flex flex-col justify-between h-28 ${
                     isSelected
                       ? 'bg-charcoal-800/90 border-cyanAccent shadow-glowCyan'
                       : 'bg-charcoal-900/40 border-charcoal-800 hover:border-sandstone-400/50 hover:bg-charcoal-800/50'
@@ -148,9 +148,6 @@ export default function ToolboxSection() {
                     <h3 className="font-display font-medium text-sm text-foreground group-hover:text-white transition-colors">
                       {skill.name}
                     </h3>
-                    <p className="font-mono text-[10px] text-charcoal-400 truncate mt-0.5">
-                      {skill.yearsOfPractice}
-                    </p>
                   </div>
 
                   {isSelected && (

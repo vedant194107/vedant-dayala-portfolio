@@ -47,30 +47,33 @@ export default function AboutSection() {
 
               {/* Profile Card Header */}
               <div className="relative z-10 flex flex-col items-center text-center space-y-5">
-                {/* Monogram Badge */}
-                <div className="relative w-24 h-24 rounded-2xl border-2 border-sandstone-500/30 bg-charcoal-900/80 p-2 flex items-center justify-center shadow-glowSandstone">
-                  <div className="w-full h-full rounded-xl border border-copper-400/40 bg-obsidian-950 flex flex-col items-center justify-center p-2 relative overflow-hidden">
-                    <span className="font-display text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyanAccent to-sandstone-300">
-                      VD
-                    </span>
-                    <span className="font-mono text-[8px] tracking-widest text-copper-300 uppercase mt-0.5">
-                      Full-Stack
-                    </span>
-                    <div className="absolute -bottom-2 w-12 h-1 rounded-full bg-cyanAccent/50 blur-[2px]" />
+                {/* Executive Profile Identity Header */}
+                <div className="w-full flex items-center justify-between border-b border-charcoal-800/80 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl border border-copper-400/40 bg-obsidian-950 flex items-center justify-center shadow-md">
+                      <span className="font-display text-lg font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyanAccent to-sandstone-300">
+                        VD
+                      </span>
+                    </div>
+                    <div className="text-left">
+                      <h3 className="text-xl font-display font-semibold text-foreground leading-tight">
+                        {profileData.name}
+                      </h3>
+                      <p className="font-mono text-xs uppercase tracking-wider text-cyanAccent font-medium">
+                        {profileData.role}
+                      </p>
+                    </div>
                   </div>
+
+                  <span className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-copper-500/15 text-cyanAccent border border-copper-400/30 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyanAccent animate-pulse" />
+                    Available
+                  </span>
                 </div>
 
-                {/* Identity Summary */}
-                <div className="space-y-1">
-                  <h3 className="text-2xl font-display text-foreground font-semibold">
-                    {profileData.name}
-                  </h3>
-                  <p className="font-mono text-xs uppercase tracking-wider text-cyanAccent font-medium">
-                    {profileData.role}
-                  </p>
-                  <p className="font-mono text-xs text-charcoal-400">
-                    {profileData.location}
-                  </p>
+                <div className="w-full text-left font-mono text-xs text-sandstone-300 flex items-center gap-1.5">
+                  <span className="text-copper-400">Base:</span>
+                  <span>{profileData.location}</span>
                 </div>
 
                 {/* Core Stack Specs Grid */}
