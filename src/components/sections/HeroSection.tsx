@@ -3,7 +3,6 @@
 import { ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import ScrollCue from '@/components/ui/ScrollCue';
-import TimeDisplay from '@/components/ui/TimeDisplay';
 import HeroCodeTerminal from '@/components/ui/HeroCodeTerminal';
 import { profileData } from '@/data/profile';
 
@@ -26,22 +25,6 @@ export default function HeroSection() {
     >
       {/* Background Radial Glow */}
       <div className="absolute inset-0 bg-atelier-radial pointer-events-none" />
-
-      {/* Top Coordinate Stamp Strip */}
-      <div className="max-w-7xl w-full mx-auto flex items-center justify-between font-mono text-[11px] text-charcoal-400 border-b border-sandstone-500/10 pb-3 relative z-10">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyanAccent" />
-          <span className="text-sandstone-300">AHMEDABAD NIGHT WORKSHOP</span>
-          <span className="hidden sm:inline text-charcoal-500">·</span>
-          <span className="hidden sm:inline text-charcoal-400">{profileData.coordinates}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <TimeDisplay showSeconds={false} className="hidden xs:inline-flex" />
-          <span className="text-[10px] px-2.5 py-0.5 rounded bg-copper-500/15 text-cyanAccent border border-copper-400/30">
-            {profileData.availability.label.split('·')[1]?.trim() || 'Available for Work'}
-          </span>
-        </div>
-      </div>
 
       {/* Main Content Area: Split Grid on Desktop */}
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-grow py-6 relative z-10">
