@@ -38,14 +38,16 @@ export default function ProjectsSection() {
     });
   }, []);
 
+  const activeProjects = projects.filter((p) => p.status !== 'deleted');
+
   const categories = [
     'All',
-    ...Array.from(new Set([...categoriesList, ...projects.map((p) => p.category)])).filter(Boolean),
+    ...Array.from(new Set([...categoriesList, ...activeProjects.map((p) => p.category)])).filter(Boolean),
   ];
 
   const filteredProjects = selectedCategory === 'All'
-    ? projects
-    : projects.filter((p) => p.category === selectedCategory);
+    ? activeProjects
+    : activeProjects.filter((p) => p.category === selectedCategory);
 
   const handleCategorySelect = (cat: string) => {
     playClick();
@@ -185,7 +187,7 @@ export default function ProjectsSection() {
             onMouseEnter={playHover}
             className="font-mono text-xs px-5 py-2.5 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent hover:bg-copper-500/30 flex items-center gap-2 whitespace-nowrap shadow-glowCyan transition-all flex-shrink-0"
           >
-            <span>Open All Projects ({projects.length})</span>
+            <span>Open All Projects ({activeProjects.length})</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

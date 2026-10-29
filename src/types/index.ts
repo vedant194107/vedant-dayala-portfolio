@@ -44,6 +44,8 @@ export interface ProjectData {
   demoUrl?: string;
   githubUrl?: string;
   accentColor: string;
+  images?: string[];
+  status?: 'active' | 'deleted';
   caseStudy: {
     challenge: string;
     solution: string;

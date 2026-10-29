@@ -9,7 +9,8 @@ import {
   Layers, Settings, LayoutDashboard, Database, 
   FileText, Sparkles, X, ChevronRight, MessageSquare, 
   Send, Radio, MapPin, Calendar, GraduationCap, Briefcase, 
-  CheckCircle, Clock, Reply, Tag, FolderPlus 
+  CheckCircle, Clock, Reply, Tag, FolderPlus,
+  Image as ImageIcon, UploadCloud, RotateCcw, CheckCircle2, Star
 } from 'lucide-react';
 import { ProjectData, ProfileData, JourneyMilestone, ContactMessage, ContactDetails } from '@/types';
 import { GithubIcon } from '@/components/ui/BrandIcons';
@@ -34,6 +35,10 @@ export default function AdminPage() {
   const [editingProject, setEditingProject] = useState<ProjectData | null>(null);
   const [isNewProject, setIsNewProject] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [permanentDeleteConfirmId, setPermanentDeleteConfirmId] = useState<string | null>(null);
+  const [projectStatusFilter, setProjectStatusFilter] = useState<'all' | 'active' | 'deleted'>('all');
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [imageUrlInput, setImageUrlInput] = useState('');
 
   // Categories State
   const [categories, setCategories] = useState<string[]>([]);
@@ -215,7 +220,7 @@ export default function AdminPage() {
     }
   };
 
-  // Delete Project
+  // Mark Project as Deleted (Soft Delete)
   const handleDeleteProject = async (id: string) => {
     try {
       playClick();
@@ -224,15 +229,131 @@ export default function AdminPage() {
       });
 
       if (res.ok) {
-        showToast('success', 'Project removed from repository');
+        showToast('success', 'Project marked as DELETED (hidden from public view)');
         setDeleteConfirmId(null);
         loadDashboardData();
       } else {
-        showToast('error', 'Failed to delete project');
+        showToast('error', 'Failed to update project status');
       }
     } catch {
       showToast('error', 'Delete operation failed');
     }
+  };
+
+  // Toggle Project Status (Active <-> Deleted)
+  const handleToggleProjectStatus = async (id: string, newStatus: 'active' | 'deleted') => {
+    try {
+      playClick();
+      const res = await fetch(`/api/admin/projects/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('success', `Project status changed to ${newStatus.toUpperCase()}`);
+        loadDashboardData();
+      } else {
+        showToast('error', data.error || 'Failed to update project status');
+      }
+    } catch {
+      showToast('error', 'Error updating project status');
+    }
+  };
+
+  // Permanent Delete Project
+  const handlePermanentDelete = async (id: string) => {
+    try {
+      playClick();
+      const res = await fetch(`/api/admin/projects/${id}?permanent=true`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        showToast('success', 'Project permanently deleted from database');
+        setPermanentDeleteConfirmId(null);
+        loadDashboardData();
+      } else {
+        showToast('error', 'Failed to permanently delete project');
+      }
+    } catch {
+      showToast('error', 'Permanent delete failed');
+    }
+  };
+
+  // Handle Upload of Multiple Project Photos
+  const handleUploadProjectImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !editingProject) return;
+
+    try {
+      setUploadingImages(true);
+      playClick();
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success && Array.isArray(data.urls)) {
+        showToast('success', `${data.urls.length} photo(s) uploaded successfully!`);
+        const existingImages = editingProject.images || [];
+        setEditingProject({
+          ...editingProject,
+          images: [...existingImages, ...data.urls],
+        });
+      } else {
+        showToast('error', data.error || 'Failed to upload images');
+      }
+    } catch {
+      showToast('error', 'Network error during image upload');
+    } finally {
+      setUploadingImages(false);
+      e.target.value = '';
+    }
+  };
+
+  // Add Image via Direct URL
+  const handleAddImageUrl = () => {
+    if (!imageUrlInput.trim() || !editingProject) return;
+    const url = imageUrlInput.trim();
+    const existingImages = editingProject.images || [];
+    setEditingProject({
+      ...editingProject,
+      images: [...existingImages, url],
+    });
+    setImageUrlInput('');
+    showToast('success', 'Photo URL appended to project');
+  };
+
+  // Remove Photo from Project Gallery
+  const handleRemoveImage = (indexToRemove: number) => {
+    if (!editingProject) return;
+    playClick();
+    const currentImages = editingProject.images || [];
+    setEditingProject({
+      ...editingProject,
+      images: currentImages.filter((_, idx) => idx !== indexToRemove),
+    });
+  };
+
+  // Set Cover Photo (moves photo to index 0)
+  const handleSetCoverImage = (indexToCover: number) => {
+    if (!editingProject) return;
+    playClick();
+    const currentImages = [...(editingProject.images || [])];
+    if (indexToCover < 0 || indexToCover >= currentImages.length) return;
+    const [selected] = currentImages.splice(indexToCover, 1);
+    currentImages.unshift(selected);
+    setEditingProject({
+      ...editingProject,
+      images: currentImages,
+    });
+    showToast('success', 'Cover photo updated');
   };
 
   // Save Journey Milestone
@@ -473,8 +594,15 @@ export default function AdminPage() {
 
   // Filtered Projects
   const filteredProjects = projects.filter((p) => {
+    // Status filter
+    if (projectStatusFilter === 'active' && p.status === 'deleted') return false;
+    if (projectStatusFilter === 'deleted' && p.status !== 'deleted') return false;
+
+    // Category filter
     const matchesCategory = selectedCategoryFilter === 'All' || p.category === selectedCategoryFilter;
     if (!matchesCategory) return false;
+
+    // Search filter
     const q = projectSearch.toLowerCase().trim();
     if (!q) return true;
     return (
@@ -519,6 +647,8 @@ export default function AdminPage() {
       number: (projects.length + 1).toString().padStart(2, '0'),
       name: '',
       category: categories[0] || 'Enterprise Full-Stack System',
+      status: 'active',
+      images: [],
       impact: '',
       description: '',
       tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
@@ -923,54 +1053,111 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Category Filter Pills in Admin */}
-            {categories.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-charcoal-800/80">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-charcoal-400 mr-1 flex items-center gap-1">
-                  <Tag className="w-3 h-3 text-cyanAccent" /> Filter:
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    playClick();
-                    setSelectedCategoryFilter('All');
-                  }}
-                  className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
-                    selectedCategoryFilter === 'All'
-                      ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
-                      : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
-                  }`}
-                >
-                  All ({projects.length})
-                </button>
-                {categories.map((cat) => {
-                  const count = projects.filter((p) => p.category === cat).length;
-                  return (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => {
-                        playClick();
-                        setSelectedCategoryFilter(cat);
-                      }}
-                      className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
-                        selectedCategoryFilter === cat
-                          ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
-                          : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
-                      }`}
-                    >
-                      {cat} ({count})
-                    </button>
-                  );
-                })}
+            {/* Status & Category Filters */}
+            <div className="space-y-3 pt-1 border-t border-charcoal-800/80">
+              {/* Status Filter Tabs: All / Active / Deleted */}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5 bg-obsidian-950 p-1 rounded-xl border border-charcoal-800">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setProjectStatusFilter('all');
+                    }}
+                    className={`font-mono text-xs px-3 py-1 rounded-lg transition-all ${
+                      projectStatusFilter === 'all'
+                        ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/50'
+                        : 'text-charcoal-400 hover:text-white'
+                    }`}
+                  >
+                    All Statuses ({projects.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setProjectStatusFilter('active');
+                    }}
+                    className={`font-mono text-xs px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 ${
+                      projectStatusFilter === 'active'
+                        ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/50'
+                        : 'text-charcoal-400 hover:text-emerald-300'
+                    }`}
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Active ({projects.filter((p) => p.status !== 'deleted').length})</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setProjectStatusFilter('deleted');
+                    }}
+                    className={`font-mono text-xs px-3 py-1 rounded-lg transition-all flex items-center gap-1.5 ${
+                      projectStatusFilter === 'deleted'
+                        ? 'bg-rose-600/30 text-rose-300 border border-rose-500/50'
+                        : 'text-charcoal-400 hover:text-rose-300'
+                    }`}
+                  >
+                    <span className="w-2 h-2 rounded-full bg-rose-400" />
+                    <span>Deleted ({projects.filter((p) => p.status === 'deleted').length})</span>
+                  </button>
+                </div>
               </div>
-            )}
+
+              {/* Category Filter Pills */}
+              {categories.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-charcoal-400 mr-1 flex items-center gap-1">
+                    <Tag className="w-3 h-3 text-cyanAccent" /> Category:
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setSelectedCategoryFilter('All');
+                    }}
+                    className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
+                      selectedCategoryFilter === 'All'
+                        ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
+                        : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
+                    }`}
+                  >
+                    All ({projects.length})
+                  </button>
+                  {categories.map((cat) => {
+                    const count = projects.filter((p) => p.category === cat).length;
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => {
+                          playClick();
+                          setSelectedCategoryFilter(cat);
+                        }}
+                        className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
+                          selectedCategoryFilter === cat
+                            ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
+                            : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
+                        }`}
+                      >
+                        {cat} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="p-5 rounded-2xl bg-charcoal-900/40 border border-sandstone-500/20 space-y-3 relative group"
+                  className={`p-5 rounded-2xl border space-y-3 relative group transition-all ${
+                    project.status === 'deleted'
+                      ? 'bg-rose-950/15 border-rose-500/30 opacity-80'
+                      : 'bg-charcoal-900/40 border-sandstone-500/20'
+                  }`}
                 >
                   <div className="flex items-center justify-between border-b border-charcoal-800 pb-2.5">
                     <div className="flex items-center gap-2">
@@ -980,40 +1167,118 @@ export default function AdminPage() {
                       <span className="font-mono text-[10px] text-charcoal-400 uppercase">
                         {project.category}
                       </span>
+                      
+                      {/* Status Badge */}
+                      {project.status === 'deleted' ? (
+                        <span className="font-mono text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                          DELETED
+                        </span>
+                      ) : (
+                        <span className="font-mono text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                          ACTIVE
+                        </span>
+                      )}
+
+                      {/* Photo count indicator */}
+                      {project.images && project.images.length > 0 && (
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-copper-500/10 text-cyanAccent border border-copper-400/30 flex items-center gap-1">
+                          <ImageIcon className="w-3 h-3" />
+                          <span>{project.images.length}</span>
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <Link
-                        href={`/allproject/${project.id}`}
-                        target="_blank"
-                        className="p-1.5 rounded hover:bg-charcoal-800 text-charcoal-400 hover:text-cyanAccent transition-colors"
-                        title="View Public Case Study"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </Link>
+                      {project.status !== 'deleted' && (
+                        <Link
+                          href={`/allproject/${project.id}`}
+                          target="_blank"
+                          className="p-1.5 rounded hover:bg-charcoal-800 text-charcoal-400 hover:text-cyanAccent transition-colors"
+                          title="View Public Case Study"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Link>
+                      )}
+                      
                       <button
                         onClick={() => {
                           playClick();
                           setIsNewProject(false);
-                          setEditingProject({ ...project });
+                          setEditingProject({
+                            ...project,
+                            status: project.status || 'active',
+                            images: Array.isArray(project.images) ? [...project.images] : [],
+                          });
                         }}
                         className="p-1.5 rounded hover:bg-charcoal-800 text-charcoal-400 hover:text-sandstone-200 transition-colors"
                         title="Edit Project"
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
-                      <button
-                        onClick={() => {
-                          playClick();
-                          setDeleteConfirmId(project.id);
-                        }}
-                        className="p-1.5 rounded hover:bg-rose-950/60 text-charcoal-400 hover:text-rose-400 transition-colors"
-                        title="Delete Project"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+
+                      {project.status === 'deleted' ? (
+                        <>
+                          <button
+                            onClick={() => handleToggleProjectStatus(project.id, 'active')}
+                            className="p-1.5 rounded hover:bg-emerald-950/60 text-emerald-400 hover:text-emerald-300 transition-colors"
+                            title="Restore Project to Active"
+                          >
+                            <RotateCcw className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              playClick();
+                              setPermanentDeleteConfirmId(project.id);
+                            }}
+                            className="p-1.5 rounded hover:bg-rose-950/60 text-charcoal-400 hover:text-rose-400 transition-colors"
+                            title="Permanently Delete Project"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            playClick();
+                            setDeleteConfirmId(project.id);
+                          }}
+                          className="p-1.5 rounded hover:bg-rose-950/60 text-charcoal-400 hover:text-rose-400 transition-colors"
+                          title="Mark Project as Deleted"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   </div>
+
+                  {/* Thumbnail gallery preview if project has images */}
+                  {project.images && project.images.length > 0 && (
+                    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                      {project.images.slice(0, 4).map((img, i) => (
+                        <div
+                          key={i}
+                          className="relative w-16 h-12 rounded-lg overflow-hidden border border-charcoal-800 flex-shrink-0 bg-charcoal-900"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={img}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                          {i === 0 && (
+                            <span className="absolute bottom-0 inset-x-0 bg-obsidian-950/80 text-[8px] font-mono text-center text-cyanAccent">
+                              COVER
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                      {project.images.length > 4 && (
+                        <div className="w-16 h-12 rounded-lg border border-charcoal-800 bg-charcoal-900 flex items-center justify-center font-mono text-[10px] text-charcoal-400 flex-shrink-0">
+                          +{project.images.length - 4} more
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div>
                     <h3 className="text-lg font-display font-medium text-foreground">
@@ -1741,6 +2006,47 @@ export default function AdminPage() {
               </div>
 
               <form onSubmit={handleSaveProject} className="space-y-4 max-h-[75vh] overflow-y-auto pr-2">
+                {/* Status: Active vs Deleted Toggle */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-obsidian-950 border border-charcoal-800">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-sandstone-300">Visibility Status:</span>
+                    <span className={`font-mono text-[11px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                      editingProject.status === 'deleted'
+                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    }`}>
+                      {editingProject.status === 'deleted' ? 'DELETED (Hidden from Public)' : 'ACTIVE (Live on Portfolio)'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-charcoal-900 p-1 rounded-lg border border-charcoal-700">
+                    <button
+                      type="button"
+                      onClick={() => setEditingProject({ ...editingProject, status: 'active' })}
+                      className={`font-mono text-xs px-3 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                        editingProject.status !== 'deleted'
+                          ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/50 shadow-sm font-semibold'
+                          : 'text-charcoal-400 hover:text-white'
+                      }`}
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Active</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingProject({ ...editingProject, status: 'deleted' })}
+                      className={`font-mono text-xs px-3 py-1 rounded-md transition-all flex items-center gap-1.5 ${
+                        editingProject.status === 'deleted'
+                          ? 'bg-rose-600/30 text-rose-300 border border-rose-500/50 shadow-sm font-semibold'
+                          : 'text-charcoal-400 hover:text-white'
+                      }`}
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+                      <span>Deleted</span>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="font-mono text-[11px] text-sandstone-300 block">
@@ -1932,6 +2238,108 @@ export default function AdminPage() {
                     className="w-full px-3 py-1.5 rounded-lg bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
                     placeholder="Next.js 14, React, Prisma ORM, MySQL, Tailwind CSS"
                   />
+                </div>
+
+                {/* MULTIPLE PHOTOS & GALLERY SECTION */}
+                <div className="space-y-3 p-4 rounded-xl bg-obsidian-950 border border-charcoal-800">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-charcoal-800/80 pb-2">
+                    <div className="flex items-center gap-2">
+                      <ImageIcon className="w-4 h-4 text-cyanAccent" />
+                      <label className="font-mono text-xs text-sandstone-200 uppercase font-semibold">
+                        Project Photos & Screenshots ({editingProject.images?.length || 0})
+                      </label>
+                    </div>
+                    <span className="font-mono text-[10px] text-charcoal-400">
+                      Upload multiple photos or paste image URLs (1st image = Cover)
+                    </span>
+                  </div>
+
+                  {/* Upload Controls */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <label className="cursor-pointer px-4 py-2 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent font-mono text-xs uppercase tracking-wider hover:bg-copper-500/30 transition-all flex items-center justify-center gap-2 shadow-sm whitespace-nowrap">
+                      <UploadCloud className="w-4 h-4" />
+                      <span>{uploadingImages ? 'Uploading Photos...' : 'Upload Photos (Multi-Select)'}</span>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        disabled={uploadingImages}
+                        onChange={handleUploadProjectImages}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <div className="flex flex-1 gap-2">
+                      <input
+                        type="url"
+                        placeholder="Or paste image URL (https://...)"
+                        value={imageUrlInput}
+                        onChange={(e) => setImageUrlInput(e.target.value)}
+                        className="flex-1 px-3 py-1.5 rounded-lg bg-charcoal-900 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddImageUrl}
+                        className="px-3 py-1.5 rounded-lg bg-charcoal-800 border border-charcoal-700 text-sandstone-200 text-xs font-mono hover:text-white hover:bg-charcoal-700 whitespace-nowrap"
+                      >
+                        + Add URL
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Photo Thumbnails Grid */}
+                  {editingProject.images && editingProject.images.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 pt-2">
+                      {editingProject.images.map((imgUrl, idx) => (
+                        <div
+                          key={idx}
+                          className="relative group rounded-xl overflow-hidden border border-charcoal-700 bg-charcoal-900 aspect-video flex items-center justify-center"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imgUrl}
+                            alt={`Project photo ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+
+                          {/* Index Badge */}
+                          <span className={`absolute top-1 left-1 font-mono text-[9px] px-1.5 py-0.5 rounded ${
+                            idx === 0
+                              ? 'bg-copper-500 text-obsidian-950 font-bold'
+                              : 'bg-obsidian-950/80 text-sandstone-300'
+                          }`}>
+                            {idx === 0 ? 'COVER' : `#${idx + 1}`}
+                          </span>
+
+                          {/* Hover Overlay Controls */}
+                          <div className="absolute inset-0 bg-obsidian-950/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-1">
+                            {idx !== 0 && (
+                              <button
+                                type="button"
+                                onClick={() => handleSetCoverImage(idx)}
+                                className="p-1.5 rounded bg-copper-500/30 text-cyanAccent hover:bg-copper-500/60"
+                                title="Make Cover Photo"
+                              >
+                                <Star className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImage(idx)}
+                              className="p-1.5 rounded bg-rose-600/40 text-rose-200 hover:bg-rose-600/70"
+                              title="Delete Photo"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl border border-dashed border-charcoal-800 text-center font-mono text-xs text-charcoal-400">
+                      No photos uploaded yet for this project. Click &quot;Upload Photos&quot; to attach screenshots, architecture diagrams, or UI previews.
+                    </div>
+                  )}
                 </div>
 
                 {/* Case Study Details */}
@@ -2253,10 +2661,10 @@ export default function AdminPage() {
           <div className="fixed inset-0 z-50 bg-obsidian-950/85 backdrop-blur-md flex items-center justify-center p-4">
             <div className="max-w-sm w-full bg-charcoal-900 border border-rose-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
               <h3 className="text-base font-display font-semibold text-rose-300">
-                Confirm Project Deletion
+                Mark Project as Deleted
               </h3>
-              <p className="text-xs text-sandstone-300 font-sans">
-                Are you sure you want to permanently delete this project from the portfolio? This cannot be undone.
+              <p className="text-xs text-sandstone-300 font-sans leading-relaxed">
+                This project will be marked as <strong className="text-rose-400 font-mono">DELETED</strong> and hidden from public visitors across your portfolio. You can restore it to Active anytime from the Admin panel.
               </p>
               <div className="flex items-center justify-end gap-3 pt-2">
                 <button
@@ -2271,7 +2679,37 @@ export default function AdminPage() {
                   onClick={() => handleDeleteProject(deleteConfirmId)}
                   className="px-3.5 py-1.5 rounded-lg bg-rose-600/40 border border-rose-400 text-rose-200 font-mono text-xs hover:bg-rose-600/60 transition-colors"
                 >
-                  Confirm Delete
+                  Mark as Deleted
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PERMANENT DELETE PROJECT CONFIRMATION MODAL */}
+        {permanentDeleteConfirmId && (
+          <div className="fixed inset-0 z-50 bg-obsidian-950/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="max-w-sm w-full bg-charcoal-900 border border-red-600/50 rounded-2xl p-6 space-y-4 shadow-2xl">
+              <h3 className="text-base font-display font-semibold text-red-400">
+                Permanent Deletion
+              </h3>
+              <p className="text-xs text-sandstone-300 font-sans leading-relaxed">
+                Are you sure you want to <strong className="text-red-400">permanently delete</strong> this project? This will completely remove it from storage and cannot be undone.
+              </p>
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setPermanentDeleteConfirmId(null)}
+                  className="font-mono text-xs text-charcoal-400 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePermanentDelete(permanentDeleteConfirmId)}
+                  className="px-3.5 py-1.5 rounded-lg bg-red-600 text-white font-mono text-xs hover:bg-red-700 transition-colors font-bold"
+                >
+                  Permanently Delete
                 </button>
               </div>
             </div>

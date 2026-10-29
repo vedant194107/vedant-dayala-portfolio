@@ -76,6 +76,25 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
           </button>
         </div>
 
+        {/* Gallery Preview in Case Study Modal */}
+        {project.images && project.images.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {project.images.map((img, idx) => (
+              <div
+                key={idx}
+                className="rounded-xl overflow-hidden aspect-video border border-charcoal-700 bg-obsidian-950 shadow-md"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={img}
+                  alt=""
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Challenge & Solution Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-5 rounded-xl bg-obsidian-950/60 border border-charcoal-800 space-y-2">

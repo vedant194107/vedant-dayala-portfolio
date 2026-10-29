@@ -34,6 +34,8 @@ export async function POST(request: Request) {
       ...body,
       id,
       number,
+      status: body.status || 'active',
+      images: Array.isArray(body.images) ? body.images : [],
       year: body.year || new Date().getFullYear().toString(),
       tags: Array.isArray(body.tags) ? body.tags : (body.tags as string || '').split(',').map((t) => t.trim()).filter(Boolean),
       caseStudy: body.caseStudy || {

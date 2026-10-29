@@ -89,6 +89,16 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
         </div>
 
         <div className="space-y-2">
+          {project.images && project.images.length > 0 && (
+            <div className="rounded-xl overflow-hidden aspect-video border border-charcoal-700/60 bg-charcoal-900/40 relative group/img mb-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={project.images[0]}
+                alt={project.name}
+                className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
+              />
+            </div>
+          )}
           <Link
             href={`/allproject/${project.id}`}
             onClick={playClick}

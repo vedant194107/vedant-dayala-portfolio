@@ -122,7 +122,12 @@ export function saveStore(store: PortfolioStore): void {
 // Project CRUD Operations
 export function getStoredProjects(): ProjectData[] {
   const store = getStore();
-  return store.projects || [];
+  const projects = store.projects || [];
+  return projects.map((p) => ({
+    ...p,
+    status: p.status || 'active',
+    images: Array.isArray(p.images) ? p.images : [],
+  }));
 }
 
 export function getStoredProjectById(id: string): ProjectData | undefined {
@@ -132,22 +137,57 @@ export function getStoredProjectById(id: string): ProjectData | undefined {
 
 export function saveStoredProject(project: ProjectData): ProjectData {
   const store = getStore();
-  const existingIndex = store.projects.findIndex((p) => p.id === project.id);
+  if (!store.projects) store.projects = [];
+  
+  const sanitizedProject: ProjectData = {
+    ...project,
+    status: project.status || 'active',
+    images: Array.isArray(project.images) ? project.images : [],
+  };
+
+  const existingIndex = store.projects.findIndex((p) => p.id === sanitizedProject.id);
 
   if (existingIndex >= 0) {
-    store.projects[existingIndex] = { ...project };
+    store.projects[existingIndex] = { ...sanitizedProject };
   } else {
-    store.projects.push(project);
+    store.projects.push(sanitizedProject);
   }
 
+  // Ensure category is tracked
+  if (sanitizedProject.category) {
+    if (!store.categories) store.categories = [...DEFAULT_CATEGORIES];
+    if (!store.categories.includes(sanitizedProject.category)) {
+      store.categories.push(sanitizedProject.category);
+    }
+  }
+
+  saveStore(store);
+  return sanitizedProject;
+}
+
+export function toggleProjectStatus(id: string, status: 'active' | 'deleted'): ProjectData | null {
+  const store = getStore();
+  const project = (store.projects || []).find((p) => p.id === id);
+  if (!project) return null;
+  project.status = status;
   saveStore(store);
   return project;
 }
 
-export function deleteStoredProject(id: string): boolean {
+export function deleteStoredProject(id: string, permanent: boolean = false): boolean {
   const store = getStore();
-  const initialLength = store.projects.length;
-  store.projects = store.projects.filter((p) => p.id !== id);
+  if (!permanent) {
+    const project = (store.projects || []).find((p) => p.id === id);
+    if (project) {
+      project.status = 'deleted';
+      saveStore(store);
+      return true;
+    }
+    return false;
+  }
+
+  const initialLength = (store.projects || []).length;
+  store.projects = (store.projects || []).filter((p) => p.id !== id);
 
   if (store.projects.length !== initialLength) {
     saveStore(store);

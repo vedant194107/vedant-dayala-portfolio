@@ -39,15 +39,19 @@ export default function AllProjectsPage() {
     });
   }, []);
 
+  const activeProjects = useMemo(() => {
+    return projects.filter((p) => p.status !== 'deleted');
+  }, [projects]);
+
   const allCategories = useMemo(() => {
     return [
       'All',
-      ...Array.from(new Set([...categoriesList, ...projects.map((p) => p.category)])).filter(Boolean),
+      ...Array.from(new Set([...categoriesList, ...activeProjects.map((p) => p.category)])).filter(Boolean),
     ];
-  }, [categoriesList, projects]);
+  }, [categoriesList, activeProjects]);
 
   const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
+    return activeProjects.filter((project) => {
       const matchesCategory =
         selectedCategory === 'All' || project.category === selectedCategory;
 
@@ -62,7 +66,7 @@ export default function AllProjectsPage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [projects, searchQuery, selectedCategory]);
+  }, [activeProjects, searchQuery, selectedCategory]);
 
   return (
     <main className="min-h-screen bg-obsidian-950 text-foreground pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -85,7 +89,7 @@ export default function AllProjectsPage() {
           </Link>
 
           <div className="font-mono text-xs text-sandstone-400/80">
-            <span>INDEX: 00 — {projects.length.toString().padStart(2, '0')}</span>
+            <span>INDEX: 00 — {activeProjects.length.toString().padStart(2, '0')}</span>
           </div>
         </div>
 
@@ -131,8 +135,8 @@ export default function AllProjectsPage() {
           <div className="flex flex-wrap items-center gap-2 pt-2" role="tablist">
             {allCategories.map((cat) => {
               const count = cat === 'All'
-                ? projects.length
-                : projects.filter((p) => p.category === cat).length;
+                ? activeProjects.length
+                : activeProjects.filter((p) => p.category === cat).length;
 
               return (
                 <button
@@ -162,7 +166,7 @@ export default function AllProjectsPage() {
         <div className="flex items-center justify-between font-mono text-xs text-charcoal-400 border-b border-charcoal-800 pb-3">
           <span>
             Showing <strong className="text-cyanAccent">{filteredProjects.length}</strong> of{' '}
-            {projects.length} projects
+            {activeProjects.length} projects
           </span>
           {searchQuery && (
             <span>
