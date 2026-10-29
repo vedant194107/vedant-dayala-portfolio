@@ -216,7 +216,7 @@
       }
     }
   ],
-  "lastUpdated": "2026-10-29T10:22:53.998Z",
+  "lastUpdated": "2026-10-29T10:33:20.858Z",
   "journey": [
     {
       "id": "m-2024-enterprise",
@@ -332,5 +332,11 @@
       "createdAt": "2026-10-29T10:22:53.998Z",
       "read": false
     }
+  ],
+  "categories": [
+    "Enterprise Full-Stack System",
+    "Full-Stack Management SaaS",
+    "AI & Interactive Experience",
+    "Financial Telemetry & Audit"
   ]
 }

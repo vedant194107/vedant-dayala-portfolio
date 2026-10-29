@@ -9,7 +9,7 @@ import {
   Layers, Settings, LayoutDashboard, Database, 
   FileText, Sparkles, X, ChevronRight, MessageSquare, 
   Send, Radio, MapPin, Calendar, GraduationCap, Briefcase, 
-  CheckCircle, Clock, Reply 
+  CheckCircle, Clock, Reply, Tag, FolderPlus 
 } from 'lucide-react';
 import { ProjectData, ProfileData, JourneyMilestone, ContactMessage, ContactDetails } from '@/types';
 import { GithubIcon } from '@/components/ui/BrandIcons';
@@ -34,6 +34,15 @@ export default function AdminPage() {
   const [editingProject, setEditingProject] = useState<ProjectData | null>(null);
   const [isNewProject, setIsNewProject] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+
+  // Categories State
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('All');
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [creatingCategory, setCreatingCategory] = useState(false);
+  const [inlineCreatingCategory, setInlineCreatingCategory] = useState(false);
+  const [inlineCategoryInput, setInlineCategoryInput] = useState('');
 
   // Journey Milestones State
   const [journey, setJourney] = useState<JourneyMilestone[]>([]);
@@ -95,17 +104,23 @@ export default function AdminPage() {
 
   const loadDashboardData = async () => {
     try {
-      const [projRes, profRes, jourRes, msgRes, contactRes] = await Promise.all([
+      const [projRes, profRes, jourRes, msgRes, contactRes, catRes] = await Promise.all([
         fetch('/api/admin/projects'),
         fetch('/api/admin/profile'),
         fetch('/api/admin/journey'),
         fetch('/api/admin/messages'),
         fetch('/api/admin/contact'),
+        fetch('/api/admin/categories'),
       ]);
 
       if (projRes.ok) {
         const projData = await projRes.json();
         setProjects(projData.projects || []);
+      }
+
+      if (catRes.ok) {
+        const catData = await catRes.json();
+        setCategories(catData.categories || []);
       }
 
       if (profRes.ok) {
@@ -398,8 +413,68 @@ export default function AdminPage() {
     }
   };
 
+  // Create Category Handler
+  const handleCreateCategory = async (nameToAdd?: string): Promise<string | null> => {
+    const targetName = (nameToAdd || newCategoryName).trim();
+    if (!targetName) {
+      showToast('error', 'Please enter a category name');
+      return null;
+    }
+    try {
+      setCreatingCategory(true);
+      playClick();
+      const res = await fetch('/api/admin/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: targetName }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('success', `Category "${targetName}" created successfully!`);
+        setCategories(data.categories || []);
+        setNewCategoryName('');
+        return targetName;
+      } else {
+        showToast('error', data.error || 'Failed to create category');
+        return null;
+      }
+    } catch {
+      showToast('error', 'Network error creating category');
+      return null;
+    } finally {
+      setCreatingCategory(false);
+    }
+  };
+
+  // Delete Category Handler
+  const handleDeleteCategory = async (categoryToDelete: string) => {
+    if (!confirm(`Delete category "${categoryToDelete}"? Projects will retain this category tag until edited.`)) {
+      return;
+    }
+    try {
+      playClick();
+      const res = await fetch(`/api/admin/categories?name=${encodeURIComponent(categoryToDelete)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('success', `Category "${categoryToDelete}" removed`);
+        setCategories(data.categories || []);
+        if (selectedCategoryFilter === categoryToDelete) {
+          setSelectedCategoryFilter('All');
+        }
+      } else {
+        showToast('error', data.error || 'Failed to delete category');
+      }
+    } catch {
+      showToast('error', 'Error deleting category');
+    }
+  };
+
   // Filtered Projects
   const filteredProjects = projects.filter((p) => {
+    const matchesCategory = selectedCategoryFilter === 'All' || p.category === selectedCategoryFilter;
+    if (!matchesCategory) return false;
     const q = projectSearch.toLowerCase().trim();
     if (!q) return true;
     return (
@@ -443,7 +518,7 @@ export default function AdminPage() {
       id: '',
       number: (projects.length + 1).toString().padStart(2, '0'),
       name: '',
-      category: 'Enterprise Full-Stack System',
+      category: categories[0] || 'Enterprise Full-Stack System',
       impact: '',
       description: '',
       tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
@@ -824,14 +899,72 @@ export default function AdminPage() {
                 />
               </div>
 
-              <button
-                onClick={handleAddNewProject}
-                className="px-4 py-2 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent font-mono text-xs uppercase tracking-wider hover:bg-copper-500/30 transition-all flex items-center justify-center gap-2 shadow-glowCyan whitespace-nowrap"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add New Project</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClick();
+                    setShowCategoryModal(true);
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-charcoal-900/80 border border-charcoal-700 text-sandstone-300 hover:text-white font-mono text-xs uppercase tracking-wider hover:border-sandstone-500/40 transition-all flex items-center justify-center gap-1.5 whitespace-nowrap"
+                  title="Manage and create project categories"
+                >
+                  <Tag className="w-3.5 h-3.5 text-copper-400" />
+                  <span>Categories ({categories.length})</span>
+                </button>
+
+                <button
+                  onClick={handleAddNewProject}
+                  className="px-4 py-2 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent font-mono text-xs uppercase tracking-wider hover:bg-copper-500/30 transition-all flex items-center justify-center gap-2 shadow-glowCyan whitespace-nowrap"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add New Project</span>
+                </button>
+              </div>
             </div>
+
+            {/* Category Filter Pills in Admin */}
+            {categories.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-charcoal-800/80">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-charcoal-400 mr-1 flex items-center gap-1">
+                  <Tag className="w-3 h-3 text-cyanAccent" /> Filter:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playClick();
+                    setSelectedCategoryFilter('All');
+                  }}
+                  className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
+                    selectedCategoryFilter === 'All'
+                      ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
+                      : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
+                  }`}
+                >
+                  All ({projects.length})
+                </button>
+                {categories.map((cat) => {
+                  const count = projects.filter((p) => p.category === cat).length;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => {
+                        playClick();
+                        setSelectedCategoryFilter(cat);
+                      }}
+                      className={`font-mono text-xs px-2.5 py-1 rounded-lg transition-all ${
+                        selectedCategoryFilter === cat
+                          ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/60'
+                          : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
+                      }`}
+                    >
+                      {cat} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredProjects.map((project) => (
@@ -1624,19 +1757,58 @@ export default function AdminPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-mono text-[11px] text-sandstone-300 block">
-                      Category *
-                    </label>
-                    <select
-                      value={editingProject.category}
-                      onChange={(e) => setEditingProject({ ...editingProject, category: e.target.value })}
-                      className="w-full px-3 py-1.5 rounded-lg bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
-                    >
-                      <option value="Enterprise Full-Stack System">Enterprise Full-Stack System</option>
-                      <option value="Full-Stack Management SaaS">Full-Stack Management SaaS</option>
-                      <option value="AI & Interactive Experience">AI & Interactive Experience</option>
-                      <option value="Financial Telemetry & Audit">Financial Telemetry & Audit</option>
-                    </select>
+                    <div className="flex items-center justify-between">
+                      <label className="font-mono text-[11px] text-sandstone-300 block">
+                        Category *
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setInlineCreatingCategory(!inlineCreatingCategory)}
+                        className="font-mono text-[10px] text-cyanAccent hover:underline flex items-center gap-1"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>{inlineCreatingCategory ? 'Select Existing' : '+ New'}</span>
+                      </button>
+                    </div>
+
+                    {!inlineCreatingCategory ? (
+                      <select
+                        value={editingProject.category}
+                        onChange={(e) => setEditingProject({ ...editingProject, category: e.target.value })}
+                        className="w-full px-3 py-1.5 rounded-lg bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
+                      >
+                        {categories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="New category..."
+                          value={inlineCategoryInput}
+                          onChange={(e) => setInlineCategoryInput(e.target.value)}
+                          className="flex-1 px-3 py-1.5 rounded-lg bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
+                        />
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (!inlineCategoryInput.trim()) return;
+                            const created = await handleCreateCategory(inlineCategoryInput.trim());
+                            if (created) {
+                              setEditingProject({ ...editingProject, category: created });
+                              setInlineCategoryInput('');
+                              setInlineCreatingCategory(false);
+                            }
+                          }}
+                          className="px-2.5 py-1.5 rounded-lg bg-copper-500/20 border border-copper-400/50 text-cyanAccent text-[11px] font-mono hover:bg-copper-500/30 whitespace-nowrap"
+                        >
+                          Add & Select
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-1">
@@ -2100,6 +2272,109 @@ export default function AdminPage() {
                   className="px-3.5 py-1.5 rounded-lg bg-rose-600/40 border border-rose-400 text-rose-200 font-mono text-xs hover:bg-rose-600/60 transition-colors"
                 >
                   Confirm Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================================================================== */}
+        {/* CATEGORIES MANAGER MODAL */}
+        {/* ================================================================== */}
+        {showCategoryModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fadeIn">
+            <div className="w-full max-w-lg rounded-2xl bg-charcoal-900 border border-sandstone-500/30 p-6 space-y-5 shadow-2xl relative">
+              <div className="flex items-center justify-between border-b border-charcoal-800 pb-3">
+                <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                  <Tag className="w-4 h-4 text-cyanAccent" />
+                  <span className="uppercase font-semibold tracking-wider">Project Categories Manager</span>
+                </div>
+                <button
+                  onClick={() => setShowCategoryModal(false)}
+                  className="p-1 rounded-lg hover:bg-charcoal-800 text-charcoal-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Add New Category Form */}
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!newCategoryName.trim()) return;
+                  await handleCreateCategory(newCategoryName);
+                }}
+                className="space-y-2"
+              >
+                <label className="font-mono text-xs text-sandstone-300 block">
+                  Create New Category
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Distributed Cloud & AI"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
+                  />
+                  <button
+                    type="submit"
+                    disabled={creatingCategory || !newCategoryName.trim()}
+                    className="px-4 py-2 rounded-xl bg-copper-500/20 border border-copper-400/50 text-cyanAccent font-mono text-xs uppercase tracking-wider hover:bg-copper-500/30 disabled:opacity-50 transition-all flex items-center gap-1.5 whitespace-nowrap"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>{creatingCategory ? 'Adding...' : 'Create'}</span>
+                  </button>
+                </div>
+              </form>
+
+              {/* Existing Categories List */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between font-mono text-[11px] text-charcoal-400 uppercase tracking-wider">
+                  <span>Active Categories ({categories.length})</span>
+                  <span>Projects</span>
+                </div>
+
+                <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
+                  {categories.map((cat) => {
+                    const projectCount = projects.filter((p) => p.category === cat).length;
+                    return (
+                      <div
+                        key={cat}
+                        className="p-2.5 rounded-xl bg-obsidian-950/70 border border-charcoal-800 flex items-center justify-between text-xs font-mono"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Tag className="w-3.5 h-3.5 text-copper-400" />
+                          <span className="text-sandstone-200">{cat}</span>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <span className="text-[11px] text-charcoal-400 font-mono">
+                            {projectCount} project{projectCount === 1 ? '' : 's'}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteCategory(cat)}
+                            className="p-1.5 rounded hover:bg-rose-500/20 text-charcoal-400 hover:text-rose-400 transition-colors"
+                            title={`Delete Category "${cat}"`}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-3 border-t border-charcoal-800">
+                <button
+                  type="button"
+                  onClick={() => setShowCategoryModal(false)}
+                  className="px-4 py-2 rounded-xl bg-charcoal-800 hover:bg-charcoal-700 text-foreground font-mono text-xs transition-colors"
+                >
+                  Done
                 </button>
               </div>
             </div>

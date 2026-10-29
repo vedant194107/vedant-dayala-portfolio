@@ -11,8 +11,7 @@ import { projectsData as defaultProjects } from '@/data/projects';
 import { ProjectData } from '@/types';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
-const ALL_CATEGORIES = [
-  'All',
+const DEFAULT_CATEGORIES = [
   'Enterprise Full-Stack System',
   'Full-Stack Management SaaS',
   'AI & Interactive Experience',
@@ -21,20 +20,31 @@ const ALL_CATEGORIES = [
 
 export default function AllProjectsPage() {
   const [projects, setProjects] = useState<ProjectData[]>(defaultProjects);
+  const [categoriesList, setCategoriesList] = useState<string[]>(DEFAULT_CATEGORIES);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const { playClick, playHover } = useAudioEffect();
 
   useEffect(() => {
-    fetch('/api/admin/projects')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.projects && Array.isArray(data.projects)) {
-          setProjects(data.projects);
-        }
-      })
-      .catch(() => {});
+    Promise.all([
+      fetch('/api/admin/projects').then((r) => r.json()).catch(() => ({})),
+      fetch('/api/admin/categories').then((r) => r.json()).catch(() => ({})),
+    ]).then(([projData, catData]) => {
+      if (projData.projects && Array.isArray(projData.projects)) {
+        setProjects(projData.projects);
+      }
+      if (catData.categories && Array.isArray(catData.categories)) {
+        setCategoriesList(catData.categories);
+      }
+    });
   }, []);
+
+  const allCategories = useMemo(() => {
+    return [
+      'All',
+      ...Array.from(new Set([...categoriesList, ...projects.map((p) => p.category)])).filter(Boolean),
+    ];
+  }, [categoriesList, projects]);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
@@ -119,7 +129,7 @@ export default function AllProjectsPage() {
 
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-2 pt-2" role="tablist">
-            {ALL_CATEGORIES.map((cat) => {
+            {allCategories.map((cat) => {
               const count = cat === 'All'
                 ? projects.length
                 : projects.filter((p) => p.category === cat).length;

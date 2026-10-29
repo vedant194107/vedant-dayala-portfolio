@@ -18,11 +18,19 @@ export interface PortfolioStore {
   admin: AdminUser;
   profile: ProfileData;
   projects: ProjectData[];
+  categories: string[];
   journey: JourneyMilestone[];
   contactDetails: ContactDetails;
   messages: ContactMessage[];
   lastUpdated: string;
 }
+
+export const DEFAULT_CATEGORIES: string[] = [
+  'Enterprise Full-Stack System',
+  'Full-Stack Management SaaS',
+  'AI & Interactive Experience',
+  'Financial Telemetry & Audit',
+];
 
 const DEFAULT_CONTACT_DETAILS: ContactDetails = {
   headline: "Let's collaborate on something remarkable.",
@@ -42,6 +50,7 @@ const DEFAULT_STORE: PortfolioStore = {
   },
   profile: defaultProfile,
   projects: defaultProjects,
+  categories: DEFAULT_CATEGORIES,
   journey: defaultJourney,
   contactDetails: DEFAULT_CONTACT_DETAILS,
   messages: [],
@@ -65,6 +74,10 @@ function initStoreFile(): PortfolioStore {
 
     // Merge defaults for any newly added fields
     let updated = false;
+    if (!parsed.categories) {
+      parsed.categories = DEFAULT_CATEGORIES;
+      updated = true;
+    }
     if (!parsed.journey) {
       parsed.journey = defaultJourney;
       updated = true;
@@ -141,6 +154,34 @@ export function deleteStoredProject(id: string): boolean {
     return true;
   }
   return false;
+}
+
+// Category Operations
+export function getStoredCategories(): string[] {
+  const store = getStore();
+  const list = store.categories || DEFAULT_CATEGORIES;
+  const fromProjects = (store.projects || []).map((p) => p.category).filter(Boolean);
+  return Array.from(new Set([...list, ...fromProjects]));
+}
+
+export function saveStoredCategory(category: string): string[] {
+  const store = getStore();
+  if (!store.categories) store.categories = [...DEFAULT_CATEGORIES];
+  const cat = category.trim();
+  if (cat && !store.categories.includes(cat)) {
+    store.categories.push(cat);
+    saveStore(store);
+  }
+  return getStoredCategories();
+}
+
+export function deleteStoredCategory(category: string): string[] {
+  const store = getStore();
+  if (!store.categories) store.categories = [...DEFAULT_CATEGORIES];
+  const cat = category.trim();
+  store.categories = store.categories.filter((c) => c !== cat);
+  saveStore(store);
+  return getStoredCategories();
 }
 
 // Profile Operations

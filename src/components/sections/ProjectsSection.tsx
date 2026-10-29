@@ -9,8 +9,7 @@ import ProjectCard from '@/components/ui/ProjectCard';
 import CaseStudyModal from '@/components/ui/CaseStudyModal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
-const CATEGORIES = [
-  'All',
+const DEFAULT_CATEGORIES = [
   'Enterprise Full-Stack System',
   'Full-Stack Management SaaS',
   'AI & Interactive Experience',
@@ -19,21 +18,30 @@ const CATEGORIES = [
 
 export default function ProjectsSection() {
   const [projects, setProjects] = useState<ProjectData[]>(defaultProjects);
+  const [categoriesList, setCategoriesList] = useState<string[]>(DEFAULT_CATEGORIES);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [activeCaseStudy, setActiveCaseStudy] = useState<ProjectData | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'carousel'>('grid');
   const { playClick, playHover } = useAudioEffect();
 
   useEffect(() => {
-    fetch('/api/admin/projects')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.projects && Array.isArray(data.projects)) {
-          setProjects(data.projects);
-        }
-      })
-      .catch(() => {});
+    Promise.all([
+      fetch('/api/admin/projects').then((r) => r.json()).catch(() => ({})),
+      fetch('/api/admin/categories').then((r) => r.json()).catch(() => ({})),
+    ]).then(([projData, catData]) => {
+      if (projData.projects && Array.isArray(projData.projects)) {
+        setProjects(projData.projects);
+      }
+      if (catData.categories && Array.isArray(catData.categories)) {
+        setCategoriesList(catData.categories);
+      }
+    });
   }, []);
+
+  const categories = [
+    'All',
+    ...Array.from(new Set([...categoriesList, ...projects.map((p) => p.category)])).filter(Boolean),
+  ];
 
   const filteredProjects = selectedCategory === 'All'
     ? projects
@@ -116,7 +124,7 @@ export default function ProjectsSection() {
 
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Project Categories">
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               role="tab"
