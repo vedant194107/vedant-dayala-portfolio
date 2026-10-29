@@ -92,14 +92,9 @@ export default function Navbar() {
                 VD
               </span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-display text-sm tracking-wide text-foreground group-hover:text-sandstone-200 transition-colors">
-                Vedant Dayala
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-wider text-sandstone-400/80">
-                Digital Atelier · AMD
-              </span>
-            </div>
+            <span className="font-display text-sm tracking-wide text-foreground group-hover:text-sandstone-200 transition-colors">
+              Vedant Dayala
+            </span>
           </Link>
 
           {/* Desktop Navigation Links */}
