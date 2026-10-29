@@ -26,7 +26,7 @@ export const projectsData: ProjectData[] = [
     role: 'Lead Full-Stack Architect',
     architectureNotes:
       'Engineered with relational data models, automated proforma invoice generators, QR code tracking, and 3D product visualizers.',
-    demoUrl: 'https://github.com/vedantdayala/seemoreerp',
+    demoUrl: 'https://seemorecase.online',
     githubUrl: 'https://github.com/vedantdayala/seemoreerp',
     accentColor: '#38f0d0', // Electric cyan
     caseStudy: {

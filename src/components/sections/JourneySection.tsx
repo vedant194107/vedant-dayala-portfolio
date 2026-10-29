@@ -1,10 +1,12 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { 
   GraduationCap, Briefcase, Rocket, GitPullRequest, 
   Sparkles, CheckCircle2, MapPin 
 } from 'lucide-react';
-import { journeyData } from '@/data/journey';
+import { journeyData as defaultJourney } from '@/data/journey';
+import { JourneyMilestone } from '@/types';
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
   education: GraduationCap,
@@ -15,6 +17,19 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
 };
 
 export default function JourneySection() {
+  const [milestones, setMilestones] = useState<JourneyMilestone[]>(defaultJourney);
+
+  useEffect(() => {
+    fetch('/api/admin/journey')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.journey && Array.isArray(data.journey)) {
+          setMilestones(data.journey);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section
       id="journey"
@@ -47,7 +62,7 @@ export default function JourneySection() {
             aria-hidden="true"
           />
 
-          {journeyData.map((milestone) => {
+          {milestones.map((milestone) => {
             const Icon = TYPE_ICONS[milestone.type] || Sparkles;
 
             return (

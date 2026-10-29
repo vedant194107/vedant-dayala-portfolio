@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { LayoutGrid, GalleryHorizontal, ArrowRight } from 'lucide-react';
-import { projectsData } from '@/data/projects';
+import { projectsData as defaultProjects } from '@/data/projects';
 import { ProjectData } from '@/types';
 import ProjectCard from '@/components/ui/ProjectCard';
 import CaseStudyModal from '@/components/ui/CaseStudyModal';
@@ -18,14 +18,26 @@ const CATEGORIES = [
 ];
 
 export default function ProjectsSection() {
+  const [projects, setProjects] = useState<ProjectData[]>(defaultProjects);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [activeCaseStudy, setActiveCaseStudy] = useState<ProjectData | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'carousel'>('grid');
   const { playClick, playHover } = useAudioEffect();
 
+  useEffect(() => {
+    fetch('/api/admin/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.projects && Array.isArray(data.projects)) {
+          setProjects(data.projects);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const filteredProjects = selectedCategory === 'All'
-    ? projectsData
-    : projectsData.filter((p) => p.category === selectedCategory);
+    ? projects
+    : projects.filter((p) => p.category === selectedCategory);
 
   const handleCategorySelect = (cat: string) => {
     playClick();
@@ -165,7 +177,7 @@ export default function ProjectsSection() {
             onMouseEnter={playHover}
             className="font-mono text-xs px-5 py-2.5 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent hover:bg-copper-500/30 flex items-center gap-2 whitespace-nowrap shadow-glowCyan transition-all flex-shrink-0"
           >
-            <span>Open All Projects ({projectsData.length})</span>
+            <span>Open All Projects ({projects.length})</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

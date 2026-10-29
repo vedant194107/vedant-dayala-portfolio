@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, MapPin, Copy, Check, AlertCircle, Radio, Clock } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 import { profileData } from '@/data/profile';
+import { ContactDetails } from '@/types';
 import Button from '@/components/ui/Button';
 import TimeDisplay from '@/components/ui/TimeDisplay';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
@@ -22,6 +23,16 @@ interface FormErrors {
   message?: string;
 }
 
+const DEFAULT_CONTACT_DETAILS: ContactDetails = {
+  headline: "Let’s collaborate on something remarkable.",
+  description: "Whether you are planning a high-performance web platform, an exploratory 3D spatial experience, or seeking full-stack engineering expertise, my inbox is open.",
+  formTitle: "Transmit Project Specification",
+  formSubtitle: "Fill out the blueprint below to initiate discussion.",
+  directEmail: profileData.email,
+  location: "Ahmedabad, Gujarat",
+  coordinates: profileData.coordinates,
+};
+
 export default function ContactSection() {
   const [formData, setFormData] = useState<FormState>({
     name: '',
@@ -30,10 +41,22 @@ export default function ContactSection() {
     message: '',
   });
 
+  const [contactDetails, setContactDetails] = useState<ContactDetails>(DEFAULT_CONTACT_DETAILS);
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const { playClick, playSuccess, playHover } = useAudioEffect();
+
+  useEffect(() => {
+    fetch('/api/admin/contact')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.contactDetails) {
+          setContactDetails(data.contactDetails);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const validateForm = (): boolean => {
     const errs: FormErrors = {};
@@ -78,12 +101,20 @@ export default function ContactSection() {
 
     setStatus('loading');
 
-    // Simulated transmission delay for atelier signal
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1400));
-      setStatus('success');
-      playSuccess();
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        playSuccess();
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
     } catch {
       setStatus('error');
     }
@@ -92,7 +123,7 @@ export default function ContactSection() {
   const handleCopyEmail = () => {
     playClick();
     if (typeof navigator !== 'undefined') {
-      navigator.clipboard.writeText(profileData.email);
+      navigator.clipboard.writeText(contactDetails.directEmail || profileData.email);
       setCopiedEmail(true);
       setTimeout(() => setCopiedEmail(false), 2500);
     }
@@ -134,10 +165,10 @@ export default function ContactSection() {
 
               <div className="space-y-3">
                 <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground">
-                  Let’s collaborate on something remarkable.
+                  {contactDetails.headline}
                 </h3>
                 <p className="text-xs sm:text-sm text-sandstone-300 leading-relaxed font-sans">
-                  Whether you are planning a high-performance web platform, an exploratory 3D spatial experience, or seeking full-stack engineering expertise, my inbox is open.
+                  {contactDetails.description}
                 </p>
               </div>
 
@@ -166,7 +197,7 @@ export default function ContactSection() {
                   </button>
                 </div>
                 <p className="font-mono text-sm text-sandstone-200 select-all">
-                  {profileData.email}
+                  {contactDetails.directEmail}
                 </p>
               </div>
 
@@ -178,10 +209,10 @@ export default function ContactSection() {
                     <span>Location</span>
                   </div>
                   <p className="font-mono text-xs font-semibold text-foreground">
-                    Ahmedabad, Gujarat
+                    {contactDetails.location}
                   </p>
                   <p className="font-mono text-[10px] text-charcoal-400">
-                    {profileData.coordinates}
+                    {contactDetails.coordinates}
                   </p>
                 </div>
 
@@ -230,10 +261,10 @@ export default function ContactSection() {
                 {/* Form Top Title */}
                 <div className="border-b border-charcoal-800 pb-4">
                   <h3 className="text-xl font-display font-medium text-foreground">
-                    Transmit Project Specification
+                    {contactDetails.formTitle}
                   </h3>
                   <p className="text-xs text-charcoal-400 mt-0.5">
-                    Fill out the blueprint below to initiate discussion.
+                    {contactDetails.formSubtitle}
                   </p>
                 </div>
 

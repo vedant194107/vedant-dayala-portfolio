@@ -80,3 +80,24 @@ export interface JourneyMilestone {
   keyAchievements: string[];
   tags: string[];
 }
+
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
+}
+
+export interface ContactDetails {
+  headline: string;
+  description: string;
+  formTitle: string;
+  formSubtitle: string;
+  directEmail: string;
+  location: string;
+  coordinates: string;
+}
+

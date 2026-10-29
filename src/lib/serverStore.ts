@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { ProjectData, ProfileData } from '@/types';
+import { ProjectData, ProfileData, JourneyMilestone, ContactMessage, ContactDetails } from '@/types';
 import { projectsData as defaultProjects } from '@/data/projects';
 import { profileData as defaultProfile } from '@/data/profile';
+import { journeyData as defaultJourney } from '@/data/journey';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const STORE_PATH = path.join(DATA_DIR, 'portfolio-store.json');
@@ -17,8 +18,21 @@ export interface PortfolioStore {
   admin: AdminUser;
   profile: ProfileData;
   projects: ProjectData[];
+  journey: JourneyMilestone[];
+  contactDetails: ContactDetails;
+  messages: ContactMessage[];
   lastUpdated: string;
 }
+
+const DEFAULT_CONTACT_DETAILS: ContactDetails = {
+  headline: "Let's collaborate on something remarkable.",
+  description: "Whether you are planning a high-performance web platform, an exploratory 3D spatial experience, or seeking full-stack engineering expertise, my inbox is open.",
+  formTitle: "Transmit Project Specification",
+  formSubtitle: "Fill out the blueprint below to initiate discussion.",
+  directEmail: "vedantdayala@gmail.com",
+  location: "Ahmedabad, Gujarat",
+  coordinates: "23.0225° N, 72.5714° E",
+};
 
 const DEFAULT_STORE: PortfolioStore = {
   admin: {
@@ -28,6 +42,9 @@ const DEFAULT_STORE: PortfolioStore = {
   },
   profile: defaultProfile,
   projects: defaultProjects,
+  journey: defaultJourney,
+  contactDetails: DEFAULT_CONTACT_DETAILS,
+  messages: [],
   lastUpdated: new Date().toISOString(),
 };
 
@@ -45,6 +62,26 @@ function initStoreFile(): PortfolioStore {
 
     const raw = fs.readFileSync(STORE_PATH, 'utf-8');
     const parsed = JSON.parse(raw);
+
+    // Merge defaults for any newly added fields
+    let updated = false;
+    if (!parsed.journey) {
+      parsed.journey = defaultJourney;
+      updated = true;
+    }
+    if (!parsed.contactDetails) {
+      parsed.contactDetails = DEFAULT_CONTACT_DETAILS;
+      updated = true;
+    }
+    if (!parsed.messages) {
+      parsed.messages = [];
+      updated = true;
+    }
+
+    if (updated) {
+      fs.writeFileSync(STORE_PATH, JSON.stringify(parsed, null, 2), 'utf-8');
+    }
+
     return parsed;
   } catch (error) {
     console.error('Failed to read or initialize portfolio store:', error);
@@ -146,6 +183,100 @@ export function updateAdminSettings(settings: Partial<AdminUser>): AdminUser {
   };
   saveStore(store);
   return store.admin;
+}
+
+// Journey Operations
+export function getStoredJourney(): JourneyMilestone[] {
+  const store = getStore();
+  return store.journey || [];
+}
+
+export function saveStoredMilestone(milestone: JourneyMilestone): JourneyMilestone {
+  const store = getStore();
+  if (!store.journey) store.journey = [];
+  const existingIndex = store.journey.findIndex((m) => m.id === milestone.id);
+
+  if (existingIndex >= 0) {
+    store.journey[existingIndex] = { ...milestone };
+  } else {
+    store.journey.unshift(milestone);
+  }
+
+  saveStore(store);
+  return milestone;
+}
+
+export function deleteStoredMilestone(id: string): boolean {
+  const store = getStore();
+  if (!store.journey) return false;
+  const initialLength = store.journey.length;
+  store.journey = store.journey.filter((m) => m.id !== id);
+
+  if (store.journey.length !== initialLength) {
+    saveStore(store);
+    return true;
+  }
+  return false;
+}
+
+// Contact Details Operations
+export function getStoredContactDetails(): ContactDetails {
+  const store = getStore();
+  return store.contactDetails || DEFAULT_CONTACT_DETAILS;
+}
+
+export function saveStoredContactDetails(details: ContactDetails): ContactDetails {
+  const store = getStore();
+  store.contactDetails = details;
+  saveStore(store);
+  return details;
+}
+
+// Contact Messages Operations
+export function getStoredMessages(): ContactMessage[] {
+  const store = getStore();
+  return store.messages || [];
+}
+
+export function saveContactMessage(msg: { name: string; email: string; subject: string; message: string }): ContactMessage {
+  const store = getStore();
+  if (!store.messages) store.messages = [];
+
+  const newMessage: ContactMessage = {
+    id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+    ...msg,
+    createdAt: new Date().toISOString(),
+    read: false,
+  };
+
+  store.messages.unshift(newMessage);
+  saveStore(store);
+  return newMessage;
+}
+
+export function toggleMessageRead(id: string): boolean {
+  const store = getStore();
+  if (!store.messages) return false;
+  const message = store.messages.find((m) => m.id === id);
+  if (message) {
+    message.read = !message.read;
+    saveStore(store);
+    return true;
+  }
+  return false;
+}
+
+export function deleteStoredMessage(id: string): boolean {
+  const store = getStore();
+  if (!store.messages) return false;
+  const initialLength = store.messages.length;
+  store.messages = store.messages.filter((m) => m.id !== id);
+
+  if (store.messages.length !== initialLength) {
+    saveStore(store);
+    return true;
+  }
+  return false;
 }
 
 export function resetStoreToDefault(): PortfolioStore {

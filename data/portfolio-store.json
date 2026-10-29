@@ -17,7 +17,7 @@
       "My hands-on experience includes architecting end-to-end enterprise manufacturing suites handling inventory, order processing, automated dispatch pipelines, and billing ledgers—as well as comprehensive industrial estate management portals built with Next.js 14 and Prisma ORM.",
       "Whether developing frontend interfaces with React, TypeScript, and Tailwind CSS or building backend REST APIs and relational MySQL databases, I focus on clean architecture, reliable performance, and intuitive user experiences."
     ],
-    "email": "vedantdayala@gmail.com",
+    "email": "dayalavedant1@gmail.com",
     "github": "https://github.com/vedantdayala",
     "linkedin": "https://linkedin.com/in/vedantdayala",
     "resumeUrl": "/resume.pdf",
@@ -216,5 +216,121 @@
       }
     }
   ],
-  "lastUpdated": "2026-10-29T10:07:46.477Z"
+  "lastUpdated": "2026-10-29T10:22:53.998Z",
+  "journey": [
+    {
+      "id": "m-2024-enterprise",
+      "year": "2024",
+      "period": "Present",
+      "title": "Full-Stack Architecture & Enterprise Platforms",
+      "roleOrDegree": "Full-Stack Software Engineer",
+      "organization": "Independent Engineering & Client Platforms",
+      "location": "Ahmedabad, Gujarat, India",
+      "type": "experience",
+      "description": "Architecting production enterprise management suites (Manufacturing ERP, Industrial Estate Portal), full-stack Next.js applications, and AI-driven platforms with modern TypeScript and relational databases.",
+      "keyAchievements": [
+        "Engineered Enterprise Manufacturing ERP platform cutting order processing cycles by 74% with automated PDF generation and 3D catalog previews",
+        "Architected Industrial Estate Maintenance Portal with Next.js 14 App Router, Prisma ORM, and automated billing ledgers",
+        "Developed Tripflow AI interactive travel planning engine featuring synchronized route timelines and kinetic map waypoints"
+      ],
+      "tags": [
+        "Next.js 14",
+        "Prisma ORM",
+        "TypeScript",
+        "MySQL",
+        "Three.js",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "id": "m-2023-systems",
+      "year": "2023",
+      "period": "2023 — 2024",
+      "title": "Financial Telemetry & Full-Stack Systems",
+      "roleOrDegree": "Full-Stack Web Developer",
+      "organization": "FinTech & Operational Systems",
+      "location": "Ahmedabad, India",
+      "type": "experience",
+      "description": "Constructed high-velocity financial entry software (CashEntries), atomic transaction verification pipelines, and responsive management dashboards with React and Node.js.",
+      "keyAchievements": [
+        "Built dual-entry cash accounting software ensuring 100% balance reconciliation and sub-15ms entry latency",
+        "Implemented secure REST API routing, rate limiting, and structured audit export pipelines",
+        "Designed responsive, keyboard-accessible data tables compliant with WCAG AA accessibility standards"
+      ],
+      "tags": [
+        "React",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "REST APIs",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "id": "m-2023-creative",
+      "year": "2023",
+      "period": "Mid 2023",
+      "title": "Creative Web, 3D & Spatial Coding",
+      "roleOrDegree": "Creative Technologist / Researcher",
+      "organization": "Atelier Sandbox",
+      "location": "Ahmedabad, India",
+      "type": "milestone",
+      "description": "Immersed in Three.js, React Three Fiber, GLSL shader mathematics, and physics-based motion with GSAP and Framer Motion. Explored how architectural heritage informs tactile digital interfaces.",
+      "keyAchievements": [
+        "Engineered procedural materials, ambient lighting rigs, and spring-physics micro-interactions",
+        "Integrated Three.js 3D product viewports into real enterprise e-commerce and catalog applications",
+        "Authored zero-dependency procedural Web Audio API feedback hooks for tactile UI responses"
+      ],
+      "tags": [
+        "Three.js",
+        "React Three Fiber",
+        "GSAP",
+        "Framer Motion",
+        "Web Audio API"
+      ]
+    },
+    {
+      "id": "m-2020-education",
+      "year": "2020 – 2024",
+      "period": "2020 — 2024",
+      "title": "Bachelor of Technology in Computer Engineering",
+      "roleOrDegree": "B.Tech in Computer Engineering",
+      "organization": "Gujarat Technological University (GTU) Affiliated Institute",
+      "location": "Ahmedabad, Gujarat, India",
+      "type": "education",
+      "description": "Rigorous foundation in computer science: relational database management (RDBMS), data structures, algorithms, computer networks, and full-stack software development methodologies.",
+      "keyAchievements": [
+        "Completed comprehensive coursework in software architecture, distributed databases, and web technologies",
+        "Led student engineering projects focusing on real-world industrial and operational management software",
+        "Graduated with First Class Distinction with a strong commitment to clean code and architectural craft"
+      ],
+      "tags": [
+        "Computer Engineering",
+        "Data Structures",
+        "Database Systems",
+        "Software Architecture",
+        "GTU"
+      ]
+    }
+  ],
+  "contactDetails": {
+    "headline": "Let's collaborate on something remarkable.",
+    "description": "Whether you are planning a high-performance web platform, an exploratory 3D spatial experience, or seeking full-stack engineering expertise, my inbox is open.",
+    "formTitle": "Transmit Project Specification",
+    "formSubtitle": "Fill out the blueprint below to initiate discussion.",
+    "directEmail": "vedantdayala@gmail.com",
+    "location": "Ahmedabad, Gujarat",
+    "coordinates": "23.0225° N, 72.5714° E"
+  },
+  "messages": [
+    {
+      "id": "msg-1793269373998-f7ps",
+      "name": "Aarav Sharma",
+      "email": "aarav@studio.in",
+      "subject": "Platform Collaboration",
+      "message": "Hi Vedant, we would like to discuss building an enterprise platform with 3D product viewports.",
+      "createdAt": "2026-10-29T10:22:53.998Z",
+      "read": false
+    }
+  ]
 }
