@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getStoredProfile, saveStoredProfile } from '@/lib/serverStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const profile = getStoredProfile();
@@ -22,4 +24,8 @@ export async function PUT(request: Request) {
   } catch {
     return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
   }
+}
+
+export async function POST(request: Request) {
+  return PUT(request);
 }

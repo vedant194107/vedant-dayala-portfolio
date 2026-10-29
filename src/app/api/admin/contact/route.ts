@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getStoredContactDetails, saveStoredContactDetails } from '@/lib/serverStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const contactDetails = getStoredContactDetails();
@@ -28,4 +30,8 @@ export async function PUT(request: Request) {
       { status: 500 }
     );
   }
+}
+
+export async function POST(request: Request) {
+  return PUT(request);
 }

@@ -12,6 +12,9 @@ interface Props {
   params: { id: string };
 }
 
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const allProjects = getStoredProjects();
   return allProjects.map((project) => ({

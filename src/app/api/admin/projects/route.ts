@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getStoredProjects, saveStoredProject } from '@/lib/serverStore';
 import { ProjectData } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const projects = getStoredProjects();

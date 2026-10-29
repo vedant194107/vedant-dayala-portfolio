@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getStoredJourney, saveStoredMilestone } from '@/lib/serverStore';
 import { JourneyMilestone } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const journey = getStoredJourney();

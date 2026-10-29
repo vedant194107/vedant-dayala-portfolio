@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { ProjectData, ProfileData, JourneyMilestone, ContactMessage, ContactDetails } from '@/types';
 import { projectsData as defaultProjects } from '@/data/projects';
 import { profileData as defaultProfile } from '@/data/profile';
@@ -7,6 +8,12 @@ import { journeyData as defaultJourney } from '@/data/journey';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const STORE_PATH = path.join(DATA_DIR, 'portfolio-store.json');
+const TMP_STORE_PATH = path.join(os.tmpdir(), 'portfolio-store.json');
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __portfolio_store: PortfolioStore | undefined;
+}
 
 export interface AdminUser {
   username: string;
@@ -59,47 +66,38 @@ const DEFAULT_STORE: PortfolioStore = {
 
 // Ensure directory and store file exist
 function initStoreFile(): PortfolioStore {
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-
-    if (!fs.existsSync(STORE_PATH)) {
-      fs.writeFileSync(STORE_PATH, JSON.stringify(DEFAULT_STORE, null, 2), 'utf-8');
-      return DEFAULT_STORE;
-    }
-
-    const raw = fs.readFileSync(STORE_PATH, 'utf-8');
-    const parsed = JSON.parse(raw);
-
-    // Merge defaults for any newly added fields
-    let updated = false;
-    if (!parsed.categories) {
-      parsed.categories = DEFAULT_CATEGORIES;
-      updated = true;
-    }
-    if (!parsed.journey) {
-      parsed.journey = defaultJourney;
-      updated = true;
-    }
-    if (!parsed.contactDetails) {
-      parsed.contactDetails = DEFAULT_CONTACT_DETAILS;
-      updated = true;
-    }
-    if (!parsed.messages) {
-      parsed.messages = [];
-      updated = true;
-    }
-
-    if (updated) {
-      fs.writeFileSync(STORE_PATH, JSON.stringify(parsed, null, 2), 'utf-8');
-    }
-
-    return parsed;
-  } catch (error) {
-    console.error('Failed to read or initialize portfolio store:', error);
-    return DEFAULT_STORE;
+  // 1. In-memory cached instance
+  if (globalThis.__portfolio_store) {
+    return globalThis.__portfolio_store;
   }
+
+  // 2. Check /tmp on serverless environments (Vercel)
+  try {
+    if (fs.existsSync(TMP_STORE_PATH)) {
+      const raw = fs.readFileSync(TMP_STORE_PATH, 'utf-8');
+      const parsed = JSON.parse(raw);
+      globalThis.__portfolio_store = parsed;
+      return parsed;
+    }
+  } catch {
+    // Ignore and fallback to file store
+  }
+
+  // 3. Check process.cwd() data/portfolio-store.json
+  try {
+    if (fs.existsSync(STORE_PATH)) {
+      const raw = fs.readFileSync(STORE_PATH, 'utf-8');
+      const parsed = JSON.parse(raw);
+      globalThis.__portfolio_store = parsed;
+      return parsed;
+    }
+  } catch {
+    // Ignore and fallback
+  }
+
+  // 4. Default baseline store
+  globalThis.__portfolio_store = DEFAULT_STORE;
+  return DEFAULT_STORE;
 }
 
 export function getStore(): PortfolioStore {
@@ -107,15 +105,28 @@ export function getStore(): PortfolioStore {
 }
 
 export function saveStore(store: PortfolioStore): void {
+  store.lastUpdated = new Date().toISOString();
+  globalThis.__portfolio_store = store;
+
+  // Try saving to data/portfolio-store.json (works in local dev)
+  let savedLocally = false;
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    store.lastUpdated = new Date().toISOString();
     fs.writeFileSync(STORE_PATH, JSON.stringify(store, null, 2), 'utf-8');
-  } catch (error) {
-    console.error('Failed to save portfolio store:', error);
-    throw error;
+    savedLocally = true;
+  } catch {
+    // Read-only filesystem on Vercel (EROFS) - proceed to writable /tmp
+  }
+
+  // Write to /tmp for serverless persistence across requests
+  if (!savedLocally) {
+    try {
+      fs.writeFileSync(TMP_STORE_PATH, JSON.stringify(store, null, 2), 'utf-8');
+    } catch {
+      // In-memory store remains updated in globalThis
+    }
   }
 }
 

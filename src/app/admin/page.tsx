@@ -447,7 +447,7 @@ export default function AdminPage() {
       setContactSaving(true);
       playClick();
       const res = await fetch('/api/admin/contact', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactDetails),
       });
@@ -473,7 +473,7 @@ export default function AdminPage() {
       setProfileSaving(true);
       playClick();
       const res = await fetch('/api/admin/profile', {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile),
       });

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getStoredCategories, saveStoredCategory, deleteStoredCategory } from '@/lib/serverStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const categories = getStoredCategories();

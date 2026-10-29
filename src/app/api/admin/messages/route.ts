@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getStoredMessages, toggleMessageRead, deleteStoredMessage } from '@/lib/serverStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const messages = getStoredMessages();

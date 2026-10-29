@@ -8,7 +8,7 @@ export async function GET() {
     const sessionCookie = cookieStore.get('admin_session');
 
     if (!sessionCookie || !sessionCookie.value) {
-      return NextResponse.json({ authenticated: false }, { status: 401 });
+      return NextResponse.json({ authenticated: false }, { status: 200 });
     }
 
     const store = getStore();

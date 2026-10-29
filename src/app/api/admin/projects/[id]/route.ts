@@ -42,6 +42,10 @@ export async function PUT(request: Request, { params }: Props) {
   }
 }
 
+export async function POST(request: Request, props: Props) {
+  return PUT(request, props);
+}
+
 export async function DELETE(request: Request, { params }: Props) {
   try {
     const { searchParams } = new URL(request.url);

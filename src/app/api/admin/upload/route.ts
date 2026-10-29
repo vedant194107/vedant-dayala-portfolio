@@ -19,8 +19,13 @@ export async function POST(request: Request) {
     }
 
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'projects');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    let canWriteLocal = true;
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+    } catch {
+      canWriteLocal = false;
     }
 
     const uploadedUrls: string[] = [];
@@ -35,12 +40,23 @@ export async function POST(request: Request) {
         .basename(originalName, ext)
         .replace(/[^a-zA-Z0-9_-]/g, '_')
         .substring(0, 30);
-      
-      const fileName = `${Date.now()}_${baseName}${ext}`;
-      const filePath = path.join(uploadDir, fileName);
 
-      await fs.promises.writeFile(filePath, buffer);
-      uploadedUrls.push(`/uploads/projects/${fileName}`);
+      if (canWriteLocal) {
+        try {
+          const fileName = `${Date.now()}_${baseName}${ext}`;
+          const filePath = path.join(uploadDir, fileName);
+          await fs.promises.writeFile(filePath, buffer);
+          uploadedUrls.push(`/uploads/projects/${fileName}`);
+          continue;
+        } catch {
+          // If write fails (e.g. read-only filesystem), fallback to Data URL
+        }
+      }
+
+      // Serverless fallback: Encode as inline base64 Data URL
+      const mimeType = file.type || 'image/png';
+      const base64Data = buffer.toString('base64');
+      uploadedUrls.push(`data:${mimeType};base64,${base64Data}`);
     }
 
     return NextResponse.json({
