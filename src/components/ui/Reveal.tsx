@@ -56,7 +56,7 @@ export default function Reveal({
   delay = 0,
   duration = 0.65,
   className = '',
-  once = true,
+  once = false,
   offset = 32,
 }: RevealProps) {
   const variants = getVariants(direction, offset);
@@ -66,7 +66,7 @@ export default function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, margin: '-60px' }}
+      viewport={{ once, margin: '-40px', amount: 0.15 }}
       transition={{
         duration,
         delay,
@@ -90,7 +90,7 @@ export function RevealGroup({
   children,
   staggerDelay = 0.08,
   className = '',
-  once = true,
+  once = false,
 }: RevealGroupProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -108,7 +108,7 @@ export function RevealGroup({
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, margin: '-50px' }}
+      viewport={{ once, margin: '-40px', amount: 0.15 }}
       className={className}
     >
       {children}
@@ -187,7 +187,7 @@ export function TextReveal({
       variants={container}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: false, margin: '-40px' }}
       className={`inline-block flex-wrap ${className}`}
     >
       {words.map((word, index) => (
