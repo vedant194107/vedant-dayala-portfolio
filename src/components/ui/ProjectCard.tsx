@@ -59,7 +59,7 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
               <span>PRISMA · MYSQL</span>
             </div>
             <div className="font-mono text-[9px] text-sandstone-300/90 bg-obsidian-950 p-1.5 rounded border border-charcoal-800 flex items-center justify-between">
-              <code>ORDERS -> INVOICE -> DISPATCH -> ANDROID SYNC</code>
+              <code>{'ORDERS -> INVOICE -> DISPATCH -> ANDROID SYNC'}</code>
               <span className="text-cyanAccent font-bold">READY</span>
             </div>
             <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
