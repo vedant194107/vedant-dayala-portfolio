@@ -1,45 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { Compass, Sparkles, ShieldCheck, Zap, Layers } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { profileData } from '@/data/profile';
-import { useAudioEffect } from '@/hooks/useAudioEffect';
 
-const CRAFT_PILLARS = [
-  {
-    id: 'rigor',
-    number: '01',
-    title: 'Structural Rigor',
-    icon: ShieldCheck,
-    summary: 'Architecting resilient TypeScript contracts and predictable state machines that eliminate runtime failures.',
-    accent: '#38f0d0',
-  },
-  {
-    id: 'tactility',
-    number: '02',
-    title: 'Tactile Ergonomics',
-    icon: Layers,
-    summary: 'Crafting responsive UI surfaces with spring physics, acoustic feedback, and calibrated depth.',
-    accent: '#c49d7f',
-  },
-  {
-    id: 'performance',
-    number: '03',
-    title: 'Kinetic Performance',
-    icon: Zap,
-    summary: 'Optimizing rendering loops, WebGL draw calls, and edge network distribution for instant page loads.',
-    accent: '#368b7d',
-  },
+const HIGHLIGHTS = [
+  'Enterprise ERP & manufacturing platform architecture',
+  'Next.js 14 App Router, React & TypeScript engineering',
+  'Relational database modeling with Prisma ORM & MySQL',
+  'Automated billing, PDF invoice engines & financial ledgers',
+  'REST API design, rate-limiting & atomic transactions',
+  'Accessible, high-performance UI implementation with Tailwind CSS',
 ];
 
 export default function AboutSection() {
-  const [activePillar, setActivePillar] = useState(CRAFT_PILLARS[0].id);
-  const { playClick, playHover } = useAudioEffect();
-
   return (
     <section
       id="about"
-      aria-label="About the Atelier"
+      aria-label="About Vedant Dayala"
       className="relative w-full py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-t border-sandstone-500/10 bg-obsidian-900/60"
     >
       <div className="max-w-7xl mx-auto space-y-16">
@@ -49,35 +26,35 @@ export default function AboutSection() {
             <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
               <span className="font-semibold text-cyanAccent">02</span>
               <span>/</span>
-              <span className="uppercase tracking-widest">Philosophy & Identity</span>
+              <span className="uppercase tracking-widest">Profile & Background</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
-              The Digital Atelier
+              About Vedant Dayala
             </h2>
           </div>
           <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
-            Where Ahmedabad’s architectural legacy informs modern web engineering.
+            Full Stack Developer based in Ahmedabad, Gujarat, India.
           </p>
         </div>
 
-        {/* Split Layout: Visual & Editorial Narrative */}
+        {/* Split Layout: Visual Profile Card & Narrative Details */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Stylized Generative Portrait & Architecture Visual */}
+          {/* Left Column: Developer Profile Card & Strengths */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="chiseled-card rounded-2xl p-6 sm:p-8 relative overflow-hidden group">
+            <div className="chiseled-card rounded-2xl p-6 sm:p-8 relative overflow-hidden group border border-sandstone-500/20">
               {/* Subtle background motif */}
-              <div className="absolute inset-0 jali-grid opacity-25 pointer-events-none" />
+              <div className="absolute inset-0 jali-grid opacity-15 pointer-events-none" />
 
-              {/* Generative Visual Header */}
+              {/* Profile Card Header */}
               <div className="relative z-10 flex flex-col items-center text-center space-y-5">
-                {/* Stylized Atelier Emblem */}
-                <div className="relative w-28 h-28 rounded-2xl border-2 border-sandstone-500/30 bg-charcoal-900/80 p-2 flex items-center justify-center shadow-glowSandstone">
+                {/* Monogram Badge */}
+                <div className="relative w-24 h-24 rounded-2xl border-2 border-sandstone-500/30 bg-charcoal-900/80 p-2 flex items-center justify-center shadow-glowSandstone">
                   <div className="w-full h-full rounded-xl border border-copper-400/40 bg-obsidian-950 flex flex-col items-center justify-center p-2 relative overflow-hidden">
                     <span className="font-display text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyanAccent to-sandstone-300">
                       VD
                     </span>
                     <span className="font-mono text-[8px] tracking-widest text-copper-300 uppercase mt-0.5">
-                      Ahmedabad
+                      Full-Stack
                     </span>
                     <div className="absolute -bottom-2 w-12 h-1 rounded-full bg-cyanAccent/50 blur-[2px]" />
                   </div>
@@ -85,127 +62,82 @@ export default function AboutSection() {
 
                 {/* Identity Summary */}
                 <div className="space-y-1">
-                  <h3 className="text-xl font-display text-foreground font-semibold">
+                  <h3 className="text-2xl font-display text-foreground font-semibold">
                     {profileData.name}
                   </h3>
-                  <p className="font-mono text-xs text-copper-400">
+                  <p className="font-mono text-xs uppercase tracking-wider text-cyanAccent font-medium">
                     {profileData.role}
                   </p>
-                  <p className="font-mono text-[11px] text-charcoal-400">
+                  <p className="font-mono text-xs text-charcoal-400">
                     {profileData.location}
                   </p>
                 </div>
 
-                {/* Craftsmanship Manifesto Quote */}
-                <div className="w-full p-4 rounded-xl bg-charcoal-900/50 border border-sandstone-500/15 text-left space-y-2">
-                  <div className="flex items-center gap-2 text-sandstone-300 font-mono text-[10px] uppercase tracking-wider">
-                    <Compass className="w-3.5 h-3.5 text-cyanAccent" />
-                    <span>The Atelier Ethos</span>
-                  </div>
-                  <p className="text-xs text-sandstone-300/90 leading-relaxed italic font-serif">
-                    “Code is not just logic executed by a compiler; it is an architectural medium where structural rigor and human tactility meet.”
-                  </p>
-                </div>
-
-                {/* Micro Stats Grid */}
+                {/* Core Stack Specs Grid */}
                 <div className="w-full grid grid-cols-2 gap-2 text-left pt-2">
-                  <div className="p-3 rounded-lg bg-obsidian-950/70 border border-charcoal-700/60">
-                    <span className="font-mono text-[10px] text-charcoal-400 block">Experience</span>
-                    <span className="font-mono text-sm font-semibold text-sandstone-200">3+ Years</span>
-                    <span className="font-mono text-[9px] text-copper-400 block">Full-Stack & 3D</span>
+                  <div className="p-3 rounded-lg bg-obsidian-950/80 border border-charcoal-800">
+                    <span className="font-mono text-[10px] text-charcoal-400 block uppercase">Primary Focus</span>
+                    <span className="font-mono text-xs font-semibold text-sandstone-200">Full-Stack Web</span>
+                    <span className="font-mono text-[9px] text-copper-400 block">Next.js · React · Node</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-obsidian-950/70 border border-charcoal-700/60">
-                    <span className="font-mono text-[10px] text-charcoal-400 block">Discipline</span>
-                    <span className="font-mono text-sm font-semibold text-cyanAccent">Creative Eng</span>
-                    <span className="font-mono text-[9px] text-sandstone-400 block">React · Three · Node</span>
+                  <div className="p-3 rounded-lg bg-obsidian-950/80 border border-charcoal-800">
+                    <span className="font-mono text-[10px] text-charcoal-400 block uppercase">Databases</span>
+                    <span className="font-mono text-xs font-semibold text-cyanAccent">Prisma & MySQL</span>
+                    <span className="font-mono text-[9px] text-sandstone-400 block">Relational Schemas</span>
+                  </div>
+                </div>
+
+                {/* Practical Engineering Highlights List */}
+                <div className="w-full p-4 rounded-xl bg-charcoal-900/60 border border-sandstone-500/15 text-left space-y-2.5">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-sandstone-400 block">
+                    Core Technical Competencies
+                  </span>
+                  <div className="space-y-2">
+                    {HIGHLIGHTS.map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-xs text-sandstone-200">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-cyanAccent flex-shrink-0 mt-0.5" />
+                        <span className="leading-snug">{item}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Craft Pillars Tabs */}
-            <div className="space-y-3">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-sandstone-400 block">
-                Engineering Tenets
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                {CRAFT_PILLARS.map((pillar) => {
-                  const Icon = pillar.icon;
-                  const isActive = activePillar === pillar.id;
-
-                  return (
-                    <button
-                      key={pillar.id}
-                      onClick={() => {
-                        playClick();
-                        setActivePillar(pillar.id);
-                      }}
-                      onMouseEnter={playHover}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        isActive
-                          ? 'bg-charcoal-800 border-cyanAccent text-white shadow-sm'
-                          : 'bg-charcoal-900/50 border-charcoal-800 text-charcoal-400 hover:text-sandstone-200'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono text-[9px] text-copper-400">{pillar.number}</span>
-                        <Icon className="w-3.5 h-3.5 text-cyanAccent" />
-                      </div>
-                      <span className="font-display text-xs font-medium block truncate">
-                        {pillar.title.split(' ')[0]}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Active Pillar Card */}
-              {(() => {
-                const current = CRAFT_PILLARS.find((p) => p.id === activePillar);
-                if (!current) return null;
-                return (
-                  <div className="p-4 rounded-xl bg-obsidian-950/80 border border-sandstone-500/20 text-xs text-sandstone-200 space-y-1">
-                    <span className="font-mono text-[10px] uppercase text-cyanAccent block">
-                      {current.number} · {current.title}
-                    </span>
-                    <p className="text-charcoal-300 leading-relaxed font-sans">{current.summary}</p>
-                  </div>
-                );
-              })()}
             </div>
           </div>
 
-          {/* Right Column: Editorial Narrative & Exploring Panel */}
+          {/* Right Column: Editorial Narrative & Real Focus Areas */}
           <div className="lg:col-span-7 space-y-10">
             {/* Story Paragraphs */}
-            <div className="space-y-6 text-base sm:text-lg text-charcoal-300 leading-relaxed font-sans">
+            <div className="space-y-5 text-base sm:text-lg text-charcoal-300 leading-relaxed font-sans">
               {profileData.bioStory.map((paragraph, index) => (
-                <p key={index} className="text-sandstone-100/90">
+                <p key={index} className="text-sandstone-100/90 leading-relaxed">
                   {paragraph}
                 </p>
               ))}
             </div>
 
-            {/* "Currently Exploring" Panel */}
+            {/* Core Engineering Focus Areas */}
             <div className="space-y-4 pt-4 border-t border-charcoal-800">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyanAccent" />
+              <div className="flex items-center justify-between">
                 <h3 className="font-mono text-xs uppercase tracking-widest text-sandstone-400">
-                  Currently Exploring at the Workbench
+                  Primary Areas of Expertise
                 </h3>
+                <span className="font-mono text-[10px] text-copper-400">
+                  Production-Ready Stacks
+                </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {profileData.exploring.map((item) => (
                   <div
                     key={item.title}
-                    className="p-4 rounded-xl bg-charcoal-900/40 border border-sandstone-500/15 hover:border-copper-400/50 transition-all space-y-2 group"
+                    className="p-5 rounded-xl bg-charcoal-900/50 border border-sandstone-500/15 hover:border-copper-400/50 transition-all space-y-2 group"
                   >
                     <div className="flex items-center justify-between">
                       <h4 className="text-sm font-medium text-foreground group-hover:text-cyanAccent transition-colors">
                         {item.title}
                       </h4>
-                      <span className="font-mono text-[9px] uppercase px-2 py-0.5 rounded bg-copper-500/15 text-copper-300 border border-copper-400/20">
+                      <span className="font-mono text-[9px] uppercase px-2 py-0.5 rounded bg-copper-500/15 text-copper-300 border border-copper-400/25">
                         {item.tag}
                       </span>
                     </div>

@@ -16,9 +16,9 @@ export const profileData: ProfileData = {
   bioConcise:
     'Full Stack Developer based in Ahmedabad, crafting high-performance web applications, enterprise ERP platforms, and expressive interactive experiences with Next.js, React, Node.js, and modern databases.',
   bioStory: [
-    'Growing up in Ahmedabad—a city where centuries-old sandstone stepwell geometry coexists with cutting-edge modernist architecture—taught me to respect both structural integrity and handcrafted nuance. In the digital realm, I bring that same sensibility to code.',
-    'I operate as a creative engineer: bridging the gap between rigorous full-stack architecture and fluid, tactile user interfaces. I believe software should not feel like an sterile spreadsheet, but an intentional physical instrument designed for human hands.',
-    'From architecting robust TypeScript and Node.js REST services to orchestrating 60fps animations with React Three Fiber and GSAP, my focus is delivering performant, accessible digital artifacts that leave a lasting impression.',
+    'I am Vedant Dayala, a Full Stack Developer based in Ahmedabad, Gujarat. I specialize in building complete, production-ready web platforms, enterprise management software, and responsive user interfaces that solve real-world operational problems.',
+    'My hands-on experience includes architecting See More ERP—a manufacturing suite handling inventory, order processing, automated dispatch pipelines, and customer ledgers—as well as the URVI Estate Management Portal built with Next.js 14 and Prisma ORM.',
+    'Whether developing frontend interfaces with React, TypeScript, and Tailwind CSS or building backend REST APIs and relational MySQL databases, I focus on clean architecture, reliable performance, and intuitive user experiences.',
   ],
   email: 'vedantdayala@gmail.com', // Update with your preferred email anytime
   github: 'https://github.com/vedantdayala', // Replace with your GitHub URL
@@ -26,28 +26,28 @@ export const profileData: ProfileData = {
   resumeUrl: '/resume.pdf', // Place your resume PDF in public/resume.pdf
   availability: {
     status: 'available',
-    label: 'Ahmedabad, India · Available for meaningful work',
+    label: 'Ahmedabad, India · Available for Full-Time & Contract Roles',
   },
   exploring: [
     {
-      title: 'Spatial & 3D Web',
-      description: 'Procedural geometries, low-power WebGL shaders, and tactile Three.js interaction models.',
-      tag: 'Creative Dev',
+      title: 'Enterprise Full-Stack Systems',
+      description: 'Building production platforms like See More ERP and URVI Estate with Next.js App Router, Prisma ORM, and MySQL.',
+      tag: 'Full-Stack',
     },
     {
-      title: 'Interaction & Micro-Physics',
-      description: 'Spring physics, gestural interfaces, and haptic web feedback using GSAP & Framer Motion.',
-      tag: 'UI/UX Craft',
+      title: 'Frontend & Responsive UI',
+      description: 'Crafting clean, accessible, and fast web applications with React, TypeScript, and Tailwind CSS.',
+      tag: 'Frontend',
     },
     {
-      title: 'Edge & Full-Stack Systems',
-      description: 'Sub-millisecond API response times, streaming SSR, and resilient Node.js backends.',
-      tag: 'Architecture',
+      title: 'Backend & REST APIs',
+      description: 'Engineering secure Express and Node.js microservices with rate limiting, validation, and atomic transactions.',
+      tag: 'Backend',
     },
     {
-      title: 'Design Systems & Tokens',
-      description: 'Building chiseled, tokenized UI component libraries with strict accessibility standards.',
-      tag: 'Engineering',
+      title: 'Database & Financial Ledgers',
+      description: 'Relational data modeling, billing calculations, automated PDF invoice engines, and audit logging.',
+      tag: 'Databases',
     },
   ],
   specifications: [
