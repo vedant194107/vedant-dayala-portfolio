@@ -36,8 +36,8 @@ export const engineer: FullStackDeveloper = {
     spatial: ["Three.js", "React Three Fiber", "Framer Motion"]
   },
   flagships: [
-    "See More ERP & Manufacturing Suite",
-    "URVI Estate & Maintenance Portal",
+    "Enterprise ERP & Manufacturing Suite",
+    "Industrial Estate & Maintenance Portal",
     "Tripflow AI Travel Architect",
     "CashEntries Financial Ledger"
   ]

@@ -17,7 +17,7 @@ export const profileData: ProfileData = {
     'Full Stack Developer based in Ahmedabad, crafting high-performance web applications, enterprise ERP platforms, and expressive interactive experiences with Next.js, React, Node.js, and modern databases.',
   bioStory: [
     'I am Vedant Dayala, a Full Stack Developer based in Ahmedabad, Gujarat. I specialize in building complete, production-ready web platforms, enterprise management software, and responsive user interfaces that solve real-world operational problems.',
-    'My hands-on experience includes architecting See More ERP—a manufacturing suite handling inventory, order processing, automated dispatch pipelines, and customer ledgers—as well as the URVI Estate Management Portal built with Next.js 14 and Prisma ORM.',
+    'My hands-on experience includes architecting end-to-end enterprise manufacturing suites handling inventory, order processing, automated dispatch pipelines, and billing ledgers—as well as comprehensive industrial estate management portals built with Next.js 14 and Prisma ORM.',
     'Whether developing frontend interfaces with React, TypeScript, and Tailwind CSS or building backend REST APIs and relational MySQL databases, I focus on clean architecture, reliable performance, and intuitive user experiences.',
   ],
   email: 'vedantdayala@gmail.com', // Update with your preferred email anytime
@@ -31,7 +31,7 @@ export const profileData: ProfileData = {
   exploring: [
     {
       title: 'Enterprise Full-Stack Systems',
-      description: 'Building production platforms like See More ERP and URVI Estate with Next.js App Router, Prisma ORM, and MySQL.',
+      description: 'Building production enterprise platforms and management SaaS suites with Next.js App Router, Prisma ORM, and MySQL.',
       tag: 'Full-Stack',
     },
     {

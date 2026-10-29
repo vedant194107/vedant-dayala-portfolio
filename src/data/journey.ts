@@ -18,10 +18,10 @@ export const journeyData: JourneyMilestone[] = [
     location: 'Ahmedabad, Gujarat, India',
     type: 'experience',
     description:
-      'Architecting production enterprise management suites (See More ERP, URVI Estate Portal), full-stack Next.js applications, and AI-driven platforms with modern TypeScript and relational databases.',
+      'Architecting production enterprise management suites (Manufacturing ERP, Industrial Estate Portal), full-stack Next.js applications, and AI-driven platforms with modern TypeScript and relational databases.',
     keyAchievements: [
-      'Engineered See More ERP platform cutting order processing cycles by 74% with automated PDF generation and 3D catalog previews',
-      'Architected URVI Estate Maintenance Portal with Next.js 14 App Router, Prisma ORM, and automated billing ledgers',
+      'Engineered Enterprise Manufacturing ERP platform cutting order processing cycles by 74% with automated PDF generation and 3D catalog previews',
+      'Architected Industrial Estate Maintenance Portal with Next.js 14 App Router, Prisma ORM, and automated billing ledgers',
       'Developed Tripflow AI interactive travel planning engine featuring synchronized route timelines and kinetic map waypoints',
     ],
     tags: ['Next.js 14', 'Prisma ORM', 'TypeScript', 'MySQL', 'Three.js', 'Tailwind CSS'],

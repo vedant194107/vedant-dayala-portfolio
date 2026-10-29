@@ -5,8 +5,8 @@ import { ProjectData } from '@/types';
  * VEDANT DAYALA — REAL PRODUCTION PROJECTS
  * ============================================================================
  * Authentic engineering projects built by Vedant Dayala:
- * 1. See More ERP & E-Commerce Suite
- * 2. URVI Estate Management Portal
+ * 1. Enterprise ERP & Industrial Platform
+ * 2. Industrial Estate & Maintenance Portal
  * 3. Tripflow AI Travel Architect
  * 4. CashEntries Financial Ledger
  */
@@ -14,9 +14,9 @@ export const projectsData: ProjectData[] = [
   {
     id: 'seemore-erp',
     number: '01',
-    name: 'See More ERP & Industrial Platform',
+    name: 'Enterprise ERP & Industrial Platform',
     category: 'Enterprise Full-Stack System',
-    impact: 'End-to-end manufacturing ERP with inventory, customer ledgers, dispatch, and Three.js 3D catalog.',
+    impact: 'End-to-end manufacturing ERP with inventory, dispatch pipelines, and Three.js 3D catalog.',
     description:
       'A comprehensive enterprise resource planning system managing multi-tiered production, supplier catalogues, order processing, printing die inventory, automated dispatch workflows, and Android application connectivity.',
     tags: ['Next.js', 'React', 'Prisma ORM', 'MySQL', 'Three.js', 'Node.js', 'Tailwind CSS', 'REST APIs'],
@@ -33,10 +33,10 @@ export const projectsData: ProjectData[] = [
       challenge:
         'Managing hundreds of daily manufacturing orders across multiple product types, customized printing dies, dispatch timetables, and fluctuating supplier price lists caused frequent manual overhead and synchronization delays.',
       solution:
-        'Architected an end-to-end full-stack ERP with Next.js and Prisma ORM. Built automated dispatch status pipelines, customer credit-note calculators, instant PDF invoice generation, and real-time inventory tracking.',
+        'Architected an end-to-end full-stack ERP with Next.js and Prisma ORM. Built automated dispatch status pipelines, credit-note calculation engines, instant PDF invoice generation, and real-time inventory tracking.',
       technicalHighlights: [
         'Automated proforma invoice and dispatch note generator with PDF rendering engine',
-        'Relational schema managing customers, supplier ledgers, printing dies, and live orders',
+        'Relational schema managing accounts receivable, supplier ledgers, printing dies, and live orders',
         'Interactive Three.js 3D product catalog integration for visual customer inspection',
         'Secure role-based authentication and rate-limited REST API endpoints for Android app sync',
       ],
@@ -47,7 +47,7 @@ export const projectsData: ProjectData[] = [
   {
     id: 'urvi-estate',
     number: '02',
-    name: 'URVI Estate & Maintenance Portal',
+    name: 'Industrial Estate & Maintenance Portal',
     category: 'Full-Stack Management SaaS',
     impact: 'Automated monthly maintenance collection, penalty calculation, and multi-phase tenant directory.',
     description:

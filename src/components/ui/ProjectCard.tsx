@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { ExternalLink, ArrowUpRight, BookOpen, Activity, Terminal, Box, Compass } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, BookOpen } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { ProjectData } from '@/types';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
@@ -43,105 +43,6 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
     setIsHovered(false);
     setRotateX(0);
     setRotateY(0);
-  };
-
-  // Bespoke Architectural Graphic for each project
-  const renderGraphic = () => {
-    switch (project.id) {
-      case 'seemore-erp':
-        return (
-          <div className="w-full h-full flex flex-col justify-between py-1">
-            <div className="flex items-center justify-between font-mono text-[9px] text-cyanAccent">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyanAccent animate-ping" />
-                ERP DISPATCH PIPELINE
-              </span>
-              <span>PRISMA · MYSQL</span>
-            </div>
-            <div className="font-mono text-[9px] text-sandstone-300/90 bg-obsidian-950 p-1.5 rounded border border-charcoal-800 flex items-center justify-between">
-              <code>{'ORDERS -> INVOICE -> DISPATCH -> ANDROID SYNC'}</code>
-              <span className="text-cyanAccent font-bold">READY</span>
-            </div>
-            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
-              <span>CATALOG: THREE.JS 3D</span>
-              <span>PROCESSING: -74% TIME</span>
-            </div>
-          </div>
-        );
-
-      case 'urvi-estate':
-        return (
-          <div className="w-full h-full flex flex-col justify-between py-1">
-            <div className="flex items-center justify-between font-mono text-[9px] text-sandstone-300">
-              <span className="flex items-center gap-1">
-                <Box className="w-3 h-3 text-copper-400" />
-                ESTATE MAINTENANCE
-              </span>
-              <span>MULTI-PHASE SAAS</span>
-            </div>
-            <svg viewBox="0 0 240 28" className="w-full h-7" fill="none">
-              <rect x="10" y="4" width="45" height="20" rx="3" stroke="#c49d7f" strokeWidth="1.2" fill="rgba(196, 157, 127, 0.1)" />
-              <rect x="65" y="4" width="45" height="20" rx="3" stroke="#368b7d" strokeWidth="1.2" fill="rgba(54, 139, 125, 0.1)" />
-              <rect x="120" y="4" width="50" height="20" rx="3" stroke="#38f0d0" strokeWidth="1.2" fill="rgba(56, 240, 208, 0.1)" />
-              <line x1="180" y1="14" x2="230" y2="14" stroke="#c49d7f" strokeWidth="1.5" strokeDasharray="3 3" />
-            </svg>
-            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
-              <span>REPORTS: PDF SUMMARY</span>
-              <span>ACCURACY: 100% AUDIT</span>
-            </div>
-          </div>
-        );
-
-      case 'tripflow-ai':
-        return (
-          <div className="w-full h-full flex flex-col justify-between py-1">
-            <div className="flex items-center justify-between font-mono text-[9px] text-copper-300">
-              <span className="flex items-center gap-1">
-                <Compass className="w-3 h-3 text-cyanAccent" />
-                AI ITINERARY ARCHITECT
-              </span>
-              <span className="text-cyanAccent">FRAMER MOTION</span>
-            </div>
-            <svg viewBox="0 0 240 28" className="w-full h-7" fill="none">
-              <path
-                d="M10 20 C50 2, 80 26, 120 8 S 180 24, 230 10"
-                stroke={project.accentColor}
-                strokeWidth="1.6"
-              />
-              <circle cx="10" cy="20" r="2.5" fill="#38f0d0" />
-              <circle cx="70" cy="12" r="2.5" fill="#c49d7f" />
-              <circle cx="120" cy="8" r="2.5" fill="#38f0d0" />
-              <circle cx="170" cy="18" r="2.5" fill="#c49d7f" />
-              <circle cx="230" cy="10" r="2.5" fill="#ffffff" />
-            </svg>
-            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
-              <span>WAYPOINTS: SYNCHRONIZED</span>
-              <span>RENDER: ZERO_CLS</span>
-            </div>
-          </div>
-        );
-
-      default:
-        return (
-          <div className="w-full h-full flex flex-col justify-between py-1">
-            <div className="flex items-center justify-between font-mono text-[9px] text-sandstone-400">
-              <span className="flex items-center gap-1">
-                <Terminal className="w-3 h-3 text-copper-400" />
-                CASH ENTRIES TELEMETRY
-              </span>
-              <span>DUAL-ENTRY</span>
-            </div>
-            <div className="font-mono text-[9px] text-cyanAccent/90 bg-obsidian-950 p-1.5 rounded border border-charcoal-800 flex items-center justify-between">
-              <code>ATOMIC_TRANSACTION: DEBIT == CREDIT</code>
-              <span className="text-copper-400">&lt;15ms</span>
-            </div>
-            <div className="flex items-center justify-between font-mono text-[8px] text-charcoal-500">
-              <span>VERIFICATION: ATOMIC</span>
-              <span>EXPORT: CSV/PDF</span>
-            </div>
-          </div>
-        );
-    }
   };
 
   return (
@@ -186,22 +87,17 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
           </span>
         </div>
 
-        <div>
+        <div className="space-y-2">
           <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground group-hover:text-sandstone-200 transition-colors">
             {project.name}
           </h3>
-          <p className="text-sm text-sandstone-300/90 mt-1 leading-relaxed font-sans">
+          <p className="text-sm text-sandstone-300/90 leading-relaxed font-sans">
             {project.impact}
           </p>
         </div>
 
-        {/* Abstract Architectural Wireframe Preview Widget */}
-        <div className="h-28 sm:h-32 w-full rounded-xl bg-obsidian-950/85 border border-charcoal-800/80 p-3.5 flex flex-col justify-between relative overflow-hidden group-hover:border-sandstone-500/30 transition-colors">
-          {renderGraphic()}
-        </div>
-
         {/* Tech Stack Tags */}
-        <div className="flex flex-wrap gap-1.5 pt-1">
+        <div className="flex flex-wrap gap-1.5 pt-2">
           {project.tags.slice(0, 5).map((tag) => (
             <span
               key={tag}
