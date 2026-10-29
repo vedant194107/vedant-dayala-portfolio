@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   ArrowLeft, Search, ExternalLink, ArrowUpRight, 
   Layers, Filter, Sparkles, Terminal 
 } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
-import { projectsData } from '@/data/projects';
+import { projectsData as defaultProjects } from '@/data/projects';
+import { ProjectData } from '@/types';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 const ALL_CATEGORIES = [
@@ -19,12 +20,24 @@ const ALL_CATEGORIES = [
 ];
 
 export default function AllProjectsPage() {
+  const [projects, setProjects] = useState<ProjectData[]>(defaultProjects);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const { playClick, playHover } = useAudioEffect();
 
+  useEffect(() => {
+    fetch('/api/admin/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.projects && Array.isArray(data.projects)) {
+          setProjects(data.projects);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const filteredProjects = useMemo(() => {
-    return projectsData.filter((project) => {
+    return projects.filter((project) => {
       const matchesCategory =
         selectedCategory === 'All' || project.category === selectedCategory;
 
@@ -39,7 +52,7 @@ export default function AllProjectsPage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [projects, searchQuery, selectedCategory]);
 
   return (
     <main className="min-h-screen bg-obsidian-950 text-foreground pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -62,7 +75,7 @@ export default function AllProjectsPage() {
           </Link>
 
           <div className="font-mono text-xs text-sandstone-400/80">
-            <span>INDEX: 00 — {projectsData.length.toString().padStart(2, '0')}</span>
+            <span>INDEX: 00 — {projects.length.toString().padStart(2, '0')}</span>
           </div>
         </div>
 
@@ -108,8 +121,8 @@ export default function AllProjectsPage() {
           <div className="flex flex-wrap items-center gap-2 pt-2" role="tablist">
             {ALL_CATEGORIES.map((cat) => {
               const count = cat === 'All'
-                ? projectsData.length
-                : projectsData.filter((p) => p.category === cat).length;
+                ? projects.length
+                : projects.filter((p) => p.category === cat).length;
 
               return (
                 <button
@@ -139,7 +152,7 @@ export default function AllProjectsPage() {
         <div className="flex items-center justify-between font-mono text-xs text-charcoal-400 border-b border-charcoal-800 pb-3">
           <span>
             Showing <strong className="text-cyanAccent">{filteredProjects.length}</strong> of{' '}
-            {projectsData.length} projects
+            {projects.length} projects
           </span>
           {searchQuery && (
             <span>

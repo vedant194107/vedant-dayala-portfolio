@@ -1,6 +1,7 @@
 'use client';
 
-import { ArrowUp, Mail } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowUp, Mail, Shield } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 import { profileData } from '@/data/profile';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
@@ -25,8 +26,16 @@ export default function Footer() {
           <p className="font-mono text-xs text-sandstone-400/80">
             Crafted in Ahmedabad, India · {profileData.coordinates}
           </p>
-          <p className="font-mono text-[11px] text-charcoal-400 mt-1">
-            © {new Date().getFullYear()} All rights reserved. Handcrafted with Next.js, Three.js & Tailwind.
+          <p className="font-mono text-[11px] text-charcoal-400 mt-1 flex items-center gap-1.5 flex-wrap justify-center md:justify-start">
+            <span>© {new Date().getFullYear()} Vedant Dayala. Handcrafted with Next.js & Tailwind.</span>
+            <span>·</span>
+            <Link
+              href="/admin"
+              className="text-charcoal-400 hover:text-cyanAccent transition-colors underline-offset-2 hover:underline inline-flex items-center gap-1"
+            >
+              <Shield className="w-3 h-3 text-copper-400" />
+              <span>Admin Console</span>
+            </Link>
           </p>
         </div>
 

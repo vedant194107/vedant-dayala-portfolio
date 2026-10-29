@@ -1,0 +1,220 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "admin123",
+    "email": "vedantdayala@gmail.com"
+  },
+  "profile": {
+    "name": "Vedant Dayala",
+    "role": "Full Stack Developer",
+    "location": "Ahmedabad, Gujarat, India",
+    "coordinates": "23.0225° N, 72.5714° E",
+    "timezone": "Asia/Kolkata (IST)",
+    "bioHeadline": "Vedant Dayala — Full Stack Developer building robust web systems with code, motion, and precision.",
+    "bioConcise": "Full Stack Developer based in Ahmedabad, crafting high-performance web applications, enterprise ERP platforms, and expressive interactive experiences with Next.js, React, Node.js, and modern databases.",
+    "bioStory": [
+      "I am Vedant Dayala, a Full Stack Developer based in Ahmedabad, Gujarat. I specialize in building complete, production-ready web platforms, enterprise management software, and responsive user interfaces that solve real-world operational problems.",
+      "My hands-on experience includes architecting end-to-end enterprise manufacturing suites handling inventory, order processing, automated dispatch pipelines, and billing ledgers—as well as comprehensive industrial estate management portals built with Next.js 14 and Prisma ORM.",
+      "Whether developing frontend interfaces with React, TypeScript, and Tailwind CSS or building backend REST APIs and relational MySQL databases, I focus on clean architecture, reliable performance, and intuitive user experiences."
+    ],
+    "email": "vedantdayala@gmail.com",
+    "github": "https://github.com/vedantdayala",
+    "linkedin": "https://linkedin.com/in/vedantdayala",
+    "resumeUrl": "/resume.pdf",
+    "availability": {
+      "status": "available",
+      "label": "Ahmedabad, India · Available for Full-Time & Contract Roles"
+    },
+    "exploring": [
+      {
+        "title": "Enterprise Full-Stack Systems",
+        "description": "Building production enterprise platforms and management SaaS suites with Next.js App Router, Prisma ORM, and MySQL.",
+        "tag": "Full-Stack"
+      },
+      {
+        "title": "Frontend & Responsive UI",
+        "description": "Crafting clean, accessible, and fast web applications with React, TypeScript, and Tailwind CSS.",
+        "tag": "Frontend"
+      },
+      {
+        "title": "Backend & REST APIs",
+        "description": "Engineering secure Express and Node.js microservices with rate limiting, validation, and atomic transactions.",
+        "tag": "Backend"
+      },
+      {
+        "title": "Database & Financial Ledgers",
+        "description": "Relational data modeling, billing calculations, automated PDF invoice engines, and audit logging.",
+        "tag": "Databases"
+      }
+    ],
+    "specifications": [
+      {
+        "label": "Home Base",
+        "value": "Ahmedabad, IN",
+        "detail": "UTC+05:30 (IST)"
+      },
+      {
+        "label": "Primary Stack",
+        "value": "Next.js / TS / Node",
+        "detail": "Prisma, MySQL, React"
+      },
+      {
+        "label": "Focus",
+        "value": "Full Stack & 3D",
+        "detail": "Fast, Accessible, Robust"
+      },
+      {
+        "label": "Status",
+        "value": "Open for Roles",
+        "detail": "Full-time & Contracts"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "seemore-erp",
+      "number": "01",
+      "name": "Enterprise ERP & Industrial Platform",
+      "category": "Enterprise Full-Stack System",
+      "impact": "End-to-end manufacturing ERP with inventory, dispatch pipelines, and Three.js 3D catalog.",
+      "description": "A comprehensive enterprise resource planning system managing multi-tiered production, supplier catalogues, order processing, printing die inventory, automated dispatch workflows, and Android application connectivity.",
+      "tags": [
+        "Next.js",
+        "React",
+        "Prisma ORM",
+        "MySQL",
+        "Three.js",
+        "Node.js",
+        "Tailwind CSS",
+        "REST APIs"
+      ],
+      "featured": true,
+      "year": "2024",
+      "clientOrContext": "Manufacturing & Enterprise Supply Chain",
+      "role": "Lead Full-Stack Architect",
+      "architectureNotes": "Engineered with relational data models, automated proforma invoice generators, QR code tracking, and 3D product visualizers.",
+      "demoUrl": "https://seemorecase.online",
+      "githubUrl": "https://github.com/vedantdayala/seemoreerp",
+      "accentColor": "#38f0d0",
+      "caseStudy": {
+        "challenge": "Managing hundreds of daily manufacturing orders across multiple product types, customized printing dies, dispatch timetables, and fluctuating supplier price lists caused frequent manual overhead and synchronization delays.",
+        "solution": "Architected an end-to-end full-stack ERP with Next.js and Prisma ORM. Built automated dispatch status pipelines, credit-note calculation engines, instant PDF invoice generation, and real-time inventory tracking.",
+        "technicalHighlights": [
+          "Automated proforma invoice and dispatch note generator with PDF rendering engine",
+          "Relational schema managing accounts receivable, supplier ledgers, printing dies, and live orders",
+          "Interactive Three.js 3D product catalog integration for visual customer inspection",
+          "Secure role-based authentication and rate-limited REST API endpoints for Android app sync"
+        ],
+        "outcomes": "Accelerated order processing by 74%, eliminated dispatch scheduling errors, and provided unified financial ledger visibility for management."
+      }
+    },
+    {
+      "id": "urvi-estate",
+      "number": "02",
+      "name": "Industrial Estate & Maintenance Portal",
+      "category": "Full-Stack Management SaaS",
+      "impact": "Automated monthly maintenance collection, penalty calculation, and multi-phase tenant directory.",
+      "description": "An enterprise estate and industrial infrastructure management portal. Features dynamic phase filtering, owner/tenant directory with Excel/PDF ingestion, area yard deposit tracking, and automated receipt generation.",
+      "tags": [
+        "Next.js 14",
+        "TypeScript",
+        "Prisma ORM",
+        "MySQL",
+        "Tailwind CSS",
+        "PDF Engine",
+        "Financial Ledger"
+      ],
+      "featured": true,
+      "year": "2024",
+      "clientOrContext": "Industrial Estate & Infrastructure Management",
+      "role": "Full-Stack Developer",
+      "architectureNotes": "Built with Next.js App Router, Prisma ORM, and automated accounting calculation engines for Sundry Debtors and collection summaries.",
+      "demoUrl": "https://github.com/vedantdayala/urvi-estate",
+      "githubUrl": "https://github.com/vedantdayala/urvi-estate",
+      "accentColor": "#c49d7f",
+      "caseStudy": {
+        "challenge": "Manual maintenance collection across hundreds of industrial sheds led to unrecorded penalties, delayed tenant updates, and complex bookkeeping for development charges and maintenance deposits.",
+        "solution": "Developed a unified portal with multi-phase filtering, automated maintenance dues calculation, penalty computation, bulk member directory management, and one-click PDF receipt generation.",
+        "technicalHighlights": [
+          "Dynamic multi-phase tab filtering (Phase-1, Phase-2) with live collection statistics",
+          "Official accounting reports: Maintenance Collection Account & Sundry Debtors PDF generator",
+          "Bulk Excel export and automated member record updates with input validation",
+          "Clean responsive UI with custom branding logo management and dark mode aesthetics"
+        ],
+        "outcomes": "Reduced monthly billing overhead from days to minutes, achieving 100% transparent audit trails for industrial shed owners and tenants."
+      }
+    },
+    {
+      "id": "tripflow-ai",
+      "number": "03",
+      "name": "Tripflow AI Travel Architect",
+      "category": "AI & Interactive Experience",
+      "impact": "Intelligent multi-destination itinerary synthesis with interactive route mapping and timelines.",
+      "description": "An AI-driven travel planning and itinerary synthesis platform. Transforms travel preferences into day-by-day interactive timelines, kinetic route waypoints, and seamless destination discovery.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "REST APIs",
+        "Interactive Maps"
+      ],
+      "featured": true,
+      "year": "2024",
+      "clientOrContext": "AI Travel Technology Studio",
+      "role": "Frontend & Interaction Engineer",
+      "architectureNotes": "Utilizes stateful timeline components and spring-physics micro-interactions to render complex multi-day schedules effortlessly.",
+      "demoUrl": "https://github.com/vedantdayala/tripflow",
+      "githubUrl": "https://github.com/vedantdayala/tripflow",
+      "accentColor": "#368b7d",
+      "caseStudy": {
+        "challenge": "Existing travel planners overwhelm users with dense text itineraries and disconnected map tabs, making multi-day trip coordination confusing and tiring on mobile screens.",
+        "solution": "Designed an editorial, cinematic interface combining AI-generated itinerary cards with synchronized timeline nodes, kinetic map waypoints, and tactile gesture controls.",
+        "technicalHighlights": [
+          "Interactive itinerary timeline with synchronized route waypoint visualization",
+          "Fluid Framer Motion layout transitions for day-by-day scheduling tabs",
+          "Optimized client-side rendering with zero layout shift across mobile breakpoints",
+          "Stateful search and exploration filters for personalized landmark discovery"
+        ],
+        "outcomes": "Delivered an intuitive itinerary experience that users can customize in seconds, celebrating the beauty of travel through elegant typography and fluid motion."
+      }
+    },
+    {
+      "id": "cashentries",
+      "number": "04",
+      "name": "CashEntries Financial Ledger",
+      "category": "Financial Telemetry & Audit",
+      "impact": "High-velocity transaction tracking, dual-entry accounting, and real-time ledger audit trails.",
+      "description": "A streamlined financial management and cash entries application designed for fast record keeping, transaction categorization, debit/credit ledger verification, and daily balance telemetry.",
+      "tags": [
+        "React",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "REST APIs",
+        "Tailwind CSS",
+        "Data Tables"
+      ],
+      "featured": false,
+      "year": "2023",
+      "clientOrContext": "Financial Accounting & Cashflow Telemetry",
+      "role": "Full-Stack Developer",
+      "architectureNotes": "Optimized database queries and atomic transaction locking to ensure 100% ledger consistency under rapid successive entries.",
+      "demoUrl": "https://github.com/vedant194107/cash-entries2",
+      "githubUrl": "https://github.com/vedant194107/cash-entries2",
+      "accentColor": "#ddb392",
+      "caseStudy": {
+        "challenge": "Small businesses and operational facilities struggle with manual cash slips and unverified ledgers, creating balance mismatches and lack of visibility into daily expenditures.",
+        "solution": "Engineered an accessible web application allowing rapid transaction entry, automatic debit/credit verification, category filtering, and instant balance reconciliation.",
+        "technicalHighlights": [
+          "Sub-15ms transaction recording with atomic database entry verification",
+          "Keyboard-accessible data tables with inline editing and fast search filtering",
+          "Visual ledger telemetry showing daily cash balance trends and expense categories",
+          "Data export to structured CSV and PDF accounting summaries"
+        ],
+        "outcomes": "Eliminated end-of-day balance discrepancies and simplified daily financial auditing into a transparent, single-screen dashboard."
+      }
+    }
+  ],
+  "lastUpdated": "2026-10-29T10:07:46.477Z"
+}

@@ -7,7 +7,7 @@ import {
   Code2, Sparkles, Terminal 
 } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
-import { projectsData } from '@/data/projects';
+import { getStoredProjects, getStoredProjectById } from '@/lib/serverStore';
 import ProjectDetailsClient from './ProjectDetailsClient';
 
 interface Props {
@@ -15,13 +15,14 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return projectsData.map((project) => ({
+  const allProjects = getStoredProjects();
+  return allProjects.map((project) => ({
     id: project.id,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = projectsData.find((p) => p.id === params.id);
+  const project = getStoredProjectById(params.id);
 
   if (!project) {
     return {
@@ -41,15 +42,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function ProjectDetailsPage({ params }: Props) {
-  const currentIndex = projectsData.findIndex((p) => p.id === params.id);
-  const project = projectsData[currentIndex];
+  const allProjects = getStoredProjects();
+  const currentIndex = allProjects.findIndex((p) => p.id === params.id);
+  const project = allProjects[currentIndex];
 
   if (!project) {
     notFound();
   }
 
-  const prevProject = currentIndex > 0 ? projectsData[currentIndex - 1] : null;
-  const nextProject = currentIndex < projectsData.length - 1 ? projectsData[currentIndex + 1] : null;
+  const prevProject = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
+  const nextProject = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
 
   return (
     <main className="min-h-screen bg-obsidian-950 text-foreground pt-28 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -75,7 +77,7 @@ export default function ProjectDetailsPage({ params }: Props) {
             <span>PROJECT</span>
             <span className="text-cyanAccent font-semibold">{project.number}</span>
             <span>OF</span>
-            <span>{projectsData.length.toString().padStart(2, '0')}</span>
+            <span>{allProjects.length.toString().padStart(2, '0')}</span>
           </div>
         </div>
 
@@ -282,7 +284,7 @@ export default function ProjectDetailsPage({ params }: Props) {
             className="inline-flex items-center gap-2 font-mono text-xs px-5 py-2.5 rounded-xl bg-charcoal-900 border border-charcoal-700 text-sandstone-300 hover:text-white hover:border-sandstone-400 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Browse All {projectsData.length} Projects</span>
+            <span>Browse All {allProjects.length} Projects</span>
           </Link>
         </div>
       </div>
