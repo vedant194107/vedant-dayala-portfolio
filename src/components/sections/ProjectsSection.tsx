@@ -7,6 +7,7 @@ import { projectsData as defaultProjects } from '@/data/projects';
 import { ProjectData } from '@/types';
 import ProjectCard from '@/components/ui/ProjectCard';
 import CaseStudyModal from '@/components/ui/CaseStudyModal';
+import Reveal, { RevealGroup, RevealItem } from '@/components/ui/Reveal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 const DEFAULT_CATEGORIES = [
@@ -62,99 +63,104 @@ export default function ProjectsSection() {
     >
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-sandstone-500/15 pb-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
-              <span className="font-semibold text-cyanAccent">03</span>
-              <span>/</span>
-              <span className="uppercase tracking-widest">Architectural Portfolio</span>
+        <Reveal direction="fade-up">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-sandstone-500/15 pb-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                <span className="font-semibold text-cyanAccent">03</span>
+                <span>/</span>
+                <span className="uppercase tracking-widest">Architectural Portfolio</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
+                Selected Works
+              </h2>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
-              Selected Works
-            </h2>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {/* View All Projects Direct Link */}
-            <Link
-              href="/allproject"
-              onClick={playClick}
-              onMouseEnter={playHover}
-              className="font-mono text-xs px-3.5 py-2 rounded-lg bg-copper-500/15 text-cyanAccent border border-copper-400/35 hover:bg-copper-500/25 transition-all flex items-center gap-1.5 shadow-sm"
-            >
-              <span>View All Projects</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* View All Projects Direct Link */}
+              <Link
+                href="/allproject"
+                onClick={playClick}
+                onMouseEnter={playHover}
+                className="font-mono text-xs px-3.5 py-2 rounded-lg bg-copper-500/15 text-cyanAccent border border-copper-400/35 hover:bg-copper-500/25 transition-all flex items-center gap-1.5 shadow-sm"
+              >
+                <span>View All Projects</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
 
-            {/* View Mode Toggle */}
-            <div className="flex items-center p-1 rounded-lg bg-charcoal-900 border border-charcoal-700">
-              <button
-                onClick={() => {
-                  playClick();
-                  setViewMode('grid');
-                }}
-                onMouseEnter={playHover}
-                className={`p-1.5 rounded text-xs flex items-center gap-1 font-mono transition-colors ${
-                  viewMode === 'grid'
-                    ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/40'
-                    : 'text-charcoal-400 hover:text-white'
-                }`}
-                aria-label="Grid Layout View"
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Grid</span>
-              </button>
-              <button
-                onClick={() => {
-                  playClick();
-                  setViewMode('carousel');
-                }}
-                onMouseEnter={playHover}
-                className={`p-1.5 rounded text-xs flex items-center gap-1 font-mono transition-colors ${
-                  viewMode === 'carousel'
-                    ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/40'
-                    : 'text-charcoal-400 hover:text-white'
-                }`}
-                aria-label="Horizontal Flow View"
-              >
-                <GalleryHorizontal className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Flow</span>
-              </button>
+              {/* View Mode Toggle */}
+              <div className="flex items-center p-1 rounded-lg bg-charcoal-900 border border-charcoal-700">
+                <button
+                  onClick={() => {
+                    playClick();
+                    setViewMode('grid');
+                  }}
+                  onMouseEnter={playHover}
+                  className={`p-1.5 rounded text-xs flex items-center gap-1 font-mono transition-colors ${
+                    viewMode === 'grid'
+                      ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/40'
+                      : 'text-charcoal-400 hover:text-white'
+                  }`}
+                  aria-label="Grid Layout View"
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Grid</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playClick();
+                    setViewMode('carousel');
+                  }}
+                  onMouseEnter={playHover}
+                  className={`p-1.5 rounded text-xs flex items-center gap-1 font-mono transition-colors ${
+                    viewMode === 'carousel'
+                      ? 'bg-copper-700/40 text-cyanAccent border border-copper-400/40'
+                      : 'text-charcoal-400 hover:text-white'
+                  }`}
+                  aria-label="Horizontal Flow View"
+                >
+                  <GalleryHorizontal className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Flow</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Project Categories">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              role="tab"
-              aria-selected={selectedCategory === cat}
-              onClick={() => handleCategorySelect(cat)}
-              onMouseEnter={playHover}
-              className={`font-mono text-xs px-3 py-1.5 rounded-full transition-all ${
-                selectedCategory === cat
-                  ? 'bg-copper-700/30 text-cyanAccent border border-copper-400/50 shadow-glowCyan'
-                  : 'bg-charcoal-900/60 text-charcoal-400 hover:text-sandstone-300 border border-charcoal-800'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <Reveal direction="fade-up" delay={0.1}>
+          <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Project Categories">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                role="tab"
+                aria-selected={selectedCategory === cat}
+                onClick={() => handleCategorySelect(cat)}
+                onMouseEnter={playHover}
+                className={`font-mono text-xs px-3 py-1.5 rounded-full transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-copper-700/30 text-cyanAccent border border-copper-400/50 shadow-glowCyan'
+                    : 'bg-charcoal-900/60 text-charcoal-400 hover:text-sandstone-300 border border-charcoal-800'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </Reveal>
 
         {/* Projects Display: Grid or Horizontal Flow */}
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <RevealGroup staggerDelay={0.09} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {filteredProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onSelectCaseStudy={setActiveCaseStudy}
-              />
+              <RevealItem key={project.id}>
+                <ProjectCard
+                  project={project}
+                  onSelectCaseStudy={setActiveCaseStudy}
+                />
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         ) : (
           <div className="flex gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-thin">
             {filteredProjects.map((project) => (
@@ -172,25 +178,27 @@ export default function ProjectsSection() {
         )}
 
         {/* Full Archive Navigation Banner */}
-        <div className="p-6 rounded-2xl bg-charcoal-900/50 border border-sandstone-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="space-y-1 text-center sm:text-left">
-            <h4 className="font-display text-base text-foreground font-medium">
-              Looking for full engineering specifications & case studies?
-            </h4>
-            <p className="font-sans text-xs text-sandstone-300">
-              Explore the complete project archive with deep-dive technical challenges, database schemas, and live repository links.
-            </p>
+        <Reveal direction="fade-up" delay={0.15}>
+          <div className="p-6 rounded-2xl bg-charcoal-900/50 border border-sandstone-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-1 text-center sm:text-left">
+              <h4 className="font-display text-base text-foreground font-medium">
+                Looking for full engineering specifications & case studies?
+              </h4>
+              <p className="font-sans text-xs text-sandstone-300">
+                Explore the complete project archive with deep-dive technical challenges, database schemas, and live repository links.
+              </p>
+            </div>
+            <Link
+              href="/allproject"
+              onClick={playClick}
+              onMouseEnter={playHover}
+              className="font-mono text-xs px-5 py-2.5 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent hover:bg-copper-500/30 flex items-center gap-2 whitespace-nowrap shadow-glowCyan transition-all flex-shrink-0"
+            >
+              <span>Open All Projects ({activeProjects.length})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
-          <Link
-            href="/allproject"
-            onClick={playClick}
-            onMouseEnter={playHover}
-            className="font-mono text-xs px-5 py-2.5 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent hover:bg-copper-500/30 flex items-center gap-2 whitespace-nowrap shadow-glowCyan transition-all flex-shrink-0"
-          >
-            <span>Open All Projects ({activeProjects.length})</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+        </Reveal>
 
         {/* Data Configuration Note for User */}
         <div className="p-4 rounded-xl bg-charcoal-900/30 border border-sandstone-500/15 flex items-center justify-between font-mono text-xs text-charcoal-400">

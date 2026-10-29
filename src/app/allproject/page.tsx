@@ -8,6 +8,7 @@ import {
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { projectsData as defaultProjects } from '@/data/projects';
 import { ProjectData } from '@/types';
+import { RevealGroup, RevealItem } from '@/components/ui/Reveal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 const DEFAULT_CATEGORIES = [
@@ -176,12 +177,12 @@ export default function AllProjectsPage() {
 
         {/* Projects Grid */}
         {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <RevealGroup staggerDelay={0.07} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {filteredProjects.map((project) => (
-              <article
-                key={project.id}
-                className="chiseled-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group border border-sandstone-500/15 hover:border-sandstone-500/35 transition-all duration-300"
-              >
+              <RevealItem key={project.id}>
+                <article
+                  className="chiseled-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group border border-sandstone-500/15 hover:border-sandstone-500/35 transition-all duration-300 h-full"
+                >
                 {/* Accent line */}
                 <div
                   className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 opacity-40 group-hover:opacity-100"
@@ -283,9 +284,10 @@ export default function AllProjectsPage() {
                     )}
                   </div>
                 </div>
-              </article>
+                </article>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         ) : (
           <div className="p-12 text-center rounded-2xl bg-charcoal-900/30 border border-charcoal-800 space-y-3">
             <p className="font-mono text-sm text-sandstone-400">

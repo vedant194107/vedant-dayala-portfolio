@@ -7,6 +7,7 @@ import { profileData } from '@/data/profile';
 import { ContactDetails } from '@/types';
 import Button from '@/components/ui/Button';
 import TimeDisplay from '@/components/ui/TimeDisplay';
+import Reveal from '@/components/ui/Reveal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 interface FormState {
@@ -137,31 +138,34 @@ export default function ContactSection() {
     >
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
-              <span className="font-semibold text-cyanAccent">06</span>
-              <span>/</span>
-              <span className="uppercase tracking-widest">Signal Dispatch</span>
+        <Reveal direction="fade-up">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                <span className="font-semibold text-cyanAccent">06</span>
+                <span>/</span>
+                <span className="uppercase tracking-widest">Signal Dispatch</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
+                Have an idea worth building?
+              </h2>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
-              Have an idea worth building?
-            </h2>
+            <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
+              Transmit a direct signal into the Ahmedabad night workshop.
+            </p>
           </div>
-          <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
-            Transmit a direct signal into the Ahmedabad night workshop.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Split Grid: Left Signal Tower Info, Right Accessible Transmission Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Workshop Coordinates & Direct Coordinates */}
           <div className="lg:col-span-5 space-y-8">
-            <div className="chiseled-card rounded-2xl p-6 sm:p-8 space-y-6 border border-sandstone-500/20">
-              <div className="flex items-center gap-2 text-cyanAccent font-mono text-xs uppercase tracking-wider">
-                <Radio className="w-4 h-4 animate-pulse text-copper-400" />
-                <span>Atelier Transmission Line</span>
-              </div>
+            <Reveal direction="fade-right" delay={0.15}>
+              <div className="chiseled-card rounded-2xl p-6 sm:p-8 space-y-6 border border-sandstone-500/20">
+                <div className="flex items-center gap-2 text-cyanAccent font-mono text-xs uppercase tracking-wider">
+                  <Radio className="w-4 h-4 animate-pulse text-copper-400" />
+                  <span>Atelier Transmission Line</span>
+                </div>
 
               <div className="space-y-3">
                 <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground">
@@ -252,10 +256,12 @@ export default function ContactSection() {
                 </a>
               </div>
             </div>
-          </div>
+          </Reveal>
+        </div>
 
-          {/* Right Column: Accessible Form */}
-          <div className="lg:col-span-7">
+        {/* Right Column: Accessible Form */}
+        <div className="lg:col-span-7">
+          <Reveal direction="fade-left" delay={0.25}>
             <div className="chiseled-card rounded-2xl p-6 sm:p-8 lg:p-10 border border-sandstone-500/20 relative">
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
                 {/* Form Top Title */}
@@ -443,8 +449,9 @@ export default function ContactSection() {
                 </div>
               </form>
             </div>
-          </div>
+          </Reveal>
         </div>
+      </div>
       </div>
     </section>
   );

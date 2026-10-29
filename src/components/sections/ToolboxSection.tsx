@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { skillsData } from '@/data/skills';
 import { SkillItem, SkillCategory } from '@/types';
+import Reveal, { RevealGroup, RevealItem } from '@/components/ui/Reveal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -67,99 +68,105 @@ export default function ToolboxSection() {
     >
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
-              <span className="font-semibold text-cyanAccent">04</span>
-              <span>/</span>
-              <span className="uppercase tracking-widest">Instruments & Craft</span>
+        <Reveal direction="fade-up">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                <span className="font-semibold text-cyanAccent">04</span>
+                <span>/</span>
+                <span className="uppercase tracking-widest">Instruments & Craft</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
+                The Workbench
+              </h2>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
-              The Workbench
-            </h2>
+            <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
+              An interactive constellation of instruments honed for tactile performance.
+            </p>
           </div>
-          <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
-            An interactive constellation of instruments honed for tactile performance.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Category Tabs */}
-        <div
-          className="flex flex-wrap gap-2 border-b border-charcoal-800 pb-4"
-          role="tablist"
-          aria-label="Skill Workbench Trays"
-        >
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              role="tab"
-              aria-selected={activeCategory === cat.id}
-              onClick={() => handleCategoryChange(cat.id)}
-              onMouseEnter={playHover}
-              className={`font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
-                activeCategory === cat.id
-                  ? 'bg-copper-700/30 text-cyanAccent border border-copper-400/40 shadow-glowCopper'
-                  : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-copper-400" />
-              <span>{cat.label}</span>
-            </button>
-          ))}
-        </div>
+        <Reveal direction="fade-up" delay={0.1}>
+          <div
+            className="flex flex-wrap gap-2 border-b border-charcoal-800 pb-4"
+            role="tablist"
+            aria-label="Skill Workbench Trays"
+          >
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                role="tab"
+                aria-selected={activeCategory === cat.id}
+                onClick={() => handleCategoryChange(cat.id)}
+                onMouseEnter={playHover}
+                className={`font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
+                  activeCategory === cat.id
+                    ? 'bg-copper-700/30 text-cyanAccent border border-copper-400/40 shadow-glowCopper'
+                    : 'bg-charcoal-900/60 text-charcoal-400 hover:text-white border border-charcoal-800'
+                }`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-copper-400" />
+                <span>{cat.label}</span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
 
         {/* Interactive Workbench: Left Constellation Tray, Right Blueprint Inspector */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left: Constellation of Tools Tray */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <RevealGroup staggerDelay={0.05} className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {currentSkills.map((skill) => {
               const IconComp = ICON_MAP[skill.iconName] || Code;
               const isSelected = selectedSkill.id === skill.id;
 
               return (
-                <button
-                  key={skill.id}
-                  onClick={() => handleSkillSelect(skill)}
-                  onMouseEnter={playHover}
-                  onFocus={() => setSelectedSkill(skill)}
-                  className={`p-4 rounded-xl text-left transition-all border relative group flex flex-col justify-between h-28 ${
-                    isSelected
-                      ? 'bg-charcoal-800/90 border-cyanAccent shadow-glowCyan'
-                      : 'bg-charcoal-900/40 border-charcoal-800 hover:border-sandstone-400/50 hover:bg-charcoal-800/50'
-                  }`}
-                  aria-label={`View blueprint for ${skill.name}`}
-                >
-                  <div className="flex items-center justify-between w-full">
-                    <div
-                      className={`p-2 rounded-lg border transition-colors ${
-                        isSelected
-                          ? 'bg-copper-600/30 border-cyanAccent text-cyanAccent'
-                          : 'bg-obsidian-950/80 border-charcoal-700 text-sandstone-300 group-hover:text-cyanAccent'
-                      }`}
-                    >
-                      <IconComp className="w-5 h-5" />
+                <RevealItem key={skill.id}>
+                  <button
+                    onClick={() => handleSkillSelect(skill)}
+                    onMouseEnter={playHover}
+                    onFocus={() => setSelectedSkill(skill)}
+                    className={`w-full p-4 rounded-xl text-left transition-all border relative group flex flex-col justify-between h-28 ${
+                      isSelected
+                        ? 'bg-charcoal-800/90 border-cyanAccent shadow-glowCyan'
+                        : 'bg-charcoal-900/40 border-charcoal-800 hover:border-sandstone-400/50 hover:bg-charcoal-800/50'
+                    }`}
+                    aria-label={`View blueprint for ${skill.name}`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div
+                        className={`p-2 rounded-lg border transition-colors ${
+                          isSelected
+                            ? 'bg-copper-600/30 border-cyanAccent text-cyanAccent'
+                            : 'bg-obsidian-950/80 border-charcoal-700 text-sandstone-300 group-hover:text-cyanAccent'
+                        }`}
+                      >
+                        <IconComp className="w-5 h-5" />
+                      </div>
+                      <span className="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-charcoal-950 text-sandstone-400 border border-charcoal-800">
+                        {skill.proficiencyLevel}
+                      </span>
                     </div>
-                    <span className="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-charcoal-950 text-sandstone-400 border border-charcoal-800">
-                      {skill.proficiencyLevel}
-                    </span>
-                  </div>
 
-                  <div>
-                    <h3 className="font-display font-medium text-sm text-foreground group-hover:text-white transition-colors">
-                      {skill.name}
-                    </h3>
-                  </div>
+                    <div>
+                      <h3 className="font-display font-medium text-sm text-foreground group-hover:text-white transition-colors">
+                        {skill.name}
+                      </h3>
+                    </div>
 
-                  {isSelected && (
-                    <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyanAccent shadow-sm" />
-                  )}
-                </button>
+                    {isSelected && (
+                      <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyanAccent shadow-sm" />
+                    )}
+                  </button>
+                </RevealItem>
               );
             })}
-          </div>
+          </RevealGroup>
 
           {/* Right: Active Tool Blueprint Inspector */}
-          <div className="lg:col-span-5 chiseled-card rounded-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden border border-sandstone-500/25">
+          <Reveal direction="fade-left" delay={0.2} className="lg:col-span-5 w-full">
+            <div className="chiseled-card rounded-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden border border-sandstone-500/25">
             {/* Top Wireframe Header */}
             <div className="flex items-center justify-between border-b border-charcoal-700/80 pb-4">
               <div className="flex items-center gap-3">
@@ -228,8 +235,9 @@ export default function ToolboxSection() {
               <span>CALIBRATED FOR WCAG AA</span>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

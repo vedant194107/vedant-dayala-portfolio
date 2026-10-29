@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { journeyData as defaultJourney } from '@/data/journey';
 import { JourneyMilestone } from '@/types';
+import Reveal from '@/components/ui/Reveal';
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
   education: GraduationCap,
@@ -38,21 +39,23 @@ export default function JourneySection() {
     >
       <div className="max-w-5xl mx-auto space-y-16">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
-              <span className="font-semibold text-cyanAccent">05</span>
-              <span>/</span>
-              <span className="uppercase tracking-widest">Chronicle & Growth</span>
+        <Reveal direction="fade-up">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-sandstone-500/15 pb-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                <span className="font-semibold text-cyanAccent">05</span>
+                <span>/</span>
+                <span className="uppercase tracking-widest">Chronicle & Growth</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
+                The Journey
+              </h2>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground">
-              The Journey
-            </h2>
+            <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
+              An honest evolutionary timeline from foundational code to creative engineering.
+            </p>
           </div>
-          <p className="font-mono text-xs text-sandstone-400/80 max-w-xs text-left sm:text-right">
-            An honest evolutionary timeline from foundational code to creative engineering.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Vertical Visual Timeline with Thin Illuminated Path */}
         <div className="relative pl-6 sm:pl-10 space-y-12 sm:space-y-16">
@@ -62,12 +65,15 @@ export default function JourneySection() {
             aria-hidden="true"
           />
 
-          {milestones.map((milestone) => {
+          {milestones.map((milestone, idx) => {
             const Icon = TYPE_ICONS[milestone.type] || Sparkles;
 
             return (
-              <div
+              <Reveal
                 key={milestone.id}
+                direction="fade-left"
+                delay={idx * 0.08}
+                offset={28}
                 className="relative flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 group"
               >
                 {/* Node Pivot on Illuminated Path */}
@@ -139,7 +145,7 @@ export default function JourneySection() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>
