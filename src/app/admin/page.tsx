@@ -2313,6 +2313,15 @@ export default function AdminPage() {
 
                           {/* Hover Overlay Controls */}
                           <div className="absolute inset-0 bg-obsidian-950/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-1">
+                            <a
+                              href={imgUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="p-1.5 rounded bg-charcoal-800 text-charcoal-200 hover:text-cyanAccent hover:bg-charcoal-700"
+                              title="View Full Resolution"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
                             {idx !== 0 && (
                               <button
                                 type="button"

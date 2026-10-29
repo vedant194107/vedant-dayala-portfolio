@@ -9,6 +9,7 @@ import {
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { getStoredProjects, getStoredProjectById } from '@/lib/serverStore';
 import ProjectDetailsClient from './ProjectDetailsClient';
+import ImageGalleryLightbox from '@/components/ui/ImageGalleryLightbox';
 
 interface Props {
   params: { id: string };
@@ -161,37 +162,26 @@ export default function ProjectDetailsPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Project Gallery & Visual Showcase */}
+        {/* Project Gallery & Visual Showcase with Click Lightbox */}
         {project.images && project.images.length > 0 && (
           <section className="space-y-4 pt-4 border-t border-charcoal-800">
-            <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
-              <span className="font-bold text-cyanAccent">GALLERY</span>
-              <span>/</span>
-              <span className="uppercase tracking-widest">
-                Interface & Architecture Previews ({project.images.length})
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 font-mono text-xs text-copper-400">
+                <span className="font-bold text-cyanAccent">GALLERY</span>
+                <span>/</span>
+                <span className="uppercase tracking-widest">
+                  Interface & Architecture Previews ({project.images.length})
+                </span>
+              </div>
+              <span className="font-mono text-[11px] text-charcoal-400">
+                Click any photo to open full gallery
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {project.images.map((img, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl overflow-hidden border border-sandstone-500/20 bg-charcoal-900/50 aspect-video group relative shadow-lg"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img}
-                    alt={`${project.name} preview ${idx + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                    <span className="font-mono text-[11px] text-cyanAccent">
-                      {idx === 0 ? 'Primary System View' : `System Preview #${idx + 1}`}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ImageGalleryLightbox
+              images={project.images}
+              projectName={project.name}
+            />
           </section>
         )}
 

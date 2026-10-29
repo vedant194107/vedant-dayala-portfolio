@@ -106,7 +106,11 @@
           "Secure role-based authentication and rate-limited REST API endpoints for Android app sync"
         ],
         "outcomes": "Accelerated order processing by 74%, eliminated dispatch scheduling errors, and provided unified financial ledger visibility for management."
-      }
+      },
+      "status": "active",
+      "images": [
+        "/uploads/projects/1793270768578_1F249462-9EDD-470A-8BD5-1DE52B.png"
+      ]
     },
     {
       "id": "urvi-estate",
@@ -216,7 +220,7 @@
       }
     }
   ],
-  "lastUpdated": "2026-10-29T10:44:42.826Z",
+  "lastUpdated": "2026-10-29T10:46:09.841Z",
   "journey": [
     {
       "id": "m-2024-enterprise",
@@ -323,6 +327,15 @@
     "coordinates": "23.0225° N, 72.5714° E"
   },
   "messages": [
+    {
+      "id": "msg-1793270720120-t8v6",
+      "name": "Vedant Dayala",
+      "email": "dayalavedant1@gmail.com",
+      "subject": "vcxiujasux",
+      "message": "dmxnc jdxcn iskxcasixkcmpljsc  snczikj",
+      "createdAt": "2026-10-29T10:45:20.120Z",
+      "read": false
+    },
     {
       "id": "msg-1793269373998-f7ps",
       "name": "Aarav Sharma",

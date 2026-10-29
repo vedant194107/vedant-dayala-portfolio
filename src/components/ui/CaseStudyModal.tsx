@@ -6,6 +6,7 @@ import { GithubIcon } from '@/components/ui/BrandIcons';
 import { ProjectData } from '@/types';
 import Button from './Button';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
+import ImageGalleryLightbox from './ImageGalleryLightbox';
 
 interface CaseStudyModalProps {
   project: ProjectData | null;
@@ -76,23 +77,12 @@ export default function CaseStudyModal({ project, onClose }: CaseStudyModalProps
           </button>
         </div>
 
-        {/* Gallery Preview in Case Study Modal */}
+        {/* Gallery Preview with Full Lightbox in Case Study Modal */}
         {project.images && project.images.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {project.images.map((img, idx) => (
-              <div
-                key={idx}
-                className="rounded-xl overflow-hidden aspect-video border border-charcoal-700 bg-obsidian-950 shadow-md"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={img}
-                  alt=""
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
-          </div>
+          <ImageGalleryLightbox
+            images={project.images}
+            projectName={project.name}
+          />
         )}
 
         {/* Challenge & Solution Grid */}
