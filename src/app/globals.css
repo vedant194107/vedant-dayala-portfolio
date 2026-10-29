@@ -116,6 +116,22 @@ body {
   outline-offset: 3px;
 }
 
+/* Prevent auto-zoom when clicking form fields and when virtual keyboard opens */
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+input,
+select,
+textarea,
+button {
+  touch-action: manipulation;
+}
+
 /* Reduced Motion Mode Support */
 @media (prefers-reduced-motion: reduce) {
   html {
