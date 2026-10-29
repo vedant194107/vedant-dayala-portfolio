@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const categories = getStoredCategories();
     return NextResponse.json({ success: true, categories });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch categories' },
       { status: 500 }
@@ -57,7 +57,7 @@ export async function DELETE(request: Request) {
       message: `Category "${name}" removed`,
       categories: updatedCategories,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete category' }, { status: 500 });
   }
 }

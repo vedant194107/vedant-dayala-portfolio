@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const projects = getStoredProjects();
     return NextResponse.json({ success: true, projects });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch projects' },
       { status: 500 }

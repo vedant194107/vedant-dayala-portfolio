@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  X, ChevronLeft, ChevronRight, Maximize2, 
+  X, ChevronLeft, ChevronRight, 
   ExternalLink, ZoomIn, Image as ImageIcon 
 } from 'lucide-react';
 import { useAudioEffect } from '@/hooks/useAudioEffect';

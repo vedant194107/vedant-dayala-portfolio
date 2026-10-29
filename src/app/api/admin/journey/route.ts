@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const journey = getStoredJourney();
     return NextResponse.json({ success: true, journey });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch journey milestones' },
       { status: 500 }

@@ -12,7 +12,7 @@ interface ProjectCardProps {
   onSelectCaseStudy?: (project: ProjectData) => void;
 }
 
-export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardProps) {
+export default function ProjectCard({ project, onSelectCaseStudy: _onSelectCaseStudy }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);

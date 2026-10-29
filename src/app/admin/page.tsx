@@ -3,17 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
-  Lock, KeyRound, User, Mail, Shield, Plus, Edit2, 
+  Lock, KeyRound, User, Shield, Plus, Edit2, 
   Trash2, ExternalLink, Save, Check, AlertCircle, 
-  RefreshCw, LogOut, Search, Eye, ArrowUpRight, 
-  Layers, Settings, LayoutDashboard, Database, 
-  FileText, Sparkles, X, ChevronRight, MessageSquare, 
-  Send, Radio, MapPin, Calendar, GraduationCap, Briefcase, 
-  CheckCircle, Clock, Reply, Tag, FolderPlus,
+  LogOut, Search, Eye, 
+  Layers, Settings, X, MessageSquare, 
+  Radio, Briefcase, Reply, Tag,
   Image as ImageIcon, UploadCloud, RotateCcw, CheckCircle2, Star
 } from 'lucide-react';
 import { ProjectData, ProfileData, JourneyMilestone, ContactMessage, ContactDetails } from '@/types';
-import { GithubIcon } from '@/components/ui/BrandIcons';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 type AdminTab = 'projects' | 'journey' | 'messages' | 'contact' | 'profile' | 'settings';
@@ -74,7 +71,7 @@ export default function AdminPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordSaving, setPasswordSaving] = useState(false);
 
-  const { playClick, playHover } = useAudioEffect();
+  const { playClick } = useAudioEffect();
 
   // Show Toast
   const showToast = (type: 'success' | 'error', text: string) => {
@@ -2485,7 +2482,7 @@ export default function AdminPage() {
                     </label>
                     <select
                       value={editingMilestone.type}
-                      onChange={(e) => setEditingMilestone({ ...editingMilestone, type: e.target.value as any })}
+                      onChange={(e) => setEditingMilestone({ ...editingMilestone, type: e.target.value as JourneyMilestone['type'] })}
                       className="w-full px-3 py-1.5 rounded-lg bg-obsidian-950 border border-charcoal-700 text-xs font-mono text-foreground focus:outline-none focus:border-cyanAccent"
                     >
                       <option value="experience">Experience</option>

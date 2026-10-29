@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const messages = getStoredMessages();
     return NextResponse.json({ success: true, messages });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch messages' },
       { status: 500 }
@@ -24,7 +24,7 @@ export async function PATCH(request: Request) {
 
     const updated = toggleMessageRead(id);
     return NextResponse.json({ success: updated });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to toggle message read status' }, { status: 500 });
   }
 }
@@ -40,7 +40,7 @@ export async function DELETE(request: Request) {
 
     const deleted = deleteStoredMessage(id);
     return NextResponse.json({ success: deleted });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete message' }, { status: 500 });
   }
 }

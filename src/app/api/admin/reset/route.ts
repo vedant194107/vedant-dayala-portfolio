@@ -9,7 +9,7 @@ export async function POST() {
       message: 'Store reset to defaults successfully',
       store,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to reset store' }, { status: 500 });
   }
 }

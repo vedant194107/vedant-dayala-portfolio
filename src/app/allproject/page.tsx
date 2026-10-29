@@ -3,8 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { 
-  ArrowLeft, Search, ExternalLink, ArrowUpRight, 
-  Layers, Filter, Sparkles, Terminal 
+  ArrowLeft, Search, ExternalLink, ArrowUpRight 
 } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { projectsData as defaultProjects } from '@/data/projects';

@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: Props) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     return NextResponse.json({ success: true, project });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to retrieve project' }, { status: 500 });
   }
 }
@@ -37,7 +37,7 @@ export async function PUT(request: Request, { params }: Props) {
       message: 'Project updated successfully',
       project: updated,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
   }
 }
@@ -57,7 +57,7 @@ export async function DELETE(request: Request, { params }: Props) {
       id: params.id,
       permanent,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
   }
 }
@@ -82,7 +82,7 @@ export async function PATCH(request: Request, { params }: Props) {
       message: `Project status updated to ${status}`,
       project: updated,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update status' }, { status: 500 });
   }
 }

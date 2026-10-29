@@ -20,7 +20,7 @@ export async function GET() {
         email: store.admin.email,
       },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ authenticated: false }, { status: 500 });
   }
 }

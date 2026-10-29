@@ -17,7 +17,7 @@ export async function DELETE(request: Request, { params }: Props) {
       message: 'Milestone deleted successfully',
       id: params.id,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete milestone' }, { status: 500 });
   }
 }

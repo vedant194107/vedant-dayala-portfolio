@@ -2,11 +2,8 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { 
-  ArrowLeft, ArrowRight, ExternalLink, ArrowUpRight, 
-  CheckCircle2, Server, Layers, Cpu, Database, 
-  Code2, Sparkles, Terminal 
+  ArrowLeft, ArrowRight, CheckCircle2, Terminal 
 } from 'lucide-react';
-import { GithubIcon } from '@/components/ui/BrandIcons';
 import { getStoredProjects, getStoredProjectById } from '@/lib/serverStore';
 import ProjectDetailsClient from './ProjectDetailsClient';
 import ImageGalleryLightbox from '@/components/ui/ImageGalleryLightbox';
