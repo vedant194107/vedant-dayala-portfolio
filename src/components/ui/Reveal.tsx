@@ -1,7 +1,7 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import { motion, Variants } from 'framer-motion';
+import React, { ReactNode, useRef } from 'react';
+import { motion, Variants, useInView } from 'framer-motion';
 
 export type RevealDirection = 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'scale-up' | 'blur-in';
 
@@ -54,23 +54,25 @@ export default function Reveal({
   children,
   direction = 'fade-up',
   delay = 0,
-  duration = 0.65,
+  duration = 0.55,
   className = '',
   once = false,
-  offset = 32,
+  offset = 28,
 }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once, margin: '-30px' as any, amount: 0.1 });
   const variants = getVariants(direction, offset);
 
   return (
     <motion.div
+      ref={ref}
       variants={variants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-40px', amount: 0.15 }}
+      animate={isInView ? 'visible' : 'hidden'}
       transition={{
         duration,
         delay,
-        ease: [0.22, 1, 0.36, 1], // Smooth custom cubic bezier
+        ease: [0.22, 1, 0.36, 1],
       }}
       className={className}
     >
@@ -88,27 +90,30 @@ interface RevealGroupProps {
 
 export function RevealGroup({
   children,
-  staggerDelay = 0.08,
+  staggerDelay = 0.05,
   className = '',
   once = false,
 }: RevealGroupProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once, margin: '-30px' as any, amount: 0.1 });
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: staggerDelay,
-        delayChildren: 0.05,
+        delayChildren: 0.02,
       },
     },
   };
 
   return (
     <motion.div
+      ref={ref}
       variants={containerVariants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-40px', amount: 0.15 }}
+      animate={isInView ? 'visible' : 'hidden'}
       className={className}
     >
       {children}
@@ -120,7 +125,7 @@ export function RevealItem({
   children,
   className = '',
   direction = 'fade-up',
-  offset = 24,
+  offset = 20,
 }: {
   children: ReactNode;
   className?: string;
@@ -133,7 +138,7 @@ export function RevealItem({
     <motion.div
       variants={variants}
       transition={{
-        duration: 0.55,
+        duration: 0.45,
         ease: [0.22, 1, 0.36, 1],
       }}
       className={className}
@@ -152,6 +157,8 @@ export function TextReveal({
   className?: string;
   delay?: number;
 }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: false, margin: '-30px' as any, amount: 0.1 });
   const words = text.split(' ');
 
   const container: Variants = {
@@ -159,7 +166,7 @@ export function TextReveal({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.035,
+        staggerChildren: 0.03,
         delayChildren: delay,
       },
     },
@@ -168,7 +175,7 @@ export function TextReveal({
   const child: Variants = {
     hidden: {
       opacity: 0,
-      y: 20,
+      y: 16,
       filter: 'blur(3px)',
     },
     visible: {
@@ -176,7 +183,7 @@ export function TextReveal({
       y: 0,
       filter: 'blur(0px)',
       transition: {
-        duration: 0.45,
+        duration: 0.4,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -184,10 +191,10 @@ export function TextReveal({
 
   return (
     <motion.span
+      ref={ref}
       variants={container}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, margin: '-40px' }}
+      animate={isInView ? 'visible' : 'hidden'}
       className={`inline-block flex-wrap ${className}`}
     >
       {words.map((word, index) => (

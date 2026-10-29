@@ -151,7 +151,7 @@ export default function ProjectsSection() {
 
         {/* Projects Display: Grid or Horizontal Flow */}
         {viewMode === 'grid' ? (
-          <RevealGroup staggerDelay={0.09} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <RevealGroup key={selectedCategory} staggerDelay={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {filteredProjects.map((project) => (
               <RevealItem key={project.id}>
                 <ProjectCard

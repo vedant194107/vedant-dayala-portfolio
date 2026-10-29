@@ -116,7 +116,7 @@ export default function ToolboxSection() {
         {/* Interactive Workbench: Left Constellation Tray, Right Blueprint Inspector */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left: Constellation of Tools Tray */}
-          <RevealGroup staggerDelay={0.05} className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <RevealGroup key={activeCategory} staggerDelay={0.04} className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {currentSkills.map((skill) => {
               const IconComp = ICON_MAP[skill.iconName] || Code;
               const isSelected = selectedSkill.id === skill.id;

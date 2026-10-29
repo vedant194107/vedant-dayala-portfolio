@@ -177,7 +177,7 @@ export default function AllProjectsPage() {
 
         {/* Projects Grid */}
         {filteredProjects.length > 0 ? (
-          <RevealGroup staggerDelay={0.07} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <RevealGroup key={`${selectedCategory}-${searchQuery}`} staggerDelay={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {filteredProjects.map((project) => (
               <RevealItem key={project.id}>
                 <article
