@@ -60,7 +60,7 @@ export default function Reveal({
   offset = 28,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: '-30px' as any, amount: 0.1 });
+  const isInView = useInView(ref, { once, margin: '-30px', amount: 0.1 });
   const variants = getVariants(direction, offset);
 
   return (
@@ -95,7 +95,7 @@ export function RevealGroup({
   once = false,
 }: RevealGroupProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: '-30px' as any, amount: 0.1 });
+  const isInView = useInView(ref, { once, margin: '-30px', amount: 0.1 });
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -158,7 +158,7 @@ export function TextReveal({
   delay?: number;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: false, margin: '-30px' as any, amount: 0.1 });
+  const isInView = useInView(ref, { once: false, margin: '-30px', amount: 0.1 });
   const words = text.split(' ');
 
   const container: Variants = {

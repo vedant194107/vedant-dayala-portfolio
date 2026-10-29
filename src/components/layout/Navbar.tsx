@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Volume2, VolumeX, Menu, X } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 import TimeDisplay from '@/components/ui/TimeDisplay';
 
@@ -25,6 +26,14 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { soundEnabled, toggleSound, playClick, playHover } = useAudioEffect();
+
+  // Scroll Progress Tracking for Horizontal Indicator
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -149,6 +158,18 @@ export default function Navbar() {
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
+        </div>
+
+        {/* Horizontal Scroll Progress Bar along Bottom Border */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-sandstone-500/10 overflow-hidden pointer-events-none"
+          role="progressbar"
+          aria-label="Reading progress"
+        >
+          <motion.div
+            style={{ scaleX }}
+            className="h-full bg-gradient-to-r from-copper-500 via-cyanAccent to-sandstone-300 origin-left shadow-[0_0_10px_rgba(45,212,191,0.7)]"
+          />
         </div>
       </header>
 
