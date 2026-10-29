@@ -8,13 +8,13 @@ import { ProfileData } from '@/types';
  */
 export const profileData: ProfileData = {
   name: 'Vedant Dayala',
-  role: 'Creative Frontend & Full-Stack Developer',
+  role: 'Full Stack Developer',
   location: 'Ahmedabad, Gujarat, India',
   coordinates: '23.0225° N, 72.5714° E',
   timezone: 'Asia/Kolkata (IST)',
-  bioHeadline: 'I build digital experiences with code, motion, and curiosity.',
+  bioHeadline: 'Vedant Dayala — Full Stack Developer building robust web systems with code, motion, and precision.',
   bioConcise:
-    'Developer based in Ahmedabad, crafting fast, expressive web experiences with React, Node, and modern web technologies.',
+    'Full Stack Developer based in Ahmedabad, crafting high-performance web applications, enterprise ERP platforms, and expressive interactive experiences with Next.js, React, Node.js, and modern databases.',
   bioStory: [
     'Growing up in Ahmedabad—a city where centuries-old sandstone stepwell geometry coexists with cutting-edge modernist architecture—taught me to respect both structural integrity and handcrafted nuance. In the digital realm, I bring that same sensibility to code.',
     'I operate as a creative engineer: bridging the gap between rigorous full-stack architecture and fluid, tactile user interfaces. I believe software should not feel like an sterile spreadsheet, but an intentional physical instrument designed for human hands.',
@@ -58,18 +58,18 @@ export const profileData: ProfileData = {
     },
     {
       label: 'Primary Stack',
-      value: 'React / Node / TS',
-      detail: 'Next.js, Tailwind, R3F',
+      value: 'Next.js / TS / Node',
+      detail: 'Prisma, MySQL, React',
     },
     {
       label: 'Focus',
-      value: 'Full-Stack & 3D',
-      detail: 'Fast, Accessible, Tactile',
+      value: 'Full Stack & 3D',
+      detail: 'Fast, Accessible, Robust',
     },
     {
       label: 'Status',
       value: 'Open for Roles',
-      detail: 'Full-time & High-Impact Contracts',
+      detail: 'Full-time & Contracts',
     },
   ],
 };

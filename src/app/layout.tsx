@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://vedantdayala.dev'),
   title: {
-    default: `${profileData.name} — Digital Atelier | Creative Frontend & Full-Stack Developer`,
+    default: `${profileData.name} — Full Stack Developer | Digital Atelier`,
     template: `%s | ${profileData.name}`,
   },
   description: `${profileData.bioConcise} Based in ${profileData.location}. Specializing in React, Next.js, Three.js, Node.js, and tactile digital craftsmanship.`,

@@ -48,27 +48,26 @@ export default function HeroSection() {
         {/* Left Column: Editorial Headline & Narrative */}
         <div className="lg:col-span-7 flex flex-col justify-center space-y-6 text-left">
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-charcoal-900/80 border border-sandstone-500/25 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-copper-400 animate-pulse" />
-            <span className="font-mono text-xs text-sandstone-200">
+          <div className="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-charcoal-900/90 border border-sandstone-500/25 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-cyanAccent animate-pulse" />
+            <span className="font-mono text-xs uppercase tracking-wider text-cyanAccent font-semibold">
               {profileData.role}
+            </span>
+            <span className="text-charcoal-500">·</span>
+            <span className="font-mono text-xs text-sandstone-300">
+              Ahmedabad, India
             </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium text-foreground tracking-tight leading-[1.12]">
-            I build digital experiences with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyanAccent via-copper-300 to-sandstone-300">
-              code
-            </span>
-            ,{' '}
-            <span className="italic font-serif text-sandstone-200">motion</span>
-            , and{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sandstone-300 to-cyanAccent">
-              curiosity
-            </span>
-            .
-          </h1>
+          {/* Prominent Name & Title Statement */}
+          <div className="space-y-3">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium text-foreground tracking-tight leading-[1.08]">
+              {profileData.name}
+            </h1>
+            <p className="text-xl sm:text-2xl md:text-3xl font-display font-normal text-transparent bg-clip-text bg-gradient-to-r from-cyanAccent via-copper-300 to-sandstone-300">
+              Full Stack Developer building fast, expressive web platforms.
+            </p>
+          </div>
 
           {/* Concise Introduction */}
           <p className="text-base sm:text-lg text-charcoal-400 max-w-xl leading-relaxed">
