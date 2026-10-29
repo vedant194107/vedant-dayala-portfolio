@@ -8,6 +8,7 @@ import TimeDisplay from '@/components/ui/TimeDisplay';
 
 const NAV_LINKS = [
   { label: 'Work', href: '/#projects' },
+  { label: 'All Projects', href: '/allproject' },
   { label: 'About', href: '/#about' },
   { label: 'Toolbox', href: '/#toolbox' },
   { label: 'Journey', href: '/#journey' },

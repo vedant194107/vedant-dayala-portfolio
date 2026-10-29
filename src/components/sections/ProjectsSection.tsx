@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { LayoutGrid, GalleryHorizontal } from 'lucide-react';
+import Link from 'next/link';
+import { LayoutGrid, GalleryHorizontal, ArrowRight } from 'lucide-react';
 import { projectsData } from '@/data/projects';
 import { ProjectData } from '@/types';
 import ProjectCard from '@/components/ui/ProjectCard';
@@ -52,6 +53,17 @@ export default function ProjectsSection() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            {/* View All Projects Direct Link */}
+            <Link
+              href="/allproject"
+              onClick={playClick}
+              onMouseEnter={playHover}
+              className="font-mono text-xs px-3.5 py-2 rounded-lg bg-copper-500/15 text-cyanAccent border border-copper-400/35 hover:bg-copper-500/25 transition-all flex items-center gap-1.5 shadow-sm"
+            >
+              <span>View All Projects</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+
             {/* View Mode Toggle */}
             <div className="flex items-center p-1 rounded-lg bg-charcoal-900 border border-charcoal-700">
               <button
@@ -136,6 +148,27 @@ export default function ProjectsSection() {
             ))}
           </div>
         )}
+
+        {/* Full Archive Navigation Banner */}
+        <div className="p-6 rounded-2xl bg-charcoal-900/50 border border-sandstone-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="font-display text-base text-foreground font-medium">
+              Looking for full engineering specifications & case studies?
+            </h4>
+            <p className="font-sans text-xs text-sandstone-300">
+              Explore the complete project archive with deep-dive technical challenges, database schemas, and live repository links.
+            </p>
+          </div>
+          <Link
+            href="/allproject"
+            onClick={playClick}
+            onMouseEnter={playHover}
+            className="font-mono text-xs px-5 py-2.5 rounded-xl bg-copper-500/20 border border-copper-400/40 text-cyanAccent hover:bg-copper-500/30 flex items-center gap-2 whitespace-nowrap shadow-glowCyan transition-all flex-shrink-0"
+          >
+            <span>Open All Projects ({projectsData.length})</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
 
         {/* Data Configuration Note for User */}
         <div className="p-4 rounded-xl bg-charcoal-900/30 border border-sandstone-500/15 flex items-center justify-between font-mono text-xs text-charcoal-400">

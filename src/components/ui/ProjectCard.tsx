@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Link from 'next/link';
 import { ExternalLink, ArrowUpRight, BookOpen } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { ProjectData } from '@/types';
@@ -8,7 +9,7 @@ import { useAudioEffect } from '@/hooks/useAudioEffect';
 
 interface ProjectCardProps {
   project: ProjectData;
-  onSelectCaseStudy: (project: ProjectData) => void;
+  onSelectCaseStudy?: (project: ProjectData) => void;
 }
 
 export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardProps) {
@@ -88,9 +89,15 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground group-hover:text-sandstone-200 transition-colors">
-            {project.name}
-          </h3>
+          <Link
+            href={`/allproject/${project.id}`}
+            onClick={playClick}
+            className="group/title block"
+          >
+            <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground group-hover/title:text-cyanAccent transition-colors">
+              {project.name}
+            </h3>
+          </Link>
           <p className="text-sm text-sandstone-300/90 leading-relaxed font-sans">
             {project.impact}
           </p>
@@ -116,17 +123,16 @@ export default function ProjectCard({ project, onSelectCaseStudy }: ProjectCardP
 
       {/* Card Actions Bottom */}
       <div className="pt-6 mt-4 border-t border-charcoal-800/70 flex items-center justify-between gap-3 relative z-10">
-        <button
-          onClick={() => {
-            playClick();
-            onSelectCaseStudy(project);
-          }}
+        <Link
+          href={`/allproject/${project.id}`}
+          onClick={playClick}
+          onMouseEnter={playHover}
           className="inline-flex items-center gap-1.5 font-mono text-xs text-cyanAccent hover:text-white transition-colors group/btn"
         >
           <BookOpen className="w-3.5 h-3.5 text-copper-400 group-hover/btn:scale-110 transition-transform" />
-          <span>View Case Study</span>
+          <span>View Project</span>
           <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-        </button>
+        </Link>
 
         <div className="flex items-center gap-2">
           {project.githubUrl && (
