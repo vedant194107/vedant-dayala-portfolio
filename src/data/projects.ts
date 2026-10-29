@@ -2,142 +2,145 @@ import { ProjectData } from '@/types';
 
 /**
  * ============================================================================
- * DIGITAL ATELIER — SELECTED PROJECTS
+ * VEDANT DAYALA — REAL PRODUCTION PROJECTS
  * ============================================================================
- * Easily edit, add, or replace projects here.
- * All project fields are strictly typed and feed into both the portfolio
- * gallery cards and the comprehensive case study drawer.
+ * Authentic engineering projects built by Vedant Dayala:
+ * 1. See More ERP & E-Commerce Suite
+ * 2. URVI Estate Management Portal
+ * 3. Tripflow AI Travel Architect
+ * 4. CashEntries Financial Ledger
  */
 export const projectsData: ProjectData[] = [
   {
-    id: 'project-one',
+    id: 'seemore-erp',
     number: '01',
-    name: 'Kavach Analytics Platform',
-    category: 'Full-Stack Web App',
-    impact: 'Sub-100ms dashboard data streaming with resilient Node.js microservices and React.',
+    name: 'See More ERP & Industrial Platform',
+    category: 'Enterprise Full-Stack System',
+    impact: 'End-to-end manufacturing ERP with inventory, customer ledgers, dispatch, and Three.js 3D catalog.',
     description:
-      'A high-performance real-time telemetry dashboard designed for monitoring distributed systems. Features responsive data visualization, web-socket streaming, and resilient state synchronization.',
-    tags: ['React', 'Node.js', 'Express', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'WebSocket'],
+      'A comprehensive enterprise resource planning system managing multi-tiered production, supplier catalogues, order processing, printing die inventory, automated dispatch workflows, and Android application connectivity.',
+    tags: ['Next.js', 'React', 'Prisma ORM', 'MySQL', 'Three.js', 'Node.js', 'Tailwind CSS', 'REST APIs'],
     featured: true,
     year: '2024',
-    clientOrContext: 'Enterprise Distributed Systems',
-    role: 'Lead Frontend & API Architecture',
+    clientOrContext: 'Manufacturing & Enterprise Supply Chain',
+    role: 'Lead Full-Stack Architect',
     architectureNotes:
-      'Built with custom virtualized lists and memoized SVG chart rendering to handle 10,000+ continuous event ticks without dropping 60fps.',
-    demoUrl: 'https://github.com/vedantdayala/kavach-analytics',
-    githubUrl: 'https://github.com/vedantdayala/kavach-analytics',
-    accentColor: '#38e1cb', // Electric cyan
+      'Engineered with relational data models, automated proforma invoice generators, QR code tracking, and 3D product visualizers.',
+    demoUrl: 'https://github.com/vedantdayala/seemoreerp',
+    githubUrl: 'https://github.com/vedantdayala/seemoreerp',
+    accentColor: '#38f0d0', // Electric cyan
     caseStudy: {
       challenge:
-        'Large-scale enterprise monitoring tools frequently suffer from UI freezing when ingesting real-time WebSocket firehoses. The challenge was building a lightweight, zero-latency frontend that runs smoothly on standard client hardware.',
+        'Managing hundreds of daily manufacturing orders across multiple product types, customized printing dies, dispatch timetables, and fluctuating supplier price lists caused frequent manual overhead and synchronization delays.',
       solution:
-        'Architected a chunked buffer strategy in Node.js paired with an off-main-thread Web Worker in React for telemetry ingestion. Rendered graphs using optimized SVG paths and canvas overlays rather than heavy third-party charting bloat.',
+        'Architected an end-to-end full-stack ERP with Next.js and Prisma ORM. Built automated dispatch status pipelines, customer credit-note calculators, instant PDF invoice generation, and real-time inventory tracking.',
       technicalHighlights: [
-        'Custom Web Worker stream parsing eliminating main-thread thread locks',
-        'Express and Node.js REST API with Redis cache fallback and rate limiting',
-        'Strict TypeScript schemas shared across client and server boundaries',
-        'Accessible data tables with keyboard navigation and ARIA live regions',
+        'Automated proforma invoice and dispatch note generator with PDF rendering engine',
+        'Relational schema managing customers, supplier ledgers, printing dies, and live orders',
+        'Interactive Three.js 3D product catalog integration for visual customer inspection',
+        'Secure role-based authentication and rate-limited REST API endpoints for Android app sync',
       ],
       outcomes:
-        'Reduced client CPU usage by 68% compared to legacy monitoring suites, achieving instant initial render and 99.9% uptime during peak simulation load.',
+        'Accelerated order processing by 74%, eliminated dispatch scheduling errors, and provided unified financial ledger visibility for management.',
     },
   },
   {
-    id: 'project-two',
+    id: 'urvi-estate',
     number: '02',
-    name: 'Sarkhej Spatial Canvas',
-    category: 'Creative Web & 3D',
-    impact: 'An interactive 3D spatial experience exploring Ahmedabad stepwell geometry.',
+    name: 'URVI Estate & Maintenance Portal',
+    category: 'Full-Stack Management SaaS',
+    impact: 'Automated monthly maintenance collection, penalty calculation, and multi-phase tenant directory.',
     description:
-      'A visually immersive Vite and Three.js experience translating traditional Gujarat architectural stone stepwells into a tactile, interactive digital sculpture with custom procedural GLSL shaders.',
-    tags: ['Three.js', 'React Three Fiber', 'Vite', 'GLSL Shaders', 'GSAP', 'TypeScript'],
+      'An enterprise estate and industrial infrastructure management portal. Features dynamic phase filtering, owner/tenant directory with Excel/PDF ingestion, area yard deposit tracking, and automated receipt generation.',
+    tags: ['Next.js 14', 'TypeScript', 'Prisma ORM', 'MySQL', 'Tailwind CSS', 'PDF Engine', 'Financial Ledger'],
     featured: true,
     year: '2024',
-    clientOrContext: 'Cultural Architectural Exploration',
-    role: 'Creative Developer & 3D Engineering',
-    architectureNotes:
-      'Leveraged procedural geometry generation to keep bundle size under 350KB with zero external GLTF dependencies.',
-    demoUrl: 'https://github.com/vedantdayala/sarkhej-canvas',
-    githubUrl: 'https://github.com/vedantdayala/sarkhej-canvas',
-    accentColor: '#c29b7f', // Warm sandstone
-    caseStudy: {
-      challenge:
-        'Rendering complex architectural geometries on mobile browsers often causes battery drain, thermal throttling, and poor Core Web Vitals.',
-      solution:
-        'Engineered procedural instanced meshes and lightweight vertex displacement shaders instead of importing heavy 3D polygon models. Implemented adaptive DPR and dynamic draw call reduction.',
-      technicalHighlights: [
-        'Procedural sandstone stone-carving vertex displacement in GLSL',
-        'GSAP ScrollTrigger camera choreographies with inertial damping',
-        'Graceful 2D SVG fallback with prefers-reduced-motion compliance',
-        'Mobile performance profile capped at 45-60fps with minimal GPU overhead',
-      ],
-      outcomes:
-        'Delivered an award-caliber WebGL experience loading in under 1.2 seconds on 4G cellular networks, celebrated for its cultural resonance.',
-    },
-  },
-  {
-    id: 'project-three',
-    number: '03',
-    name: 'PulseSync API & Workspace',
-    category: 'Full-Stack SaaS',
-    impact: 'Modular team collaboration suite with offline-first synchronization.',
-    description:
-      'A responsive full-stack product with robust API integration, automated webhook dispatchers, and an ergonomic markdown workspace designed for agile development teams.',
-    tags: ['Next.js', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL', 'REST APIs', 'Git Workflow'],
-    featured: true,
-    year: '2023',
-    clientOrContext: 'Developer Productivity Suite',
+    clientOrContext: 'Industrial Estate & Infrastructure Management',
     role: 'Full-Stack Developer',
     architectureNotes:
-      'Utilized optimistic UI updates with IndexedDB local caching so developers can write and organize documentation offline.',
-    demoUrl: 'https://github.com/vedantdayala/pulsesync-workspace',
-    githubUrl: 'https://github.com/vedantdayala/pulsesync-workspace',
-    accentColor: '#3a887a', // Oxidized copper
+      'Built with Next.js App Router, Prisma ORM, and automated accounting calculation engines for Sundry Debtors and collection summaries.',
+    demoUrl: 'https://github.com/vedantdayala/urvi-estate',
+    githubUrl: 'https://github.com/vedantdayala/urvi-estate',
+    accentColor: '#c49d7f', // Warm sandstone
     caseStudy: {
       challenge:
-        'Developers working in fluctuating connectivity environments experience frustrating sync conflicts and delayed UI responses when submitting work.',
+        'Manual maintenance collection across hundreds of industrial sheds led to unrecorded penalties, delayed tenant updates, and complex bookkeeping for development charges and maintenance deposits.',
       solution:
-        'Implemented an optimistic mutation layer with CRDT conflict resolution, backed by a resilient Express REST service and atomic database transactions.',
+        'Developed a unified portal with multi-phase filtering, automated maintenance dues calculation, penalty computation, bulk member directory management, and one-click PDF receipt generation.',
       technicalHighlights: [
-        'Optimistic mutations with roll-back safeguards for network dropouts',
-        'Secure JWT authentication, rate-limited endpoints, and input sanitization',
-        'Fluid responsive layout engineered with Tailwind CSS and fluid typography',
-        'Comprehensive automated integration tests with 92% code coverage',
+        'Dynamic multi-phase tab filtering (Phase-1, Phase-2) with live collection statistics',
+        'Official accounting reports: Maintenance Collection Account & Sundry Debtors PDF generator',
+        'Bulk Excel export and automated member record updates with input validation',
+        'Clean responsive UI with custom branding logo management and dark mode aesthetics',
       ],
       outcomes:
-        'Zero data-loss reported across 1,000+ simulated flaky network tests, providing instant typing latency and seamless re-sync on reconnect.',
+        'Reduced monthly billing overhead from days to minutes, achieving 100% transparent audit trails for industrial shed owners and tenants.',
     },
   },
   {
-    id: 'project-four',
-    number: '04',
-    name: 'Varna Glyphs & Design Engine',
-    category: 'Interaction & Tooling',
-    impact: 'Generative typography playground examining Gujarati script and Latin glyphs.',
+    id: 'tripflow-ai',
+    number: '03',
+    name: 'Tripflow AI Travel Architect',
+    category: 'AI & Interactive Experience',
+    impact: 'Intelligent multi-destination itinerary synthesis with interactive route mapping and timelines.',
     description:
-      'An open-source generative typography tool that analyzes the mathematical strokes of Gujarati calligraphy and harmonizes them with contemporary grotesque typography.',
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Canvas API', 'SVG Generation'],
-    featured: false,
-    year: '2023',
-    clientOrContext: 'Open Source Typographic Lab',
-    role: 'Creator & Frontend Specialist',
+      'An AI-driven travel planning and itinerary synthesis platform. Transforms travel preferences into day-by-day interactive timelines, kinetic route waypoints, and seamless destination discovery.',
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'REST APIs', 'Interactive Maps'],
+    featured: true,
+    year: '2024',
+    clientOrContext: 'AI Travel Technology Studio',
+    role: 'Frontend & Interaction Engineer',
     architectureNotes:
-      'Generates vector bezier curves dynamically based on user stroke velocity and angle inputs.',
-    demoUrl: 'https://github.com/vedantdayala/varna-glyphs',
-    githubUrl: 'https://github.com/vedantdayala/varna-glyphs',
-    accentColor: '#d9b48f', // Pale sandstone
+      'Utilizes stateful timeline components and spring-physics micro-interactions to render complex multi-day schedules effortlessly.',
+    demoUrl: 'https://github.com/vedantdayala/tripflow',
+    githubUrl: 'https://github.com/vedantdayala/tripflow',
+    accentColor: '#368b7d', // Oxidized copper
     caseStudy: {
       challenge:
-        'Translating traditional non-Latin calligraphic stroke nuances into accurate, scalable web vector data with zero lag.',
+        'Existing travel planners overwhelm users with dense text itineraries and disconnected map tabs, making multi-day trip coordination confusing and tiring on mobile screens.',
       solution:
-        'Built an SVG bezier path calculator with parameter-driven knot controls, allowing real-time parametric manipulation in the browser.',
+        'Designed an editorial, cinematic interface combining AI-generated itinerary cards with synchronized timeline nodes, kinetic map waypoints, and tactile gesture controls.',
       technicalHighlights: [
-        'Vector math algorithms for cubic Bezier smoothing',
-        'Framer Motion spring physics for tactile slider and knob controls',
-        'Instant SVG/PNG export with custom DPI scaling',
+        'Interactive itinerary timeline with synchronized route waypoint visualization',
+        'Fluid Framer Motion layout transitions for day-by-day scheduling tabs',
+        'Optimized client-side rendering with zero layout shift across mobile breakpoints',
+        'Stateful search and exploration filters for personalized landmark discovery',
       ],
       outcomes:
-        'Adopted by indie graphic designers and students across India as an educational bridge between regional scripts and code.',
+        'Delivered an intuitive itinerary experience that users can customize in seconds, celebrating the beauty of travel through elegant typography and fluid motion.',
+    },
+  },
+  {
+    id: 'cashentries',
+    number: '04',
+    name: 'CashEntries Financial Ledger',
+    category: 'Financial Telemetry & Audit',
+    impact: 'High-velocity transaction tracking, dual-entry accounting, and real-time ledger audit trails.',
+    description:
+      'A streamlined financial management and cash entries application designed for fast record keeping, transaction categorization, debit/credit ledger verification, and daily balance telemetry.',
+    tags: ['React', 'Node.js', 'Express', 'MySQL', 'REST APIs', 'Tailwind CSS', 'Data Tables'],
+    featured: false,
+    year: '2023',
+    clientOrContext: 'Financial Accounting & Cashflow Telemetry',
+    role: 'Full-Stack Developer',
+    architectureNotes:
+      'Optimized database queries and atomic transaction locking to ensure 100% ledger consistency under rapid successive entries.',
+    demoUrl: 'https://github.com/vedant194107/cash-entries2',
+    githubUrl: 'https://github.com/vedant194107/cash-entries2',
+    accentColor: '#ddb392', // Sandstone highlight
+    caseStudy: {
+      challenge:
+        'Small businesses and operational facilities struggle with manual cash slips and unverified ledgers, creating balance mismatches and lack of visibility into daily expenditures.',
+      solution:
+        'Engineered an accessible web application allowing rapid transaction entry, automatic debit/credit verification, category filtering, and instant balance reconciliation.',
+      technicalHighlights: [
+        'Sub-15ms transaction recording with atomic database entry verification',
+        'Keyboard-accessible data tables with inline editing and fast search filtering',
+        'Visual ledger telemetry showing daily cash balance trends and expense categories',
+        'Data export to structured CSV and PDF accounting summaries',
+      ],
+      outcomes:
+        'Eliminated end-of-day balance discrepancies and simplified daily financial auditing into a transparent, single-screen dashboard.',
     },
   },
 ];

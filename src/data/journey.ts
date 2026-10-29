@@ -2,68 +2,68 @@ import { JourneyMilestone } from '@/types';
 
 /**
  * ============================================================================
- * DIGITAL ATELIER — JOURNEY & MILESTONES
+ * VEDANT DAYALA — JOURNEY & MILESTONES
  * ============================================================================
- * An honest, chronological timeline tracing the evolution from fundamental
- * curiosity to creative engineering and full-stack software architecture.
+ * An honest, chronological timeline tracing the evolution from computer
+ * engineering foundations to full-stack systems architecture and creative web.
  */
 export const journeyData: JourneyMilestone[] = [
   {
-    id: 'm-2024-atelier',
+    id: 'm-2024-enterprise',
     year: '2024',
     period: 'Present',
-    title: 'Independent Creative & Full-Stack Development',
-    roleOrDegree: 'Creative Technologist / Freelance Engineer',
-    organization: 'Digital Atelier',
-    location: 'Ahmedabad, India',
+    title: 'Full-Stack Architecture & Enterprise Platforms',
+    roleOrDegree: 'Full-Stack Software Engineer',
+    organization: 'Independent Engineering & Client Platforms',
+    location: 'Ahmedabad, Gujarat, India',
     type: 'experience',
     description:
-      'Designing and developing custom web applications, spatial 3D interfaces, and high-performance frontend systems for forward-thinking clients and collaborative teams.',
+      'Architecting production enterprise management suites (See More ERP, URVI Estate Portal), full-stack Next.js applications, and AI-driven platforms with modern TypeScript and relational databases.',
     keyAchievements: [
-      'Engineered interactive 3D WebGL experiences blending regional heritage with modern shaders',
-      'Developed responsive full-stack applications with Next.js, Node.js, and TypeScript',
-      'Achieved consistent 95+ Core Web Vitals across delivered client web architectures',
+      'Engineered See More ERP platform cutting order processing cycles by 74% with automated PDF generation and 3D catalog previews',
+      'Architected URVI Estate Maintenance Portal with Next.js 14 App Router, Prisma ORM, and automated billing ledgers',
+      'Developed Tripflow AI interactive travel planning engine featuring synchronized route timelines and kinetic map waypoints',
     ],
-    tags: ['Next.js', 'React Three Fiber', 'GSAP', 'TypeScript', 'Node.js'],
+    tags: ['Next.js 14', 'Prisma ORM', 'TypeScript', 'MySQL', 'Three.js', 'Tailwind CSS'],
   },
   {
-    id: 'm-2023-fullstack',
+    id: 'm-2023-systems',
     year: '2023',
     period: '2023 — 2024',
-    title: 'Full-Stack Web Engineering & Systems',
-    roleOrDegree: 'Software Development Intern / Project Lead',
-    organization: 'Web Technology Solutions',
+    title: 'Financial Telemetry & Full-Stack Systems',
+    roleOrDegree: 'Full-Stack Web Developer',
+    organization: 'FinTech & Operational Systems',
     location: 'Ahmedabad, India',
     type: 'experience',
     description:
-      'Spearheaded frontend implementation and REST API development for enterprise-facing web applications. Collaborated closely with product designers to bridge the gap between design tokens and production code.',
+      'Constructed high-velocity financial entry software (CashEntries), atomic transaction verification pipelines, and responsive management dashboards with React and Node.js.',
     keyAchievements: [
-      'Constructed modular React component libraries adhering to WCAG 2.1 AA accessibility standards',
-      'Integrated resilient Express/Node endpoints with comprehensive validation and error handling',
-      'Refactored legacy web flows to reduce page bundle sizes by over 40%',
+      'Built dual-entry cash accounting software ensuring 100% balance reconciliation and sub-15ms entry latency',
+      'Implemented secure REST API routing, rate limiting, and structured audit export pipelines',
+      'Designed responsive, keyboard-accessible data tables compliant with WCAG AA accessibility standards',
     ],
-    tags: ['React', 'Node.js', 'Express', 'REST APIs', 'Tailwind CSS'],
+    tags: ['React', 'Node.js', 'Express', 'MySQL', 'REST APIs', 'Tailwind CSS'],
   },
   {
-    id: 'm-2023-creative-milestone',
+    id: 'm-2023-creative',
     year: '2023',
     period: 'Mid 2023',
-    title: 'Creative Web & Spatial Coding Immersion',
-    roleOrDegree: 'Independent Research & Open-Source Experiments',
-    organization: 'Self-Directed Studio Lab',
+    title: 'Creative Web, 3D & Spatial Coding',
+    roleOrDegree: 'Creative Technologist / Researcher',
+    organization: 'Atelier Sandbox',
     location: 'Ahmedabad, India',
     type: 'milestone',
     description:
-      'Deep dive into Three.js, WebGL shader mathematics (GLSL), and physics-based motion. Built dozens of standalone micro-experiments exploring lighting, shadows, and interactive materials.',
+      'Immersed in Three.js, React Three Fiber, GLSL shader mathematics, and physics-based motion with GSAP and Framer Motion. Explored how architectural heritage informs tactile digital interfaces.',
     keyAchievements: [
-      'Published open-source interactive canvas demos and procedural material templates',
-      'Mastered GSAP ScrollTrigger timeline orchestration and Framer Motion spring kinetics',
-      'Authored technical write-ups on managing WebGL memory cleanup in single-page apps',
+      'Engineered procedural materials, ambient lighting rigs, and spring-physics micro-interactions',
+      'Integrated Three.js 3D product viewports into real enterprise e-commerce and catalog applications',
+      'Authored zero-dependency procedural Web Audio API feedback hooks for tactile UI responses',
     ],
-    tags: ['Three.js', 'GLSL Shaders', 'GSAP', 'Vite', 'Creative Web'],
+    tags: ['Three.js', 'React Three Fiber', 'GSAP', 'Framer Motion', 'Web Audio API'],
   },
   {
-    id: 'm-2022-education',
+    id: 'm-2020-education',
     year: '2020 – 2024',
     period: '2020 — 2024',
     title: 'Bachelor of Technology in Computer Engineering',
@@ -72,30 +72,12 @@ export const journeyData: JourneyMilestone[] = [
     location: 'Ahmedabad, Gujarat, India',
     type: 'education',
     description:
-      'Rigorous foundation in computer science principles: data structures, algorithms, database management, computer networks, and software engineering methodologies.',
+      'Rigorous foundation in computer science: relational database management (RDBMS), data structures, algorithms, computer networks, and full-stack software development methodologies.',
     keyAchievements: [
-      'Graduated with First Class Distinction with a focus on web systems and human-computer interaction',
-      'Organized technical workshops on modern JavaScript and open-source contribution for student developers',
-      'Capstoned with a real-time collaborative workspace web application',
+      'Completed comprehensive coursework in software architecture, distributed databases, and web technologies',
+      'Led student engineering projects focusing on real-world industrial and operational management software',
+      'Graduated with First Class Distinction with a strong commitment to clean code and architectural craft',
     ],
-    tags: ['Computer Engineering', 'Data Structures', 'Database Systems', 'Software Engineering'],
-  },
-  {
-    id: 'm-2021-foundations',
-    year: '2021',
-    period: 'Early Foundations',
-    title: 'The First Spark of the Craft',
-    roleOrDegree: 'Self-Taught Exploration & Open-Source Beginnings',
-    organization: 'Personal Sandbox',
-    location: 'Ahmedabad, India',
-    type: 'open-source',
-    description:
-      'Began writing first lines of HTML, CSS, and modern JavaScript. Dissected award-winning websites to understand how code, typography, and motion intertwine.',
-    keyAchievements: [
-      'Built first responsive client websites and interactive landing pages',
-      'Adopted Git and GitHub for collaborative open-source participation',
-      'Committed to the philosophy of the "Digital Atelier": software as a handcrafted discipline',
-    ],
-    tags: ['HTML5', 'CSS3', 'JavaScript', 'Git', 'Responsive Design'],
+    tags: ['Computer Engineering', 'Data Structures', 'Database Systems', 'Software Architecture', 'GTU'],
   },
 ];

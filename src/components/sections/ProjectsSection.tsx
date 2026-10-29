@@ -8,7 +8,13 @@ import ProjectCard from '@/components/ui/ProjectCard';
 import CaseStudyModal from '@/components/ui/CaseStudyModal';
 import { useAudioEffect } from '@/hooks/useAudioEffect';
 
-const CATEGORIES = ['All', 'Full-Stack Web App', 'Creative Web & 3D', 'Full-Stack SaaS', 'Interaction & Tooling'];
+const CATEGORIES = [
+  'All',
+  'Enterprise Full-Stack System',
+  'Full-Stack Management SaaS',
+  'AI & Interactive Experience',
+  'Financial Telemetry & Audit',
+];
 
 export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState('All');

@@ -103,6 +103,19 @@ export const skillsData: SkillItem[] = [
 
   // --- BACKEND ---
   {
+    id: 'prisma',
+    name: 'Prisma ORM & MySQL',
+    category: 'backend',
+    categoryLabel: 'Backend & Systems',
+    proficiencyLevel: 'Expert',
+    iconName: 'Server',
+    description: 'Schema modeling, atomic transactions, migrations, relational indexing, and type-safe query optimization.',
+    atelierUseCase:
+      'Powering enterprise ERP systems and estate maintenance platforms with resilient relational database layers.',
+    yearsOfPractice: '2+ Years',
+    codeSnippet: 'const userOrders = await prisma.order.findMany({ where: { status: "DISPATCHED" }, include: { items: true } });',
+  },
+  {
     id: 'nodejs',
     name: 'Node.js',
     category: 'backend',
@@ -112,7 +125,7 @@ export const skillsData: SkillItem[] = [
     description: 'Asynchronous event-driven I/O, streams, buffers, file systems, and worker threads.',
     atelierUseCase:
       'Handling background jobs, real-time telemetry processing, and building scalable serverless or containerized backends.',
-    yearsOfPractice: '2+ Years',
+    yearsOfPractice: '3+ Years',
     codeSnippet: 'pipeline(readableStream, transformStream, writableStream, (err) => { ... });',
   },
   {
